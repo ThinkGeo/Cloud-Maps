@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Routing in North America | ThinkGeo</title>
+</head>
+
+<body>
+
+    <!-- This <div> is the container into which our map control will be loaded. -->
+    <div id="map">
+        <!-- Set up the coordinates inupting group. -->
+        <div class="point">
+            <i class="switch"></i>
+            <ul id="dragable-list">
+                <li><i class="drag"></i>
+                    <label></label>
+                    <input data-origin="" placeholder="Start" />
+                    <span class="hide"></span>
+                    <a class="closer start-closer hide"></a>
+                </li>
+                <li><i class="drag"></i>
+                    <label></label>
+                    <input data-origin="" placeholder="Destination" />
+                    <span class="hide"></span>
+                    <a class="closer end-closer hide"></a>
+                </li>
+            </ul>
+
+            <div id="add-point"><i>+</i> Add destination</div>
+            <button id="go">Go</button>
+
+            <!-- Set up the loading animation. -->
+            <div class="loading hide">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+
+        <!-- Set up the result container. -->
+        <div class="sidebar empty">
+            <div id="result" class="transition-height">
+                <p id="total"></p>
+                <div id="boxes"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Set up context menu when right click the map. -->
+    <div id="ol-contextmenu" class="hide">
+        <ul>
+            <li id="add-startpoint">
+                Directions from here
+            </li>
+            <li id="add-endpoint">
+                Directions to here
+            </li>
+            <li id="context-add-point">
+                Add to route
+            </li>
+            <li id="clear">
+                Clear
+            </li>
+        </ul>
+    </div>
+
+    <!-- Set up error message tip for tile loading error. -->
+    <div id="error-modal" class="hide">
+        <div class="modal-content">
+            <p>We're having trouble communicating with the ThinkGeo Cloud. Please check the API key being used in this sample's JavaScript source code, and ensure it has access to the ThinkGeo Cloud services you are requesting. You can create and manage
+                your API keys at <a href="https://cloud.thinkgeo.com" target="_blank" rel="noopener">https://cloud.thinkgeo.com</a>.</p>
+            <button>OK</button>
+        </div>
+    </div>
+
+    <!-- Set up error message tip for coordinates inputing error. -->
+    <div id="input-error">
+        <p></p>
+    </div>
+
+    <!-- Set up instruction tip. -->
+    <div id="instruction-tip">
+        <p class="pc-tip hide">Right-click on the map to set your start and end points.</p>
+        <p class="mobile-tip hide">Long-press on the map to set your start and end points.</p>
+    </div>
+</body>
+
+</html>
