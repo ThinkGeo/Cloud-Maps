@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> Generate Color Themes </title>
+</head>
+
+<body>
+       <!-- This <div> is the container into which our map control will be loaded. -->
+    <div id="map">
+        <!-- This <div> is the container into which the control panel rendered. -->
+        <div id="user-input">
+            <label title="category">Category:</label>
+            <select name="" id="category">
+                <option value="analogous" selected="selected">Analogous</option>
+                <option value="complementary">Complementary</option>
+                <option value="contrasting">Contrasting</option>
+                <option value="qualitative">Qualitative</option>
+                <option value="sequential">Sequential</option>
+                <option value="triad">Triad</option>
+                <option value="tetrad">Tetrad</option>
+            </select>
+            <br>
+            <input type="radio" name="radio" id="colorRandom" checked="checked" value="random" />
+            <label for="colorRandom">Random</label>
+            <br>
+            <input type="radio" name="radio" id="colorSpecific" value="specific" />
+            <label for="colorSpecific"> Specific Color: </label>
+            <input type="color" class="jscolor" id="colorPicker" value="#ab2567">
+            <br>
+            <button id="generate">Generate</button>
+        </div>
+
+        <!-- Set up error message tip. -->
+        <div id="error-modal" class="hide">
+            <div class="modal-content">
+                <p>We're having trouble communicating with the ThinkGeo Cloud. Please check the API key being used in
+                    this
+                    sample's JavaScript source code, and ensure it has access to the ThinkGeo Cloud services you are
+                    requesting. You can create and manage your API keys at <a href="https://cloud.thinkgeo.com"
+                        target="_blank" rel="noopener">https://cloud.thinkgeo.com</a>.</p>
+                <button>OK</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

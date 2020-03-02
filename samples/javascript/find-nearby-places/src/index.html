@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Find Nearby Places</title>
+</head>
+
+<body>
+    <!-- This <div> is the container into which our map control will be loaded. -->
+    <div id="map">
+        <div id="floating-panel">
+            <p>Click on the map and get the POIs nearby</p>
+        </div>
+
+        <!-- Set up error message tip. -->
+        <div id="error-modal" class="hide">
+            <div class="modal-content">
+                <p>We're having trouble communicating with the ThinkGeo Cloud. Please check the API key being used in
+                    this
+                    sample's JavaScript source code, and ensure it has access to the ThinkGeo Cloud services you are
+                    requesting. You can create and manage your API keys at <a href="https://cloud.thinkgeo.com"
+                        target="_blank" rel="noopener">https://cloud.thinkgeo.com</a>.</p>
+                <button>OK</button>
+            </div>
+        </div>
+    </div>
+    <!-- This <div> is the container into which our popup panel will be rendered. -->
+    <div id="popup" class="ol-popup hidden">
+        <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+        <div id="popup-content"></div>
+    </div>
+</body>
+
+</html>

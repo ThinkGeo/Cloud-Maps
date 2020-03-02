@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>World Maps Query Sample</title>
+</head>
+<body>
+    <div id="map" class="map">
+        <div id="mapPopup">
+            <div class="close-button"></div>
+            <div class="content"></div>
+        </div>
+    </div>
+
+    <div class="query-panel collapsed">
+        <div id="drawTypePanel">
+            <label>Drawing Mode:</label>
+            <button id="clearButton">Clear Map</button>
+            <div class="button-group">
+                <button id="pointDrawInput" data-draw-type="Point">Point</button>
+                <button id="polylineDrawInput" data-draw-type="LineString">Line</button>
+                <button id="polygonDrawInput" data-draw-type="Polygon" class="active">Polygon</button>
+                <button>Get Info</button>
+            </div>
+        </div>
+        <div>
+            <label for="layerNameSelect">Query Layer:</label>
+            <div>
+                <select id="layerNameSelect">
+                    <option value="addresses">Addresses</option>
+                    <option value="buildings" selected>Buildings</option>
+                    <option value="cities">Cities</option>
+                    <option value="countries">Countries</option>
+                    <option value="land-use">Land Use</option>
+                    <option value="places">Places</option>
+                    <option value="pois">Pois</option>
+                    <option value="rail">Rail</option>
+                    <option value="roads">Roads</option>
+                    <option value="states">States</option>
+                    <option value="transport">Transport</option>
+                    <option value="water">Water</option>
+                    <option value="waterways">Waterways</option>
+                </select>
+            </div>
+        </div>
+        <div>
+            <label for="queryTypeSelect">Query Type:</label>
+            <div>
+                <select id="queryTypeSelect">
+                    <option value="containing">Containing</option>
+                    <option value="intersecting">Intersecting</option>
+                    <option value="nearest">Nearest</option>
+                    <option value="overlapping">Overlapping</option>
+                    <option value="within" selected>Within</option>
+                    <option value="within-distance">Within Distance</option>
+                </select>
+            </div>
+        </div>
+        <div>
+            <label for="queryMaxResults">Max Results:</label>
+            <div>
+                <input type="number" id="queryMaxResults" value="250">
+            </div>
+        </div>
+        <div id="nearestQueryPanel" class="hidden">
+            <label for="searchRadiusInput">Search Radius:</label>
+            <div>
+                <input type="number" id="searchRadiusInput">
+                <select id="searchRadiusUnitSelect" class="distanceUnitSelect">
+                    <option></option>
+                    <option value="meter">Meter</option>
+                    <option value="feet">Feet</option>
+                    <option value="kilometer">Kilometer</option>
+                    <option value="mile">Mile</option>
+                    <option value="ussurveyfeet">Us Survey Feet</option>
+                    <option value="yard">Yard</option>
+                    <option value="nauticalmile">Nautical Mile</option>
+                    <option value="inch">Inch</option>
+                    <option value="link">Link</option>
+                    <option value="chain">Chain</option>
+                    <option value="pole">Pole</option>
+                    <option value="rod">Rod</option>
+                    <option value="furlong">Furlong</option>
+                    <option value="vara">Vara</option>
+                    <option value="arpent">Arpent</option>
+                </select>
+            </div>
+        </div>
+        <div id="distanceQueryPanel" class="hidden">
+            <label for="distanceInput">Distance:</label>
+            <div>
+                <input type="number" id="distanceInput" value="200">
+                <select id="distanceUnitSelect" class="distanceUnitSelect">
+                    <option value="meter">Meter</option>
+                    <option value="feet">Feet</option>
+                    <option value="kilometer">Kilometer</option>
+                    <option value="mile">Mile</option>
+                    <option value="ussurveyfeet">Us Survey Feet</option>
+                    <option value="yard">Yard</option>
+                    <option value="nauticalmile">Nautical Mile</option>
+                    <option value="inch">Inch</option>
+                    <option value="link">Link</option>
+                    <option value="chain">Chain</option>
+                    <option value="pole">Pole</option>
+                    <option value="rod">Rod</option>
+                    <option value="furlong">Furlong</option>
+                    <option value="vara">Vara</option>
+                    <option value="arpent">Arpent</option>
+                </select>
+            </div>
+        </div>
+        <div>
+            <div></div>
+            <div>
+                <button id="queryButton">Query</button>
+            </div>
+        </div>
+        <div id="queryCollapseButton"></div>
+    </div>
+
+</body>
+</html>

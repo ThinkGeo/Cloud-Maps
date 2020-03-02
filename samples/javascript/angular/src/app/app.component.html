@@ -1,0 +1,25 @@
+<!--The content below is only a placeholder and can be replaced.-->
+
+<div id="map">
+  <form id="lines" #form="ngForm" (submit)="refresh(form.value)">
+    <label>Poi Size: </label>
+    <input type="number" name="poiSize" ngModel={{defaultSize}}>
+    <br>
+    <label>Water Color: </label>
+    <select name="waterColor" ngModel={{defaultWaterColor}}>
+      <option *ngFor="let color of waterColors" value="{{ color }}"> {{ color }}</option>
+    </select>
+    <br>
+    <label>Park Color: </label>
+    <select name="parkColor" ngModel={{defaultParkColor}}>
+      <option *ngFor="let color of parkColors" value="{{ color }}"> {{ color }}</option>
+    </select>
+    <br>
+    <div>
+      <button type="submit">refresh</button>
+    </div>
+  </form>
+</div>
+
+
+<router-outlet></router-outlet>

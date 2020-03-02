@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Routing Cost Matrix</title>
+  <link rel='stylesheet' href='https://cdn.thinkgeo.com/vectormap-js/3.0.0/vectormap.css'>
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cloud Routing Matrix | ThinkGeo</title>
+</head>
+
+<body class="body-content">
+    <div id="map" class="map-content">
+        <!-- set up upper left setting panel -->
+        <div class="setting-panel">
+            <div id="setting-panel-title">
+                <a href="#setting" class="title-label">Settings</a>
+                <a id="setting-panel-title-button" href="#setting" class="title-button expand"></a>
+            </div>
+            <div id="setting-panel-content">
+                <div class="description">The Cloud Routing Matrix service calculates the travel time or distance between
+                    each waypoint in a series of coordinates.</div>
+                <span class="option-label">Matrix Type</span>
+                <select id="matrix-type" class="option-select">
+                    <option value="distance">Distance</option>
+                    <option value="time">Duration</option>
+                </select>
+                <div id="distance-unit-section">
+                    <span class="option-label">Distance Unit</span>
+                    <select id="distance-unit" class="option-select">
+                        <option value="metric">Metric</option>
+                        <option value="imperial">Imperial</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <!-- set up bottom matrix table panel -->
+        <div id="matrix-panel" class="matrix-panel hide">
+            <div class="matrix-table">
+                <table>
+                    <thead></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        <!-- set up the loading animation -->
+        <div id="loading-animation" class="loading hide">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <!-- set up context menu when right click the map -->
+        <div id="contextmenu-map" class="contextmenu hide">
+            <ul>
+                <li id="contextmenu-item-add">
+                    Add Location
+                </li>
+                <li id="contextmenu-item-clear">
+                    Clear Locations
+                </li>
+            </ul>
+        </div>
+        <!-- set up context menu when right click the location icon -->
+        <div id="contextmenu-location" class="contextmenu hide">
+            <ul>
+                <li id="contextmenu-item-remove">
+                    Remove Location
+                </li>
+            </ul>
+        </div>
+        <!-- set up normal messages -->
+        <div id="instruction-message" class="normal-message">
+            <p>Add or clear the location(s) by right-clicking and choosing "Add Location" or "Clear Locations".
+                Set the location by dragging their icons or right-clicking and choosing "Remove Location".</p>
+        </div>
+        <div id="location-min-message" class="normal-message hide">
+            <p>At least 3 locations should be added to generate distance matrix.</p>
+        </div>
+        <!-- set up error messages -->
+        <div id="location-max-message" class="error-message">
+            <p>The max count of locations is 10.</p>
+        </div>
+        <div id="request-message" class="error-message">
+            <p>There was a problem getting the cost matrix. Please try again.</p>
+        </div>
+    </div>
+</body>
+
+</html>
+<!-- partial -->
+  <script src='https://cdn.thinkgeo.com/vectormap-js/3.0.0/vectormap.js'></script>
+<script src='https://cdn.thinkgeo.com/vectormap-icons/2.0.0/webfontloader.js'></script>
+<script src='https://cdn.thinkgeo.com/cloudclient-js/1.0.0-beta033/thinkgeocloudclient.js'></script>
+<script  src="./script.js"></script>
+
+</body>
+</html>
