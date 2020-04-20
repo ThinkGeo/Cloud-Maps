@@ -95,6 +95,23 @@ if (results.NearbyLocations.Count > 0)
 }
 ```
 
+### Results
+
+Below are the results from the API call.
+
+```
+LocationName: Mateo Office Park
+Address: Mateo Office Park, Frisco, Collin County, Texas, United States of America
+DirectionFromQueryFeature: northwest
+DistanceFromQueryFeature: 0
+HouseNumber:
+LocationCategory: Building
+LocationFeature: POLYGON((-96.8122806 33.1295209,-96.8122226 33.1279999,-96.8087325 33.1280112,-96.8086127 33.1280116,-96.808608 33.1281954,-96.8084165 33.1285592,-96.8082344 33.1288759,-96.8080896 33.1290793,-96.808183 33.1291184,-96.8089255 33.12931,-96.8094931 33.12941,-96.8104433 33.1295095,-96.8114006 33.129533,-96.8118443 33.129533,-96.8122806 33.1295209))
+LocationType: commercial
+Postcode:
+Properties Count: 0
+```
+
 ## Summary
 
 You now know the basics of using the ThinkGeo Cloud APIs and are able to get started adding functionality into your own applications. Let's recap what we have learned about the object relationships and how the pieces of ThinkGeo UI work together:
