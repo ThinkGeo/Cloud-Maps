@@ -27,12 +27,12 @@ We will begin by creating a .NET Core Console project in your favorite editor.  
 You will need to install the **ThinkGeo.Core** NuGet package.  We highly suggest you use your editors [built in NuGet package manager](https://docs.microsoft.com/en-us/nuget/quickstart/) if possible.  If you're not using an IDE you can [install it via the the dotnet CLI](https://docs.microsoft.com/en-us/nuget/consume-packages/install-use-packages-dotnet-cli) from inside your project folder where where your project file exists.
 
 ```shell
-dotnet add package ThinkGeo.UI.Wpf
+dotnet add package ThinkGeo.Core
 ```
 
 ### Step 3: Add Required Namespaces to `Program.cs`
 
-Add the required usings.
+Add the required using.
 
 ```csharp
 using ThinkGeo.Core;
@@ -74,7 +74,7 @@ CloudReverseGeocodingResult results = reverseGeocoder.SearchPoint(-96.809962, 33
 
 ### Step 7: Display the Results
 
-We won't be able to see the points until a style is defined for it. Adding a style though is very straightforward, but extremely extensible and powerful.
+After the API is called it returns a `CloudReverseGeocodingResult` object which contains the locations along with additional information.  Below we find the first location and write it to the console.
 
 ```csharp
 // Write the location information to the console assuming we returned results
@@ -121,4 +121,4 @@ You now know the basics of using the ThinkGeo Cloud APIs and are able to get sta
 1. On many API calls there might be optional parameters so look out for them.
 1. Every cloud API has a synchronous and asynchronous version to fit many different scenarios.
 
-You are now in a great position to look over the [samples](s/samples) and explore other features.
+You are now in a great position to look over the [samples](/samples) and explore other features.
