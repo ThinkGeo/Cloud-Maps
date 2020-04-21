@@ -185,10 +185,5 @@
             </Rectangle.Fill>
         </Rectangle>
         <uc1:WpfMap x:Name="WpfMap" Grid.Column="2" MapClick="WpfMap_MapClick"></uc1:WpfMap>
-        <Grid x:Name="changeApiKey" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Right"   Margin="8,8">
-            <Button x:Name="btnChangeApiKey" FontSize="13" Height="28" Width="162" Click="BtnChangeApiKey_Click" >
-             Authentication Settings
-            </Button>
-        </Grid>
     </Grid>
 </Window>

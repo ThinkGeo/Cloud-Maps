@@ -1,10 +1,4 @@
-﻿/*===========================================
-    Backgrounds for this sample are powered by ThinkGeo Cloud Maps and require
-    a Client ID and Secret. These were sent to you via email when you signed up
-    with ThinkGeo, or you can register now at https://cloud.thinkgeo.com.
-===========================================*/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Configuration;
@@ -30,8 +24,8 @@ namespace ThinkGeoCloudReverseGeocoding
     {
         private const string GisServerUri = "https://gisserver1.thinkgeo.com";
 
-        private string clientId;
-        private string clientSecret;
+        private const string clientId = "FSDgWMuqGhZCmZnbnxh-Yl1HOaDQcQ6mMaZZ1VkQNYw~";
+        private const string clientSecret = "IoOZkBJie0K9pz10jTRmrUclX6UYssZBeed401oAfbxb9ufF1WVUvg~~";
 
         private ReverseGeocodingClient reverseGeocodingClient;
 
@@ -52,18 +46,15 @@ namespace ThinkGeoCloudReverseGeocoding
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!TryReadClientIdSecretFromConfig())
-            {
-                ShowClientIdSecretInputer();
-            }
-            UpdateIdSecretToClient();
+            reverseGeocodingClient = new ReverseGeocodingClient(clientId, clientSecret);
+            reverseGeocodingClient.BaseUris.Add(new Uri(GisServerUri));
 
             WpfMap.MapUnit = GeographyUnit.Meter;
             WpfMap.ZoomLevelSet = new ThinkGeoCloudMapsZoomLevelSet();
             WpfMap.CurrentExtent = new RectangleShape(-10798419.605087, 3934270.12359632, -10759021.6785336, 3896039.57306867);
 
             // Please input your ThinkGeo Cloud Client ID / Client Secret to enable the background map. 
-            ThinkGeoCloudRasterMapsOverlay baseOverlay = new ThinkGeoCloudRasterMapsOverlay("ThinkGeo Cloud Client ID", "ThinkGeo Cloud Client Secret");
+            ThinkGeoCloudRasterMapsOverlay baseOverlay = new ThinkGeoCloudRasterMapsOverlay(clientId, clientSecret);
             baseOverlay.WrappingMode = WrappingMode.WrapDateline;
             WpfMap.Overlays.Add(baseOverlay);
 
@@ -495,12 +486,6 @@ namespace ThinkGeoCloudReverseGeocoding
         public void ShowErrorAlert(Exception ex)
         {
             MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            ShowClientIdSecretInputer();
-        }
-
-        private void BtnChangeApiKey_Click(object sender, RoutedEventArgs e)
-        {
-            ShowClientIdSecretInputer();
         }
 
         private async void IsInclude_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -516,45 +501,6 @@ namespace ThinkGeoCloudReverseGeocoding
                 isincludeInresectons = false;
                 await SearchPlaceAndNearbysAsync();
             }
-        }
-
-        private void UpdateIdSecretToClient()
-        {
-            reverseGeocodingClient?.Dispose();
-            reverseGeocodingClient = new ReverseGeocodingClient(clientId, clientSecret);
-            reverseGeocodingClient.BaseUris.Add(new Uri(GisServerUri));
-        }
-
-        private bool TryReadClientIdSecretFromConfig()
-        {
-            var id = ConfigurationManager.AppSettings["ClientId"];
-            var secret = ConfigurationManager.AppSettings["ClientSecret"];
-            if (string.IsNullOrWhiteSpace(id) || string.IsNullOrWhiteSpace(secret))
-            {
-                return false;
-            }
-            clientId = id.Trim();
-            clientSecret = secret.Trim();
-            return true;
-        }
-
-
-        private void ShowClientIdSecretInputer()
-        {
-            var clientIdSecretInputer = new ClientIdSecretInputer
-            {
-                ClientId = clientId,
-                ClientSecret = clientSecret,
-                Owner = this,
-                WindowStartupLocation = WindowStartupLocation.CenterOwner
-            };
-            clientIdSecretInputer.BaseUris.Add(new Uri(GisServerUri));
-            if (clientIdSecretInputer.ShowDialog() != true)
-            {
-                Environment.Exit(0);
-            }
-            clientId = clientIdSecretInputer.ClientId;
-            clientSecret = clientIdSecretInputer.ClientSecret;
         }
     }
 

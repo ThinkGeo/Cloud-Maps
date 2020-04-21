@@ -100,19 +100,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ClientIdSecretInputer.xaml.cs">
-      <DependentUpon>ClientIdSecretInputer.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\IntersectionViewItem.xaml.cs">
       <DependentUpon>IntersectionViewItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\NearbyPlaceViewItem.xaml.cs">
       <DependentUpon>NearbyPlaceViewItem.xaml</DependentUpon>
     </Compile>
-    <Page Include="ClientIdSecretInputer.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
