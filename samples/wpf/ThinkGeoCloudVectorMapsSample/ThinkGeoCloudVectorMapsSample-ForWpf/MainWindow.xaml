@@ -43,24 +43,10 @@
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
                             <TextBlock Text="Select Map Type"  FontSize="12" FontWeight="Bold"/>
-                            <RadioButton Grid.Row="1" GroupName="mapType" x:Name="radioButtonLight" Margin="20,2,2,2" Checked="radioButtonLight_Checked"  IsChecked="True"  Content="ThinkGeo World Streets Light"  />
-                            <RadioButton Grid.Row="2" GroupName="mapType" x:Name="radioButtionDark" Margin="20,2,2,2" Checked="radioButtionDark_Checked"  Content="ThinkGeo World Streets Dark"  />
-                            <RadioButton Grid.Row="3" GroupName="mapType" x:Name="radioButtionHybrid" Margin="20,2,2,2" Checked="radioButtionHybrid_Checked"  Content="ThinkGeo World Streets Hybrid" />
+                            <RadioButton Grid.Row="1" GroupName="mapType" x:Name="radioButtonLight" Margin="20,2,2,2" Checked="radioButtonLight_Checked"  IsChecked="True"  Content="Light"  />
+                            <RadioButton Grid.Row="2" GroupName="mapType" x:Name="radioButtionDark" Margin="20,2,2,2" Checked="radioButtionDark_Checked"  Content="Dark"  />
+                            <RadioButton Grid.Row="3" GroupName="mapType" x:Name="radioButtionTransparent" Margin="20,2,2,2" Checked="radioButtionTransparent_Checked"  Content="Transparent" />
                             <RadioButton Grid.Row="4" GroupName="mapType" x:Name="radioButtionCustom" Margin="20,2,2,2"  Checked="radioButtionCustom_Checked"  Content="Custom StyleJson" />
-                            <Grid Grid.Row="5" Margin="20,2,2,2">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="25"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="25"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Row="0"  Text="You can download all WorldStreets-Styles from" Margin="20,0,0,0" FontSize="10" FontWeight="Bold"/>
-                                <TextBlock Grid.Row="1" TextWrapping="Wrap" Grid.Column="0" Margin="20,0,10,0" VerticalAlignment="Center" x:Name="txtStyleJsonPath">
-                                    <Hyperlink NavigateUri="https://github.com/ThinkGeo/WorldStreets-Styles" Click="Hyperlink_Click">https://github.com/ThinkGeo/WorldStreets-Styles</Hyperlink>
-                                </TextBlock>
-                            </Grid>
                         </Grid>
                     </Border>
                     <StackPanel Grid.Row="2"/>
