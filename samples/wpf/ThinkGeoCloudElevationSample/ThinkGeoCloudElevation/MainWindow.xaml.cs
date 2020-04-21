@@ -1,10 +1,4 @@
-﻿/*===========================================
-    Backgrounds for this sample are powered by ThinkGeo Cloud Maps and require
-    a Client ID and Secret. These were sent to you via email when you signed up
-    with ThinkGeo, or you can register now at https://cloud.thinkgeo.com.
-===========================================*/
-
-using LiveCharts;
+﻿using LiveCharts;
 using LiveCharts.Configurations;
 using LiveCharts.Wpf;
 using System;
@@ -30,9 +24,8 @@ namespace ThinkGeoCloudElevation
     public partial class MainWindow : Window
     {
         private const string GisServerUri = "https://gisserver1.thinkgeo.com";
-
-        private string clientId;
-        private string clientSecret;
+        private const string clientId = "FSDgWMuqGhZCmZnbnxh-Yl1HOaDQcQ6mMaZZ1VkQNYw~";
+        private const string clientSecret = "IoOZkBJie0K9pz10jTRmrUclX6UYssZBeed401oAfbxb9ufF1WVUvg~~";
         private ElevationClient elevationClient;
         private ObservableCollection<double> ChartAxisLabels { get; } = new ObservableCollection<double>();
 
@@ -44,20 +37,19 @@ namespace ThinkGeoCloudElevation
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!TryReadClientIdSecretFromConfig())
-            {
-                ShowClientIdSecretInputer();
-            }
-            UpdateIdSecretToClient();
+            elevationClient = new ElevationClient(clientId, clientSecret);
+            elevationClient.BaseUris.Add(new Uri(GisServerUri));
 
             WpfMap1.MapUnit = GeographyUnit.Meter;
             WpfMap1.ZoomLevelSet = new ThinkGeoCloudMapsZoomLevelSet();
             WpfMap1.CurrentExtent = new RectangleShape(-13044244.0708884, 4333756.90567755, -13024981.9465871, 4315741.71599989);
             WpfMap1.TrackOverlay.TrackEnded += TrackOverlay_TrackEnded;
             WpfMap1.TrackOverlay.TrackMode = TrackMode.Line;
-
-            // Please input your ThinkGeo Cloud Client ID / Client Secret to enable the background map. 
-            ThinkGeoCloudRasterMapsOverlay thinkGeoCloudMapsOverlay = new ThinkGeoCloudRasterMapsOverlay("ThinkGeo Cloud Client ID", "ThinkGeo Cloud Client Secret") { MapType = ThinkGeoCloudRasterMapsMapType.Aerial };
+ 
+            ThinkGeoCloudRasterMapsOverlay thinkGeoCloudMapsOverlay = new ThinkGeoCloudRasterMapsOverlay(clientId, clientSecret) 
+            { 
+                MapType = ThinkGeoCloudRasterMapsMapType.Aerial 
+            };
             thinkGeoCloudMapsOverlay.WrappingMode = WrappingMode.WrapDateline;
             WpfMap1.Overlays.Add(thinkGeoCloudMapsOverlay);
 
@@ -315,10 +307,6 @@ namespace ThinkGeoCloudElevation
                 }
                 ShowElevationOnChart(features);
             }
-            catch (ThinkGeoCloudApplicationException ex)
-            {
-                ShowErrorAlert(ex);
-            }
             finally
             {
                 BusyIndicator.Visibility = Visibility.Hidden;
@@ -368,68 +356,6 @@ namespace ThinkGeoCloudElevation
             var series = new LineSeries { Values = new ChartValues<ChartInformation>(chartData) };
             series.Loaded += (sender, e) => DrawElevationLineOnMap(features);
             lineChart.Series.Add(series);
-        }
-
-        private void ShowErrorAlert(ThinkGeoCloudApplicationException ex)
-        {
-            ClearMap();
-            if (ex.StatusCode == System.Net.HttpStatusCode.Unauthorized)
-            {
-                MessageBox.Show("Couldn't authenticate with GIS Server. Please make sure you have entered a valid Client Id and Secret.",
-                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                ShowClientIdSecretInputer();
-                UpdateIdSecretToClient();
-            }
-            else
-            {
-                MessageBox.Show(
-                    ex.Message,
-                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
-        private void btnChangeApiKey_Click(object sender, RoutedEventArgs e)
-        {
-            ShowClientIdSecretInputer();
-            UpdateIdSecretToClient();
-        }
-
-        private void UpdateIdSecretToClient()
-        {
-            elevationClient?.Dispose();
-            elevationClient = new ElevationClient(clientId, clientSecret);
-            elevationClient.BaseUris.Add(new Uri(GisServerUri));
-        }
-
-        private bool TryReadClientIdSecretFromConfig()
-        {
-            var id = ConfigurationManager.AppSettings["ClientId"];
-            var secret = ConfigurationManager.AppSettings["ClientSecret"];
-            if (string.IsNullOrWhiteSpace(id) || string.IsNullOrWhiteSpace(secret))
-            {
-                return false;
-            }
-            clientId = id.Trim();
-            clientSecret = secret.Trim();
-            return true;
-        }
-
-        private void ShowClientIdSecretInputer()
-        {
-            var clientIdSecretInputer = new ClientIdSecretInputer
-            {
-                ClientId = clientId,
-                ClientSecret = clientSecret,
-                Owner = this,
-                WindowStartupLocation = WindowStartupLocation.CenterOwner
-            };
-            clientIdSecretInputer.BaseUris.Add(new Uri(GisServerUri));
-            if (clientIdSecretInputer.ShowDialog() != true)
-            {
-                Environment.Exit(0);
-            }
-            clientId = clientIdSecretInputer.ClientId;
-            clientSecret = clientIdSecretInputer.ClientSecret;
         }
     }
 }
