@@ -1,7 +1,7 @@
 /*===========================================================================*/
 // Generate Color Themes
 // Sample map by ThinkGeo
-// 
+//
 //   1. ThinkGeo Cloud API Key
 //   2. Map Control Setup
 //   3. Generating a New Color Scheme
@@ -19,22 +19,22 @@
 // restricted for use only from a given web domain or IP address.  To create your
 // own API key, you'll need to sign up for a ThinkGeo Cloud account at
 // https://cloud.thinkgeo.com.
-const apiKey = 'WPLmkj3P39OPectosnM1jRgDixwlti71l8KYxyfP2P0~'
+const apiKey = 'yqLXRwQc83GX5fm20Rql6CPdjnYmmC66GXsJUBYoFD4~';
 
 
 /*---------------------------------------------*/
 // 2. Map Control Setup
 /*---------------------------------------------*/
 
-// Now we'll create the layers for our map.  To keep things simple, 
-// we're going to display a simple base map of European countries from a 
+// Now we'll create the layers for our map.  To keep things simple,
+// we're going to display a simple base map of European countries from a
 // GeoJSON file we're hosting on a publicly-accessible server.  Then we'll
-// add a color layer that will fill in the countries with a family of similar 
-// colors gathered from the ThinkGeo Cloud Color Service.  For more details 
+// add a color layer that will fill in the countries with a family of similar
+// colors gathered from the ThinkGeo Cloud Color Service.  For more details
 // about that service, see our wiki:
 // https://wiki.thinkgeo.com/wiki/thinkgeo_cloud_colors
 
-// Create a simple base style for the base layer that will outline the 
+// Create a simple base style for the base layer that will outline the
 // countries in white and display their names in red text.
 let baseMapStyle = new ol.style.Style({
     stroke: new ol.style.Stroke({
@@ -54,7 +54,7 @@ let baseMapStyle = new ol.style.Style({
 })
 
 // Create a base map layer from the European countries GeoJSON, and then
-// apply our simple base style to it. 
+// apply our simple base style to it.
 let baseMapLayer = new ol.layer.Vector({
     source: new ol.source.Vector({
         url: 'https://samples.thinkgeo.com/cloud/example/data/world-population.geojson',
@@ -66,7 +66,7 @@ let baseMapLayer = new ol.layer.Vector({
     }
 });
 
-// Create another layer from the European countries GeoJSON, this time to hold 
+// Create another layer from the European countries GeoJSON, this time to hold
 // the color fill for each country. We won't apply any styling to it right now;
 // that will happen in Section 3: Generating a New Color Scheme.
 let colorLayer = new ol.layer.Vector({
@@ -102,20 +102,20 @@ map.addControl(new ol.control.FullScreen());
 // 3. Generating a New Color Scheme
 /*---------------------------------------------*/
 
-// The ThinkGeo Cloud Color service allows you to easily generate themes of 
-// similar colors based on the strategy of your choice, including analogous, 
-// complementary, qualitative and more.  With ThinkGeo Cloud Color, all of 
+// The ThinkGeo Cloud Color service allows you to easily generate themes of
+// similar colors based on the strategy of your choice, including analogous,
+// complementary, qualitative and more.  With ThinkGeo Cloud Color, all of
 // your maps will gain an eye-catching flair.  For details, see our wiki:
 // https://wiki.thinkgeo.com/wiki/thinkgeo_cloud_colors
 
-// We use thinkgeocloudclient.js, which is an open-source Javascript SDK for making 
+// We use thinkgeocloudclient.js, which is an open-source Javascript SDK for making
 // request to ThinkGeo Cloud Service. It simplifies the process of the code of request.
 
 // Create the ColorClient by passing apiKey.
 let ColorClient = new tg.ColorClient(apiKey);
 
-// This method asks the ThinkGeo Cloud Color service to generate a new color 
-// scheme based on the input parameters -- color family type, random or 
+// This method asks the ThinkGeo Cloud Color service to generate a new color
+// scheme based on the input parameters -- color family type, random or
 // specific base color, etc.
 const getColorSchemeResult = () => {
     const categoryColor = document.getElementById('category');
@@ -125,13 +125,13 @@ const getColorSchemeResult = () => {
         numberOfColors: 10,
     }
 
-    // If you want to get back a color family based on a specific color, we'll add a property 
-    // called "color" and assign the color value to it. 
+    // If you want to get back a color family based on a specific color, we'll add a property
+    // called "color" and assign the color value to it.
     if (!isRandom) {
         options['color'] = document.getElementById('colorPicker').value
     }
 
-    // According to the color family type you chose, we'll call the responding Api to process the code of request. 
+    // According to the color family type you chose, we'll call the responding Api to process the code of request.
     switch (category) {
         case 'analogous':
             ColorClient.getColorsInAnalogousFamily(options, function (status, response) {
@@ -175,7 +175,7 @@ const getColorSchemeResult = () => {
     }
 }
 
-// This method takes the output of the getColorScheme method and applies it 
+// This method takes the output of the getColorScheme method and applies it
 // to our map via a custom updateStyle method, which we'll define next.
 const renderData = (status, data) => {
     if (status == 403 || status === 'error') {
@@ -194,11 +194,11 @@ const renderData = (status, data) => {
     updateStyle(outputData)
 }
 
-// This method allows us to assign colors to the countries of Europe based on 
-// their population.  The population metadata lives in the GeoJSON file 
+// This method allows us to assign colors to the countries of Europe based on
+// their population.  The population metadata lives in the GeoJSON file
 // that we loaded onto our map.
 const updateStyle = (outputData) => {
-    // Set up a series of style classes (From XXXS to XXXXL) and map each one 
+    // Set up a series of style classes (From XXXS to XXXXL) and map each one
     // to an element from an array of colors, passed in as "outputData".
     let styles = {
         'XXXS': new ol.style.Style({
@@ -288,9 +288,9 @@ const updateStyle = (outputData) => {
 // 4. Page Load and Event Listeners
 /*---------------------------------------------*/
 
-// Define a default color scheme to be applied to the map the first time the 
-// page loads. Additionally, here we attach an event listener to the "Generate" 
-// button that will call out to the ThinkGeo Cloud and get a new color scheme, 
+// Define a default color scheme to be applied to the map the first time the
+// page loads. Additionally, here we attach an event listener to the "Generate"
+// button that will call out to the ThinkGeo Cloud and get a new color scheme,
 // then apply it to the map.
 window.onload = function a() {
     let defaultData = [
@@ -318,7 +318,7 @@ window.onload = function a() {
 // 5. Tile Loading Event Handlers
 /*---------------------------------------------*/
 
-// These events allow you to perform custom actions when 
+// These events allow you to perform custom actions when
 // a map tile encounters an error while loading.
 const errorLoadingTile = () => {
     const errorModal = document.querySelector('#error-modal');

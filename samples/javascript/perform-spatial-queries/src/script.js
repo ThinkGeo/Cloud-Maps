@@ -1,4 +1,4 @@
-const apiKey = 'WPLmkj3P39OPectosnM1jRgDixwlti71l8KYxyfP2P0~';
+const apiKey = 'yqLXRwQc83GX5fm20Rql6CPdjnYmmC66GXsJUBYoFD4~';
 let mapsQueryClient = new tg.MapsQueryClient(apiKey);
 
 let initMap = function () {
@@ -107,7 +107,7 @@ let initMap = function () {
                 hitTolerance: 5,
             }) ? 'pointer' : '';
     });
-    
+
     map.on('click', function (e) {
         overlay.setPosition();
         if (module._drawInteraction !== undefined) {

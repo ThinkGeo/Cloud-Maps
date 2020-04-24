@@ -1,7 +1,7 @@
 /*===========================================================================*/
 // Places Along Route
 // Sample map by ThinkGeo
-// 
+//
 //   1. ThinkGeo Cloud API Key
 //   2. Map Control Setup
 //   3. ThinkGeo Map Icon Fonts
@@ -17,7 +17,7 @@
 // restricted for use only from a given web domain or IP address.  To create your
 // own API key, you'll need to sign up for a ThinkGeo Cloud account at
 // https://cloud.thinkgeo.com.
-const apiKey = 'WPLmkj3P39OPectosnM1jRgDixwlti71l8KYxyfP2P0~';
+const apiKey = 'yqLXRwQc83GX5fm20Rql6CPdjnYmmC66GXsJUBYoFD4~';
 
 /*---------------------------------------------*/
 // 2. Map Control Setup
@@ -300,7 +300,7 @@ const updateTableRow = (weights, rowNames) => {
 };
 
 const updateTable = (weights) => {
-    // show table and remove old table size style if needed 
+    // show table and remove old table size style if needed
     const panel = document.querySelector('#matrix-panel');
     panel.classList.value.split(' ').forEach((className) => {
         if (className.indexOf('hide') !== -1) {
@@ -381,15 +381,15 @@ const requestMatrix = () => {
 
     // show loading elements
     document.querySelector('#loading-animation').classList.remove('hide');
-    // At this point we'll built up the methods and functionality that will  
-    // actually perform the routing using the ThinkGeo Cloud and then 
+    // At this point we'll built up the methods and functionality that will
+    // actually perform the routing using the ThinkGeo Cloud and then
     // display the results on the map.
 
-    // We use thinkgeocloudclient.js, which is an open-source Javascript SDK for making 
+    // We use thinkgeocloudclient.js, which is an open-source Javascript SDK for making
     // request to ThinkGeo Cloud Service. It simplifies the process of the code of request.
 
-    // This method performs the actual routing using the ThinkGeo Cloud. 
-    // By passing the coordinates of the map location and some other options, we can 
+    // This method performs the actual routing using the ThinkGeo Cloud.
+    // By passing the coordinates of the map location and some other options, we can
     // get back the route line as we send the request.  For more details, see our wiki:
     // https://wiki.thinkgeo.com/wiki/thinkgeo_cloud_routing
 
@@ -757,11 +757,11 @@ const initializeMap = () => {
 // 3. ThinkGeo Map Icon Fonts
 /*---------------------------------------------*/
 
-// Finally, we'll load the Map Icon Fonts using ThinkGeo's WebFont loader. 
-// The loaded Icon Fonts will be used to render POI icons on top of the map's 
-// background layer.  We'll initalize the map only once the font has been 
-// downloaded.  For more info, see our wiki: 
-// https://wiki.thinkgeo.com/wiki/thinkgeo_iconfonts 
+// Finally, we'll load the Map Icon Fonts using ThinkGeo's WebFont loader.
+// The loaded Icon Fonts will be used to render POI icons on top of the map's
+// background layer.  We'll initalize the map only once the font has been
+// downloaded.  For more info, see our wiki:
+// https://wiki.thinkgeo.com/wiki/thinkgeo_iconfonts
 WebFont.load({
     custom: {
         families: ["vectormap-icons"],
@@ -837,7 +837,7 @@ const onMapContextmenuItemClicked = (e) => {
     }
 };
 
-// These event listeners tell the UI when it's time to execute all of the 
+// These event listeners tell the UI when it's time to execute all of the
 // code we've written.
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('#setting-panel-title').addEventListener('click', onSettingPanelTitleClicked);
