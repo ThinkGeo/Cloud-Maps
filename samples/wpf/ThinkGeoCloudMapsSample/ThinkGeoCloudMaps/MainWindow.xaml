@@ -6,7 +6,7 @@
         xmlns:wpf="clr-namespace:ThinkGeo.MapSuite.Wpf;assembly=ThinkGeo.MapSuite.Wpf"
         xmlns:local="clr-namespace:ThinkGeoCloudMapsSample"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800" Loaded="Window_Loaded"  >
+        Title="MainWindow" Height="600" Width="800">
     <Grid>
         <wpf:WpfMap x:Name="map" Loaded="Map_Loaded"/>
         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Right" Margin="5" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">

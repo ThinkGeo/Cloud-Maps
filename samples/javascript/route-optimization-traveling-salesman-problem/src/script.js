@@ -1,4 +1,4 @@
-const apiKey = 'WPLmkj3P39OPectosnM1jRgDixwlti71l8KYxyfP2P0~';
+const apiKey = 'yqLXRwQc83GX5fm20Rql6CPdjnYmmC66GXsJUBYoFD4~';
 
 const styles = {
     line: new ol.style.Style({
@@ -263,9 +263,9 @@ const initProgressingBackdrop = function () {
 };
 
 /**
- * 
+ *
  * @typedef {string | {text:string, value:Object}} DropdownItem
- * @param {HTMLInputElement} inputDom 
+ * @param {HTMLInputElement} inputDom
  * @param {{
  *     dropdownItems: (DropdownItem[] | undefined),
  *     selectedItem: (DropdownItem | undefined),
@@ -274,7 +274,7 @@ const initProgressingBackdrop = function () {
  *     selected: ((value: DropdownItem, index: number) => undefined | undefined),
  *     unselected: ((value: DropdownItem, index: number) => undefined | undefined),
  *     progressingBackdropModule: (Object | undefined),
- * }} options 
+ * }} options
  */
 const initDropdownInput = (inputDom, options) => {
     const module = {};
@@ -295,9 +295,9 @@ const initDropdownInput = (inputDom, options) => {
     let _dropdownItems = options.dropdownItems ? options.dropdownItems : [];
 
     /**
-     * 
-     * @param {string} eventName 
-     * @param {object[] | undefined} parameters 
+     *
+     * @param {string} eventName
+     * @param {object[] | undefined} parameters
      */
     const triggerEvent = (eventName, parameters) => {
         const handler = module[eventName];
@@ -330,8 +330,8 @@ const initDropdownInput = (inputDom, options) => {
     };
 
     /**
-     * 
-     * @param {number} index 
+     *
+     * @param {number} index
      */
     const focusDropdownItem = index => {
         if (index < 0 || index >= dropdownDom.childElementCount) {
@@ -343,7 +343,7 @@ const initDropdownInput = (inputDom, options) => {
     };
 
     /**
-     * 
+     *
      * @returns {number}
      */
     const indexOfFocusedDropdownItem = () => {
@@ -374,8 +374,8 @@ const initDropdownInput = (inputDom, options) => {
     };
 
     /**
-     * 
-     * @param {number} index 
+     *
+     * @param {number} index
      */
     const selectDropdownItem = index => {
         if (index < 0 || index >= dropdownDom.childElementCount) {
@@ -390,7 +390,7 @@ const initDropdownInput = (inputDom, options) => {
     };
 
     /**
-     * 
+     *
      * @returns {number}
      */
     const indexOfSelectedDropdownItem = () => {
@@ -448,7 +448,7 @@ const initDropdownInput = (inputDom, options) => {
 
     /**
      * @public
-     * @param {DropdownItem[]} items 
+     * @param {DropdownItem[]} items
      */
     const updateDropdownItems = items => {
         if (!getEnabled()) return;
@@ -565,9 +565,9 @@ const geocoder = (function () {
     let timeoutId;
 
     /**
-     * 
-     * @param {string} input 
-     * @param {(features: Feature[]) => undefined} callback 
+     *
+     * @param {string} input
+     * @param {(features: Feature[]) => undefined} callback
      */
     return (input, callback) => {
         if (timeoutId !== undefined) {
@@ -1671,7 +1671,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.querySelector('#roundTripInput').addEventListener('input', function () {
         if (getAllAvailablePoints().length > 0) {
-            findRoute(true);  
+            findRoute(true);
         }
     });
 

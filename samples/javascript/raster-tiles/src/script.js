@@ -1,7 +1,7 @@
 /*===========================================================================*/
 // Raster Tiles
 // Sample map by ThinkGeo
-// 
+//
 //   1. ThinkGeo Cloud API Key
 //   2. Map Control Setup
 //   3. Changing the Map Style
@@ -18,19 +18,19 @@
 // restricted for use only from a given web domain or IP address.  To create your
 // own API key, you'll need to sign up for a ThinkGeo Cloud account at
 // https://cloud.thinkgeo.com.
-const apiKey = 'WPLmkj3P39OPectosnM1jRgDixwlti71l8KYxyfP2P0~';
+const apiKey = 'yqLXRwQc83GX5fm20Rql6CPdjnYmmC66GXsJUBYoFD4~';
 
 
 /*---------------------------------------------*/
 // 2. Map Control Setup
 /*---------------------------------------------*/
 
-// Now we'll create different layers with different data sources. These layers 
-// all use ThinkGeo Cloud Maps Raster Tile service to display a detailed map. 
+// Now we'll create different layers with different data sources. These layers
+// all use ThinkGeo Cloud Maps Raster Tile service to display a detailed map.
 // For more info, see our wiki:
 // https://wiki.thinkgeo.com/wiki/thinkgeo_cloud_maps_raster_tiles
 
-// This object defines the layer data sources that our map will use for each 
+// This object defines the layer data sources that our map will use for each
 // of its available themes.
 const layerUrls = {
     light: `https://cloud.thinkgeo.com/api/v1/maps/raster/light/x1/3857/512/{z}/{x}/{y}.png?apiKey=${apiKey}`,
@@ -39,12 +39,12 @@ const layerUrls = {
     transparentBackground: `https://cloud.thinkgeo.com/api/v1/maps/raster/transparent-background/x1/3857/512/{z}/{x}/{y}.png?apiKey=${apiKey}`
 }
 
-// Now let's create each actual map layer, using the data source URLs we 
+// Now let's create each actual map layer, using the data source URLs we
 // defined earlier.  We'll create the following layers:
 //   1. light:  Street map with a light background and features.
 //   2. dark:   Street map with a dark background and features.
 //   3. aerial: Aerial imagery map with no street features or POIs.
-//   4. transparentBackground: Just the streets and POIs with a transparent 
+//   4. transparentBackground: Just the streets and POIs with a transparent
 //      background.  Useful for displaying on top of the aerial layer, or
 //      your own custom imagery layer.
 // The "light" layer will be our default, so for the others, we'll set the
@@ -85,7 +85,7 @@ let transparentBackground = new ol.layer.Tile({
 });
 
 // Create and initialize our raster map control.
-let map = new ol.Map({    
+let map = new ol.Map({
     renderer:'webgl',
     loadTilesWhileAnimating: true,
     loadTilesWhileInteracting: true,
@@ -115,11 +115,11 @@ map.addControl(new ol.control.FullScreen());
 // 3. Changing the Map Style
 /*---------------------------------------------*/
 
-// Now that we've set up our variable layers for the map, we need to add an 
-// event listener that lets us switch which layers are visible.  This has the 
+// Now that we've set up our variable layers for the map, we need to add an
+// event listener that lets us switch which layers are visible.  This has the
 // effect of letting the user change the style of the map with a single click.
 
-// This method sets the data source URL for each layer on the map according to 
+// This method sets the data source URL for each layer on the map according to
 // the object passed in.
 const setSource = (url) => {
     let layers = map.getLayers().getArray();
@@ -131,7 +131,7 @@ const setSource = (url) => {
     }
 }
 
-// When the user clicks the different map style buttons, this method will 
+// When the user clicks the different map style buttons, this method will
 // change the visible map layers to match the style they requested.
 document.getElementById('wrap').addEventListener('click', (e) => {
     if (e.target.classList.contains('thumb')) {
@@ -186,7 +186,7 @@ const changeLayer = function (e) {
 // 4. Tile Loading Event Handlers
 /*---------------------------------------------*/
 
-// These events allow you to perform custom actions when 
+// These events allow you to perform custom actions when
 // a map tile encounters an error while loading.
 const errorLoadingTile = () => {
     const errorModal = document.querySelector('#error-modal');

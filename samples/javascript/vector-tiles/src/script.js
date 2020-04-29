@@ -1,7 +1,7 @@
 /*===========================================================================*/
 // Vector Tiles
 // Sample map by ThinkGeo
-// 
+//
 //   1. ThinkGeo Cloud API Key
 //   2. Map Control Setup
 //   3. Changing the Map Style
@@ -19,17 +19,17 @@
 // restricted for use only from a given web domain or IP address.  To create your
 // own API key, you'll need to sign up for a ThinkGeo Cloud account at
 // https://cloud.thinkgeo.com.
-const apiKey = 'WPLmkj3P39OPectosnM1jRgDixwlti71l8KYxyfP2P0~';
+const apiKey = 'yqLXRwQc83GX5fm20Rql6CPdjnYmmC66GXsJUBYoFD4~';
 
 
 /*---------------------------------------------*/
 // 2. Map Control Setup
 /*---------------------------------------------*/
 
-// Now, we'll create the two different styles of layers for our map. 
-// The two styles of layers use ThinkGeo Cloud Maps Vector Tile service to 
+// Now, we'll create the two different styles of layers for our map.
+// The two styles of layers use ThinkGeo Cloud Maps Vector Tile service to
 // display the detailed light style street map and dark style street map.
-// For more info, see our wiki: 
+// For more info, see our wiki:
 // https://wiki.thinkgeo.com/wiki/thinkgeo_cloud_maps_vector_tiles
 let light = new ol.mapsuite.VectorTileLayer('https://cdn.thinkgeo.com/worldstreets-styles/3.0.0/light.json', {
     apiKey: apiKey,
@@ -91,7 +91,7 @@ const changeLayer = (e) => {
 // When click the different styles button, render the relevant style map.
 document.addEventListener('DOMContentLoaded', ()=>{
     document.getElementById('wrap').addEventListener('click', (e) => {
-        const nodeList = document.querySelectorAll(".thumb");    
+        const nodeList = document.querySelectorAll(".thumb");
         for (let node of nodeList) {
             node.style.borderColor = 'transparent';
         }
@@ -115,11 +115,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
 // 4. ThinkGeo Map Icon Fonts
 /*---------------------------------------------*/
 
-// Finally, we'll load the Map Icon Fonts using ThinkGeo's WebFont loader. 
-// The loaded Icon Fonts will be used to render POI icons on top of the map's 
-// background layer.  We'll initalize the map only once the font has been 
-// downloaded.  For more info, see our wiki: 
-// https://wiki.thinkgeo.com/wiki/thinkgeo_iconfonts 
+// Finally, we'll load the Map Icon Fonts using ThinkGeo's WebFont loader.
+// The loaded Icon Fonts will be used to render POI icons on top of the map's
+// background layer.  We'll initalize the map only once the font has been
+// downloaded.  For more info, see our wiki:
+// https://wiki.thinkgeo.com/wiki/thinkgeo_iconfonts
 WebFont.load({
     custom: {
         families: ["vectormap-icons"],
@@ -138,7 +138,7 @@ WebFont.load({
 // 5. Tile Loading Event Handlers
 /*---------------------------------------------*/
 
-// These events allow you to perform custom actions when 
+// These events allow you to perform custom actions when
 // a map tile encounters an error while loading.
 const errorLoadingTile = () => {
     const errorModal = document.querySelector('#error-modal');

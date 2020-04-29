@@ -1,7 +1,7 @@
 /*===========================================================================*/
 // Work with WFS
 // Sample map by ThinkGeo
-// 
+//
 //   1. ThinkGeo Cloud API Key
 //   2. WFS Setup
 //   3. Map Control Setup
@@ -18,20 +18,20 @@
 // restricted for use only from a given web domain or IP address.  To create your
 // own API key, you'll need to sign up for a ThinkGeo Cloud account at
 // https://cloud.thinkgeo.com.
-const apiKey = 'WPLmkj3P39OPectosnM1jRgDixwlti71l8KYxyfP2P0~';
+const apiKey = 'yqLXRwQc83GX5fm20Rql6CPdjnYmmC66GXsJUBYoFD4~';
 
 
 /*---------------------------------------------*/
 // 2. WFS Setup
 /*---------------------------------------------*/
 
-// Create another layer from the Great Lakes Water GeoJSON, this time to hold the boundary 
+// Create another layer from the Great Lakes Water GeoJSON, this time to hold the boundary
 // color for each water. Then use this styleJSON object to render WFS layer.
 
-// For more info about StyleJSON, see our wiki:  
+// For more info about StyleJSON, see our wiki:
 // https://thinkgeo.gitbooks.io/map-suite-stylejson-specification/content/
 
-// For more info about Map Suite Portable Data Format, see our wiki: 
+// For more info about Map Suite Portable Data Format, see our wiki:
 // https://wiki.thinkgeo.com/wiki/map_suite_portable_data_format_guide
 const wfsStyleJson =
 {
@@ -77,7 +77,7 @@ let wfsLayer = new ol.mapsuite.VectorLayer(wfsStyleJson, {
 // 3. Map Control Setup
 /*---------------------------------------------*/
 
-// Now we'll create the base layer for our map. The base layer uses the ThinkGeo Cloud 
+// Now we'll create the base layer for our map. The base layer uses the ThinkGeo Cloud
 // Maps Raster Tile service to display a detailed map.  For more info, see our wiki:
 // https://wiki.thinkgeo.com/wiki/thinkgeo_cloud_maps_raster_tiles
 let baseLayer = new ol.layer.Tile({
@@ -104,7 +104,7 @@ let map = new ol.Map({
         zoom: 12,
         minZoom: 1,
         maxZoom: 19,
-        progressiveZoom: false,    
+        progressiveZoom: false,
     })
 });
 
@@ -116,7 +116,7 @@ map.addControl(new ol.control.FullScreen());
 // 4. Tile Loading Event Handlers
 /*---------------------------------------------*/
 
-// These events allow you to perform custom actions when 
+// These events allow you to perform custom actions when
 // a map tile encounters an error while loading.
 const errorLoadingTile = () => {
     const errorModal = document.querySelector('#error-modal');

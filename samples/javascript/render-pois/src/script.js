@@ -1,7 +1,7 @@
 /*===========================================================================*/
 // Render POIs
 // Sample map by ThinkGeo
-// 
+//
 //   1. ThinkGeo Cloud API Key
 //   2. Styling Points of Interest Layer
 //   3. Map Control Setup
@@ -18,15 +18,15 @@
 // restricted for use only from a given web domain or IP address.  To create your
 // own API key, you'll need to sign up for a ThinkGeo Cloud account at
 // https://cloud.thinkgeo.com.
-const apiKey = 'WPLmkj3P39OPectosnM1jRgDixwlti71l8KYxyfP2P0~';
+const apiKey = 'yqLXRwQc83GX5fm20Rql6CPdjnYmmC66GXsJUBYoFD4~';
 
 
 /*---------------------------------------------*/
 // 2. Styling Points of Interest Layer
 /*---------------------------------------------*/
 
-// This next part sets up the style for the POI points on our map. We use the point data 
-// from a small GeoJSON file hosted on our servers, but you can load your own data from 
+// This next part sets up the style for the POI points on our map. We use the point data
+// from a small GeoJSON file hosted on our servers, but you can load your own data from
 // any publicly-accessible server.  In the near future you'll be able to upload your
 // data to the ThinkGeo Cloud and let us host it for you!
 const geosjonStyle = {
@@ -100,9 +100,9 @@ const geosjonStyle = {
 // 3. Map Control Setup
 /*---------------------------------------------*/
 
-// Install World Streets Styles: Here we use the light theme style to render our map. 
-// We have several professionally-designed map themes for your application or project, 
-// which can be downloaded and use it in your application for free.  
+// Install World Streets Styles: Here we use the light theme style to render our map.
+// We have several professionally-designed map themes for your application or project,
+// which can be downloaded and use it in your application for free.
 // For more information, see our wiki:
 // https://wiki.thinkgeo.com/wiki/thinkgeo_stylejson
 const worldstreetsStyle = "https://cdn.thinkgeo.com/worldstreets-styles/3.0.0/light.json";
@@ -112,7 +112,7 @@ const baseLayer = new ol.mapsuite.VectorTileLayer(worldstreetsStyle, {
     apiKey: apiKey
 });
 
-// Next, we'll create the layer for our points of interest, using the geojsonStyle 
+// Next, we'll create the layer for our points of interest, using the geojsonStyle
 // we defined in Step 2.
 let pointLayer = new ol.mapsuite.VectorLayer(geosjonStyle, {
     multithread: false
@@ -150,11 +150,11 @@ let initializeMap = function () {
 // 4. ThinkGeo Map Icon Fonts
 /*---------------------------------------------*/
 
-// Finally, we'll load the Map Icon Fonts using ThinkGeo's WebFont loader. 
-// The loaded Icon Fonts will be used to render POI icons on top of the map's 
-// background layer.  We'll initalize the map only once the font has been 
-// downloaded.  For more info, see our wiki: 
-// https://wiki.thinkgeo.com/wiki/thinkgeo_iconfonts 
+// Finally, we'll load the Map Icon Fonts using ThinkGeo's WebFont loader.
+// The loaded Icon Fonts will be used to render POI icons on top of the map's
+// background layer.  We'll initalize the map only once the font has been
+// downloaded.  For more info, see our wiki:
+// https://wiki.thinkgeo.com/wiki/thinkgeo_iconfonts
 WebFont.load({
     custom: {
         families: ["vectormap-icons"],

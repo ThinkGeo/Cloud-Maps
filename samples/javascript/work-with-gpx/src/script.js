@@ -1,7 +1,7 @@
 /*===========================================================================*/
 // Work with GPX
 // Sample map by ThinkGeo
-// 
+//
 //   1. ThinkGeo Cloud API Key
 //   2. GPX Setup
 //   3. Map Control Setup
@@ -19,20 +19,20 @@
 // restricted for use only from a given web domain or IP address.  To create your
 // own API key, you'll need to sign up for a ThinkGeo Cloud account at
 // https://cloud.thinkgeo.com.
-const apiKey = 'WPLmkj3P39OPectosnM1jRgDixwlti71l8KYxyfP2P0~';
+const apiKey = 'yqLXRwQc83GX5fm20Rql6CPdjnYmmC66GXsJUBYoFD4~';
 
 
 /*---------------------------------------------*/
 // 2. GPX Setup
 /*---------------------------------------------*/
 
-// Create another layer from a GPX format data file hosted on our server, this time to hold the style 
+// Create another layer from a GPX format data file hosted on our server, this time to hold the style
 // for the GPX polygon and point. Then apply the styleJSON to GPX layer.
 
-// For more info about StyleJSON, see our wiki:  
+// For more info about StyleJSON, see our wiki:
 // https://thinkgeo.gitbooks.io/map-suite-stylejson-specification/content/
 
-// For more info about Map Suite Portable Data Format, see our wiki: 
+// For more info about Map Suite Portable Data Format, see our wiki:
 // https://wiki.thinkgeo.com/wiki/map_suite_portable_data_format_guide
 const gpxStyleJson = {
     "id": "gpx-stylejson",
@@ -84,9 +84,9 @@ let gpxVectorLayer = new ol.mapsuite.VectorLayer(gpxStyleJson, {
 // 3. Map Control Setup
 /*---------------------------------------------*/
 
-// Now we'll create the base layer for our map. The light style of layers uses ThinkGeo Cloud 
-// Maps Vector Tile service to display the detailed base map. For more info, see our wiki: 
-// https://wiki.thinkgeo.com/wiki/thinkgeo_cloud_maps_vector_tiles 
+// Now we'll create the base layer for our map. The light style of layers uses ThinkGeo Cloud
+// Maps Vector Tile service to display the detailed base map. For more info, see our wiki:
+// https://wiki.thinkgeo.com/wiki/thinkgeo_cloud_maps_vector_tiles
 let baseLayer = new ol.mapsuite.VectorTileLayer('https://cdn.thinkgeo.com/worldstreets-styles/3.0.0/light.json', {
     apiKey: apiKey,
     layerName: 'light'
@@ -126,11 +126,11 @@ let initializeMap = function () {
 // 4. ThinkGeo Map Icon Fonts
 /*---------------------------------------------*/
 
-// Finally, we'll load the Map Icon Fonts using ThinkGeo's WebFont loader. 
-// The loaded Icon Fonts will be used to render POI icons on top of the map's 
-// background layer.  We'll initalize the map only once the font has been 
-// downloaded.  For more info, see our wiki: 
-// https://wiki.thinkgeo.com/wiki/thinkgeo_iconfonts 
+// Finally, we'll load the Map Icon Fonts using ThinkGeo's WebFont loader.
+// The loaded Icon Fonts will be used to render POI icons on top of the map's
+// background layer.  We'll initalize the map only once the font has been
+// downloaded.  For more info, see our wiki:
+// https://wiki.thinkgeo.com/wiki/thinkgeo_iconfonts
 WebFont.load({
     custom: {
         families: ["vectormap-icons"],
@@ -149,7 +149,7 @@ WebFont.load({
 // 5. Tile Loading Event Handlers
 /*---------------------------------------------*/
 
-// These events allow you to perform custom actions when 
+// These events allow you to perform custom actions when
 // a map tile encounters an error while loading.
 const errorLoadingTile = () => {
     const errorModal = document.querySelector('#error-modal');

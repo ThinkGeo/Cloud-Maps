@@ -1,7 +1,7 @@
 /*===========================================================================*/
 // Vue.JS
 // Sample map by ThinkGeo
-// 
+//
 //   1. ThinkGeo Cloud API Key
 //   2. Load World Streets Style JSON File
 //   3. Map Control Setup
@@ -21,15 +21,15 @@
 // restricted for use only from a given web domain or IP address.  To create your
 // own API key, you'll need to sign up for a ThinkGeo Cloud account at
 // https://cloud.thinkgeo.com.
-const apiKey = 'WPLmkj3P39OPectosnM1jRgDixwlti71l8KYxyfP2P0~';
+const apiKey = 'yqLXRwQc83GX5fm20Rql6CPdjnYmmC66GXsJUBYoFD4~';
 
 
 /*---------------------------------------------*/
 // 2. Load World Streets Style JSON File
 /*---------------------------------------------*/
 
-// Now we need to actually load the World Streets Style JSON file that will let us 
-// visualize our light style map. This method will recieve a file path which is our 
+// Now we need to actually load the World Streets Style JSON file that will let us
+// visualize our light style map. This method will recieve a file path which is our
 // style JSON file be hosted, and send the request to get the data.
 let json;
 const getJson = (filePath) => {
@@ -68,13 +68,13 @@ const getJson = (filePath) => {
 let map;
 let layer;
 const initializeMap = function () {
-    // Here we use the light theme style to render our map. 
-    // We have several professionally-designed map themes for your application or project, 
-    // which can be downloaded and use it in your application for free. 
+    // Here we use the light theme style to render our map.
+    // We have several professionally-designed map themes for your application or project,
+    // which can be downloaded and use it in your application for free.
     // For more information, see our wiki:
-    // https://wiki.thinkgeo.com/wiki/thinkgeo_stylejson 
+    // https://wiki.thinkgeo.com/wiki/thinkgeo_stylejson
 
-    // Once we have got the style JSON file, store the data to a global 
+    // Once we have got the style JSON file, store the data to a global
     // variable(it will be used when we create the base layer and customize the map style) and initialize our map.
     getJson("https://samples.thinkgeo.com/cloud/example/data/light.json").then((data) => {
         json = JSON.parse(data);
@@ -115,11 +115,11 @@ const initializeMap = function () {
 // 4. Customize Map Style
 /*---------------------------------------------*/
 
-// This next step is to update the style what we recived from users. 
-// When using the styleJson file, you can customize the presentation 
-// of the ThinkGeo map, changing the style of such elements as roads, 
-// parks, building, points of pois and so on. Here, you can change the 
-// poi size and water fill color to have a try. 
+// This next step is to update the style what we recived from users.
+// When using the styleJson file, you can customize the presentation
+// of the ThinkGeo map, changing the style of such elements as roads,
+// parks, building, points of pois and so on. Here, you can change the
+// poi size and water fill color to have a try.
 
 // This method will recieve the two changed style and update it to style JSON data.
 const updateStyleJson = (poiSize, waterColor) => {
@@ -135,7 +135,7 @@ const updateStyleJson = (poiSize, waterColor) => {
     return json;
 }
 
-// This method will response to user's click action and call updateStyleJson method to 
+// This method will response to user's click action and call updateStyleJson method to
 // update style to json variable. Then update it to our map.
 const handleRefresh = (poiSize, waterColor) => {
     // Update the json data.
@@ -156,7 +156,7 @@ const handleRefresh = (poiSize, waterColor) => {
 // 5. Tile Loading Event Handlers
 /*---------------------------------------------*/
 
-// These events allow you to perform custom actions when 
+// These events allow you to perform custom actions when
 // a map tile encounters an error while loading.
 const errorLoadingTile = () => {
     const errorModal = document.querySelector('#error-modal');
@@ -186,11 +186,11 @@ const hideErrorTip = () => {
 // 6. ThinkGeo Map Icon Fonts
 /*---------------------------------------------*/
 
-// Now we'll load the Map Icon Fonts using ThinkGeo's WebFont loader. 
-// The loaded Icon Fonts will be used to render POI icons on top of the map's 
-// background layer.  We'll initalize the map only once the font has been 
-// downloaded.  For more info, see our wiki: 
-// https://wiki.thinkgeo.com/wiki/thinkgeo_iconfonts 
+// Now we'll load the Map Icon Fonts using ThinkGeo's WebFont loader.
+// The loaded Icon Fonts will be used to render POI icons on top of the map's
+// background layer.  We'll initalize the map only once the font has been
+// downloaded.  For more info, see our wiki:
+// https://wiki.thinkgeo.com/wiki/thinkgeo_iconfonts
 WebFont.load({
     custom: {
         families: ["vectormap-icons"],

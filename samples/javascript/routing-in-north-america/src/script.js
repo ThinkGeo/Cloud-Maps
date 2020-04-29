@@ -23,7 +23,7 @@
 // restricted for use only from a given web domain or IP address.  To create your
 // own API key, you'll need to sign up for a ThinkGeo Cloud account at
 // https://cloud.thinkgeo.com.
-const apiKey = 'WPLmkj3P39OPectosnM1jRgDixwlti71l8KYxyfP2P0~';
+const apiKey = 'yqLXRwQc83GX5fm20Rql6CPdjnYmmC66GXsJUBYoFD4~';
 
 /*---------------------------------------------*/
 // 2. Map Control Setup
@@ -659,7 +659,7 @@ const generateBox = (routes) => {
     let boxesDom = document.querySelector('#boxes');
     let totalDom = document.querySelector('#total');
     let total = `<span class='format-distance'>${format.distance}</span>
-				 <span class='format-duration'>${format.duration}</span> 
+				 <span class='format-duration'>${format.duration}</span>
 				 ${warnings}
 				  <button id='menu'></button>
 				  <button id='closeMenu'></button>
@@ -976,7 +976,7 @@ const addInputBox = (coord, readonly) => {
         lastInput.value = '';
         lastInput.setAttribute('data-origin', '');
     }
-    
+
     let attr = '';
     if(readonly){
         attr = 'readonly';
@@ -1011,7 +1011,7 @@ const refreshInputEditable = () => {
             input.setAttribute('readonly', true)
         })
     } else {
-        // The view port is at least 767 pixels wide 
+        // The view port is at least 767 pixels wide
         allInputs.forEach(input => {
             input.removeAttribute('readonly');
         })

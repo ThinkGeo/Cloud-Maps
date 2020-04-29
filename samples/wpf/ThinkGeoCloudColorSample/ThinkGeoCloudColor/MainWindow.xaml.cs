@@ -20,11 +20,9 @@ namespace ThinkGeoCloudColor
     public partial class MainWindow : Window
     {
         private const string GisServerUri = "https://gisserver1.thinkgeo.com";
-
-        private string clientId;
-        private string clientSecret;
+        private const string clientId = "FSDgWMuqGhZCmZnbnxh-Yl1HOaDQcQ6mMaZZ1VkQNYw~";
+        private const string clientSecret = "IoOZkBJie0K9pz10jTRmrUclX6UYssZBeed401oAfbxb9ufF1WVUvg~~";
         private ColorClient colorClient;
-
         private LayerOverlay layerOverlay;
 
         public MainWindow()
@@ -34,10 +32,6 @@ namespace ThinkGeoCloudColor
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!TryReadClientIdSecretFromConfig())
-            {
-                ShowClientIdSecretInputer();
-            }
             colorClient = new ColorClient(clientId, clientSecret);
             colorClient.BaseUris.Add(new Uri(GisServerUri));
 
@@ -143,44 +137,6 @@ namespace ThinkGeoCloudColor
             layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             map.Refresh(layerOverlay);
-        }
-
-        private void UpdateIdSecretToClient()
-        {
-            colorClient?.Dispose();
-            colorClient = new ColorClient(clientId, clientSecret);
-            colorClient.BaseUris.Add(new Uri(GisServerUri));
-        }
-
-        private bool TryReadClientIdSecretFromConfig()
-        {
-            var id = ConfigurationManager.AppSettings["ClientId"];
-            var secret = ConfigurationManager.AppSettings["ClientSecret"];
-            if (string.IsNullOrWhiteSpace(id) || string.IsNullOrWhiteSpace(secret))
-            {
-                return false;
-            }
-            clientId = id.Trim();
-            clientSecret = secret.Trim();
-            return true;
-        }
-
-        private void ShowClientIdSecretInputer()
-        {
-            var clientIdSecretInputer = new ClientIdSecretInputer
-            {
-                ClientId = clientId,
-                ClientSecret = clientSecret,
-                Owner = this,
-                WindowStartupLocation = WindowStartupLocation.CenterOwner
-            };
-            clientIdSecretInputer.BaseUris.Add(new Uri(GisServerUri));
-            if (clientIdSecretInputer.ShowDialog() != true)
-            {
-                Environment.Exit(0);
-            }
-            clientId = clientIdSecretInputer.ClientId;
-            clientSecret = clientIdSecretInputer.ClientSecret;
         }
 
         private void GenerateClick(object sender, RoutedEventArgs e)
