@@ -1,10 +1,4 @@
-﻿/*===========================================
-    Backgrounds for this sample are powered by ThinkGeo Cloud Maps and require
-    a Client ID and Secret. These were sent to you via email when you signed up
-    with ThinkGeo, or you can register now at https://cloud.thinkgeo.com.
-===========================================*/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Configuration;
@@ -15,28 +9,23 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using ThinkGeo.Cloud;
-using ThinkGeo.MapSuite;
-using ThinkGeo.MapSuite.Drawing;
-using ThinkGeo.MapSuite.Layers;
-using ThinkGeo.MapSuite.Shapes;
-using ThinkGeo.MapSuite.Styles;
-using ThinkGeo.MapSuite.Wpf;
+using ThinkGeo.Core;
+using ThinkGeo.UI.Wpf;
 
 namespace ThinkGeoCloudReverseGeocoding
 {
 
     public partial class MainWindow : Window
     {
-        private const string GisServerUri = "https://gisserver1.thinkgeo.com";
+        private const string CloudServerUrl = "https://cloud.thinkgeo.com";
 
-        private string clientId;
-        private string clientSecret;
+        private const string clientId = "FSDgWMuqGhZCmZnbnxh-Yl1HOaDQcQ6mMaZZ1VkQNYw~";
+        private const string clientSecret = "IoOZkBJie0K9pz10jTRmrUclX6UYssZBeed401oAfbxb9ufF1WVUvg~~";
 
-        private ReverseGeocodingClient reverseGeocodingClient;
+        private ReverseGeocodingCloudClient reverseGeocodingClient;
 
-        private Collection<ReverseGeocodingLocation> serachedPlaces;
-        private ReverseGeocodingResult searchResult;
+        private Collection<CloudReverseGeocodingLocation> serachedPlaces;
+        private CloudReverseGeocodingResult searchResult;
         private PointShape searchPoint;
         public static string ApiKey = string.Empty;
         private bool isincludeInresectons = true;
@@ -52,18 +41,15 @@ namespace ThinkGeoCloudReverseGeocoding
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!TryReadClientIdSecretFromConfig())
-            {
-                ShowClientIdSecretInputer();
-            }
-            UpdateIdSecretToClient();
+            reverseGeocodingClient = new ReverseGeocodingCloudClient(clientId, clientSecret);
+            reverseGeocodingClient.BaseUris.Add(new Uri(CloudServerUrl));
 
             WpfMap.MapUnit = GeographyUnit.Meter;
             WpfMap.ZoomLevelSet = new ThinkGeoCloudMapsZoomLevelSet();
             WpfMap.CurrentExtent = new RectangleShape(-10798419.605087, 3934270.12359632, -10759021.6785336, 3896039.57306867);
 
             // Please input your ThinkGeo Cloud Client ID / Client Secret to enable the background map. 
-            ThinkGeoCloudRasterMapsOverlay baseOverlay = new ThinkGeoCloudRasterMapsOverlay("ThinkGeo Cloud Client ID", "ThinkGeo Cloud Client Secret");
+            ThinkGeoCloudRasterMapsOverlay baseOverlay = new ThinkGeoCloudRasterMapsOverlay(clientId, clientSecret);
             baseOverlay.WrappingMode = WrappingMode.WrapDateline;
             WpfMap.Overlays.Add(baseOverlay);
 
@@ -107,7 +93,7 @@ namespace ThinkGeoCloudReverseGeocoding
                 {
                     searchRadius = searchPreference.PlaceSearchRadiusInMeter.Value;
                 }
-                var reverseGeocodingOption = new ReverseGeocodingOptions()
+                var reverseGeocodingOption = new CloudReverseGeocodingOptions()
                 {
                     MaxResults = searchPreference.MaxResults,
                     // TODO: not support Intersection
@@ -115,10 +101,10 @@ namespace ThinkGeoCloudReverseGeocoding
                 };
                 if (searchPreference.PlaceCategoriesToFind.Count > 0)
                 {
-                    var placeCategories = (LocationCategories)Enum.Parse(typeof(LocationCategories), searchPreference.PlaceCategoriesToFind[0]);
+                    var placeCategories = (CloudLocationCategories)Enum.Parse(typeof(CloudLocationCategories), searchPreference.PlaceCategoriesToFind[0]);
                     for (int i = 1; i < searchPreference.PlaceCategoriesToFind.Count; i++)
                     {
-                        placeCategories |= (LocationCategories)Enum.Parse(typeof(LocationCategories), searchPreference.PlaceCategoriesToFind[i]);
+                        placeCategories |= (CloudLocationCategories)Enum.Parse(typeof(CloudLocationCategories), searchPreference.PlaceCategoriesToFind[i]);
                     }
                     reverseGeocodingOption.LocationCategories = placeCategories;
                 }
@@ -160,7 +146,7 @@ namespace ThinkGeoCloudReverseGeocoding
                 if (PlacesCategories.Count == 0)
                 {
                     var excludedCategories = new[] { "None", "Common", "All" };
-                    foreach (var placeCategory in Enum.GetNames(typeof(LocationCategories)))
+                    foreach (var placeCategory in Enum.GetNames(typeof(CloudLocationCategories)))
                     {
                         if (!excludedCategories.Contains(placeCategory))
                         {
@@ -219,10 +205,10 @@ namespace ThinkGeoCloudReverseGeocoding
             }
         }
 
-        private void DisplaySearchResult(ReverseGeocodingResult searchResult)
+        private void DisplaySearchResult(CloudReverseGeocodingResult searchResult)
         {
-            Collection<ReverseGeocodingLocation> serachedAddresses = new Collection<ReverseGeocodingLocation>();
-            Collection<ReverseGeocodingLocation> serachedIntersection = new Collection<ReverseGeocodingLocation>();
+            Collection<CloudReverseGeocodingLocation> serachedAddresses = new Collection<CloudReverseGeocodingLocation>();
+            Collection<CloudReverseGeocodingLocation> serachedIntersection = new Collection<CloudReverseGeocodingLocation>();
             if (searchResult?.BestMatchLocation != null)
             {
                 // Display address of the BestMatchingPlace in the left panel and add a marker.
@@ -231,7 +217,7 @@ namespace ThinkGeoCloudReverseGeocoding
                 var bestmatchingMarkerOverlay = (SimpleMarkerOverlay)WpfMap.Overlays["BestMatchingMarkerOverlay"];
                 bestmatchingMarkerOverlay.Markers.Add(marker);
 
-                var nearbyLocations = new List<ReverseGeocodingLocation>(searchResult.NearbyLocations);
+                var nearbyLocations = new List<CloudReverseGeocodingLocation>(searchResult.NearbyLocations);
                 int intersectionIndex = 0;
                 var intersections = nearbyLocations.FindAll(p => p.LocationCategory.ToLower().Contains("intersection"));
                 foreach (var intersection in intersections)
@@ -254,10 +240,10 @@ namespace ThinkGeoCloudReverseGeocoding
                 int placeIndex = 0;
                 foreach (var place in nearbyLocations)
                 {
-                    if (!nameof(LocationCategories.Aeroway).Equals(place.LocationCategory, StringComparison.InvariantCultureIgnoreCase)
-                        && !nameof(LocationCategories.Road).Equals(place.LocationCategory, StringComparison.InvariantCultureIgnoreCase)
-                        && !nameof(LocationCategories.Rail).Equals(place.LocationCategory, StringComparison.InvariantCultureIgnoreCase)
-                        && !nameof(LocationCategories.Waterway).Equals(place.LocationCategory, StringComparison.InvariantCultureIgnoreCase))
+                    if (!nameof(CloudLocationCategories.Aeroway).Equals(place.LocationCategory, StringComparison.InvariantCultureIgnoreCase)
+                        && !nameof(CloudLocationCategories.Road).Equals(place.LocationCategory, StringComparison.InvariantCultureIgnoreCase)
+                        && !nameof(CloudLocationCategories.Rail).Equals(place.LocationCategory, StringComparison.InvariantCultureIgnoreCase)
+                        && !nameof(CloudLocationCategories.Waterway).Equals(place.LocationCategory, StringComparison.InvariantCultureIgnoreCase))
                     {
                         serachedPlaces.Add(place);
                         AddPropertiesForPlace(place, placeIndex);
@@ -281,7 +267,7 @@ namespace ThinkGeoCloudReverseGeocoding
         {
             if (lsbAddress != null && lsbAddress.Items.Count > 0)
             {
-                WpfMap.CurrentExtent = ((ReverseGeocodingLocation)lsbAddress.SelectedItem).LocationFeature.GetBoundingBox();
+                WpfMap.CurrentExtent = ((CloudReverseGeocodingLocation)lsbAddress.SelectedItem).LocationFeature.GetBoundingBox();
                 WpfMap.Refresh();
                 e.Handled = true;
             }
@@ -291,7 +277,7 @@ namespace ThinkGeoCloudReverseGeocoding
         {
             if (lsbIntersection != null && lsbIntersection.Items.Count > 0)
             {
-                WpfMap.CurrentExtent = ((ReverseGeocodingLocation)lsbIntersection.SelectedItem).LocationFeature.GetBoundingBox();
+                WpfMap.CurrentExtent = ((CloudReverseGeocodingLocation)lsbIntersection.SelectedItem).LocationFeature.GetBoundingBox();
                 WpfMap.Refresh();
                 e.Handled = true;
             }
@@ -301,7 +287,7 @@ namespace ThinkGeoCloudReverseGeocoding
         {
             if (lsbPlaces != null && lsbPlaces.Items.Count > 0)
             {
-                WpfMap.CurrentExtent = ((ReverseGeocodingLocation)lsbPlaces.SelectedItem).LocationFeature.GetBoundingBox();
+                WpfMap.CurrentExtent = ((CloudReverseGeocodingLocation)lsbPlaces.SelectedItem).LocationFeature.GetBoundingBox();
                 WpfMap.Refresh();
                 e.Handled = true;
             }
@@ -329,7 +315,7 @@ namespace ThinkGeoCloudReverseGeocoding
             return marker;
         }
 
-        private Marker GetMarkerByPlaceRecord(ReverseGeocodingLocation place)
+        private Marker GetMarkerByPlaceRecord(CloudReverseGeocodingLocation place)
         {
             Marker marker = null;
             PointShape pointShape = null;
@@ -396,12 +382,12 @@ namespace ThinkGeoCloudReverseGeocoding
             lsbPlaces.ItemsSource = null;
             lsbAddress.ItemsSource = null;
             lsbIntersection.ItemsSource = null;
-            serachedPlaces = new Collection<ReverseGeocodingLocation>();
+            serachedPlaces = new Collection<CloudReverseGeocodingLocation>();
             var bestmatchingMarkerOverlay = (SimpleMarkerOverlay)WpfMap.Overlays["BestMatchingMarkerOverlay"];
             bestmatchingMarkerOverlay.Markers.Clear();
         }
 
-        private async void WpfMap_MapClick(object sender, MapClickWpfMapEventArgs e)
+        private async void WpfMap_MapClick(object sender, MapClickMapViewEventArgs e)
         {
             if (e.MouseButton == MapMouseButton.Left)
             {
@@ -414,7 +400,7 @@ namespace ThinkGeoCloudReverseGeocoding
         private void AddMarkerToMap(object reverseGeocoderRecord, int index)
         {
             Marker marker = null;
-            if (reverseGeocoderRecord is ReverseGeocodingLocation locationResource)
+            if (reverseGeocoderRecord is CloudReverseGeocodingLocation locationResource)
             {
                 marker = GetMarkerByPlaceRecord(locationResource);
                 marker.ToolTip = locationResource.Address;
@@ -442,7 +428,7 @@ namespace ThinkGeoCloudReverseGeocoding
             seachRadiusFeatureLayer.InternalFeatures.Add(new Feature(new EllipseShape(searchPoint, searchDistanceInMeters)));
         }
 
-        private void AddPropertiesForPlace(ReverseGeocodingLocation reverseGeocodingLocation, int index)
+        private void AddPropertiesForPlace(CloudReverseGeocodingLocation reverseGeocodingLocation, int index)
         {
             int distance = (int)searchPoint.GetDistanceTo(reverseGeocodingLocation.LocationFeature.GetShape(), GeographyUnit.Meter, DistanceUnit.Meter);
 
@@ -495,12 +481,6 @@ namespace ThinkGeoCloudReverseGeocoding
         public void ShowErrorAlert(Exception ex)
         {
             MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            ShowClientIdSecretInputer();
-        }
-
-        private void BtnChangeApiKey_Click(object sender, RoutedEventArgs e)
-        {
-            ShowClientIdSecretInputer();
         }
 
         private async void IsInclude_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -516,45 +496,6 @@ namespace ThinkGeoCloudReverseGeocoding
                 isincludeInresectons = false;
                 await SearchPlaceAndNearbysAsync();
             }
-        }
-
-        private void UpdateIdSecretToClient()
-        {
-            reverseGeocodingClient?.Dispose();
-            reverseGeocodingClient = new ReverseGeocodingClient(clientId, clientSecret);
-            reverseGeocodingClient.BaseUris.Add(new Uri(GisServerUri));
-        }
-
-        private bool TryReadClientIdSecretFromConfig()
-        {
-            var id = ConfigurationManager.AppSettings["ClientId"];
-            var secret = ConfigurationManager.AppSettings["ClientSecret"];
-            if (string.IsNullOrWhiteSpace(id) || string.IsNullOrWhiteSpace(secret))
-            {
-                return false;
-            }
-            clientId = id.Trim();
-            clientSecret = secret.Trim();
-            return true;
-        }
-
-
-        private void ShowClientIdSecretInputer()
-        {
-            var clientIdSecretInputer = new ClientIdSecretInputer
-            {
-                ClientId = clientId,
-                ClientSecret = clientSecret,
-                Owner = this,
-                WindowStartupLocation = WindowStartupLocation.CenterOwner
-            };
-            clientIdSecretInputer.BaseUris.Add(new Uri(GisServerUri));
-            if (clientIdSecretInputer.ShowDialog() != true)
-            {
-                Environment.Exit(0);
-            }
-            clientId = clientIdSecretInputer.ClientId;
-            clientSecret = clientIdSecretInputer.ClientSecret;
         }
     }
 

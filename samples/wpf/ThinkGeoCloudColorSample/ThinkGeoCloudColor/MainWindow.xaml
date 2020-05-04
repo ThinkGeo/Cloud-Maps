@@ -4,16 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ThinkGeoCloudColor"
-        xmlns:mapsuite="clr-namespace:ThinkGeo.MapSuite.Wpf;assembly=ThinkGeo.MapSuite.Wpf"
+        xmlns:thnkgeo="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
         mc:Ignorable="d"
         Title="ThinkGeoCloudColor Sample" Height="768" Width="1024" Loaded="Window_Loaded">
 
-    <Window.Resources>
-        <local:BoolToVisibleOrHidden x:Key="BoolToVisConverter"/>
-    </Window.Resources>
-
     <Grid>
-        <mapsuite:WpfMap x:Name="map"></mapsuite:WpfMap>
+        <thnkgeo:MapView x:Name="map"></thnkgeo:MapView>
         <Grid VerticalAlignment="Top" HorizontalAlignment="Right" Width="240" Height="180" Margin="11">
 
         </Grid>
@@ -35,7 +31,7 @@
                 <RadioButton x:Name="rdoSpecificColor" IsChecked="True" GroupName="BaseColor">
                     <Run Text="Specific Color:"></Run>
                 </RadioButton>
-                <TextBox x:Name="txtSpecificColor" Padding="0" Visibility="{Binding IsChecked, Converter={StaticResource BoolToVisConverter}, ElementName=rdoSpecificColor}" Height="17">#AB2567</TextBox>
+                <TextBox x:Name="txtSpecificColor" Padding="0" Height="17">#AB2567</TextBox>
             </TextBlock>
 
             <Button Margin="11 3 11 11" Click="GenerateClick">Generate</Button>

@@ -1,10 +1,4 @@
-﻿/*===========================================
-    Backgrounds for this sample are powered by ThinkGeo Cloud Maps and require
-    a Client ID and Secret. These were sent to you via email when you signed up
-    with ThinkGeo, or you can register now at https://cloud.thinkgeo.com.
-===========================================*/
-
-using LiveCharts;
+﻿using LiveCharts;
 using LiveCharts.Configurations;
 using LiveCharts.Wpf;
 using System;
@@ -17,23 +11,17 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using ThinkGeo.Cloud;
-using ThinkGeo.MapSuite;
-using ThinkGeo.MapSuite.Drawing;
-using ThinkGeo.MapSuite.Layers;
-using ThinkGeo.MapSuite.Shapes;
-using ThinkGeo.MapSuite.Styles;
-using ThinkGeo.MapSuite.Wpf;
+using ThinkGeo.UI.Wpf;
+using ThinkGeo.Core;
 
 namespace ThinkGeoCloudElevation
 {
     public partial class MainWindow : Window
     {
-        private const string GisServerUri = "https://gisserver1.thinkgeo.com";
-
-        private string clientId;
-        private string clientSecret;
-        private ElevationClient elevationClient;
+        private const string CloudServerUri = "https://cloud.thinkgeo.com";
+        private const string clientId = "FSDgWMuqGhZCmZnbnxh-Yl1HOaDQcQ6mMaZZ1VkQNYw~";
+        private const string clientSecret = "IoOZkBJie0K9pz10jTRmrUclX6UYssZBeed401oAfbxb9ufF1WVUvg~~";
+        private ElevationCloudClient elevationClient;
         private ObservableCollection<double> ChartAxisLabels { get; } = new ObservableCollection<double>();
 
         public MainWindow()
@@ -44,26 +32,25 @@ namespace ThinkGeoCloudElevation
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!TryReadClientIdSecretFromConfig())
-            {
-                ShowClientIdSecretInputer();
-            }
-            UpdateIdSecretToClient();
+            elevationClient = new ElevationCloudClient(clientId, clientSecret);
+            elevationClient.BaseUris.Add(new Uri(CloudServerUri));
 
             WpfMap1.MapUnit = GeographyUnit.Meter;
             WpfMap1.ZoomLevelSet = new ThinkGeoCloudMapsZoomLevelSet();
             WpfMap1.CurrentExtent = new RectangleShape(-13044244.0708884, 4333756.90567755, -13024981.9465871, 4315741.71599989);
             WpfMap1.TrackOverlay.TrackEnded += TrackOverlay_TrackEnded;
             WpfMap1.TrackOverlay.TrackMode = TrackMode.Line;
-
-            // Please input your ThinkGeo Cloud Client ID / Client Secret to enable the background map. 
-            ThinkGeoCloudRasterMapsOverlay thinkGeoCloudMapsOverlay = new ThinkGeoCloudRasterMapsOverlay("ThinkGeo Cloud Client ID", "ThinkGeo Cloud Client Secret") { MapType = ThinkGeoCloudRasterMapsMapType.Aerial };
+ 
+            ThinkGeoCloudRasterMapsOverlay thinkGeoCloudMapsOverlay = new ThinkGeoCloudRasterMapsOverlay(clientId, clientSecret) 
+            { 
+                MapType = ThinkGeoCloudRasterMapsMapType.Aerial 
+            };
             thinkGeoCloudMapsOverlay.WrappingMode = WrappingMode.WrapDateline;
             WpfMap1.Overlays.Add(thinkGeoCloudMapsOverlay);
 
             // Add start and end point layer.
             InMemoryFeatureLayer pointFeatureLayer = new InMemoryFeatureLayer();
-            pointFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyles.CreateSimpleCircleStyle(GeoColors.Black, 7, GeoColors.White);
+            pointFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Black, 7, GeoColors.White);
             pointFeatureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             LayerOverlay isoLineOverlay = new LayerOverlay();
@@ -83,7 +70,7 @@ namespace ThinkGeoCloudElevation
             elevationLayerOverlay.Layers.Add("pointFeatureLayer", pointFeatureLayer);
 
             InMemoryFeatureLayer markLineLayer = new InMemoryFeatureLayer();
-            markLineLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyles.CreateSimpleCircleStyle(GeoColors.Black, 7, GeoColors.White);
+            markLineLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Black, 7, GeoColors.White);
             markLineLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             LayerOverlay lineOverlay = new LayerOverlay();
@@ -141,13 +128,13 @@ namespace ThinkGeoCloudElevation
             inMemoryFeatureLayer.BuildIndex();
 
             //Create the well point style
-            PointStyle pointStyle1 = PointStyles.CreateSimpleCircleStyle(GeoColor.StandardColors.White, 4, GeoColor.SimpleColors.Black, 2);
+            PointStyle pointStyle1 = PointStyle.CreateSimpleCircleStyle(GeoColors.White, 4, GeoColors.Black, 2);
             inMemoryFeatureLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(pointStyle1);
 
             //Create the text style with a halo
-            TextStyle textStyle = TextStyles.CreateSimpleTextStyle("Depth", "Arial", 10, DrawingFontStyles.Regular, GeoColor.SimpleColors.Black);
-            textStyle.HaloPen = new GeoPen(GeoColor.StandardColors.White, 3);
-            textStyle.PointPlacement = PointPlacement.UpperCenter;
+            TextStyle textStyle = TextStyle.CreateSimpleTextStyle("Depth", "Arial", 10, DrawingFontStyles.Regular, GeoColors.Black);
+            textStyle.HaloPen = new GeoPen(GeoColors.White, 3);
+            textStyle.TextPlacement = TextPlacement.Upper;
             textStyle.YOffsetInPixel = 5;
 
             //Apply these styles at all levels and add then to the custom styles for the layer
@@ -171,27 +158,27 @@ namespace ThinkGeoCloudElevation
             dynamicIsoLineLayer.CellWidthInPixel = (int)(WpfMap1.ActualWidth / 80);
 
             //Create a series of colors from blue to red that we will use for the breaks
-            Collection<GeoColor> colors = GeoColor.GetColorsInQualityFamily(GeoColor.StandardColors.Blue, GeoColor.StandardColors.Red, isoLineLevels.Count, ColorWheelDirection.Clockwise);
+            Collection<GeoColor> colors = GeoColor.GetColorsInQualityFamily(GeoColors.Blue, GeoColors.Red, isoLineLevels.Count, ColorWheelDirection.Clockwise);
 
             //Setup a class break style based on the isoline levels and the colors
             ClassBreakStyle classBreakStyle = new ClassBreakStyle(dynamicIsoLineLayer.DataValueColumnName);
 
-            Collection<ThinkGeo.MapSuite.Styles.Style> firstStyles = new Collection<ThinkGeo.MapSuite.Styles.Style>();
+            Collection<ThinkGeo.Core.Style> firstStyles = new Collection<ThinkGeo.Core.Style>();
             firstStyles.Add(new LineStyle(new GeoPen(colors[0], 3)));
-            firstStyles.Add(new AreaStyle(new GeoPen(GeoColor.SimpleColors.LightBlue, 3), new GeoSolidBrush(new GeoColor(150, colors[0]))));
+            firstStyles.Add(new AreaStyle(new GeoPen(GeoColors.LightBlue, 3), new GeoSolidBrush(new GeoColor(150, colors[0]))));
             classBreakStyle.ClassBreaks.Add(new ClassBreak(double.MinValue, firstStyles));
             for (int i = 0; i < colors.Count - 1; i++)
             {
-                Collection<ThinkGeo.MapSuite.Styles.Style> styles = new Collection<ThinkGeo.MapSuite.Styles.Style>();
+                Collection<ThinkGeo.Core.Style> styles = new Collection<ThinkGeo.Core.Style>();
                 styles.Add(new LineStyle(new GeoPen(colors[i + 1], 3)));
-                styles.Add(new AreaStyle(new GeoPen(GeoColor.SimpleColors.LightBlue, 3), new GeoSolidBrush(new GeoColor(150, colors[i + 1]))));
+                styles.Add(new AreaStyle(new GeoPen(GeoColors.LightBlue, 3), new GeoSolidBrush(new GeoColor(150, colors[i + 1]))));
                 classBreakStyle.ClassBreaks.Add(new ClassBreak(isoLineLevels[i], styles));
             }
             dynamicIsoLineLayer.CustomStyles.Add(classBreakStyle);
 
             //Create the text styles to label the lines
-            TextStyle textStyle = TextStyles.CreateSimpleTextStyle(dynamicIsoLineLayer.DataValueColumnName, "Arial", 8, DrawingFontStyles.Bold, GeoColor.StandardColors.Black, 0, 0);
-            textStyle.HaloPen = new GeoPen(GeoColor.StandardColors.White, 2);
+            TextStyle textStyle = TextStyle.CreateSimpleTextStyle(dynamicIsoLineLayer.DataValueColumnName, "Arial", 8, DrawingFontStyles.Bold, GeoColors.Black, 0, 0);
+            textStyle.HaloPen = new GeoPen(GeoColors.White, 2);
             textStyle.OverlappingRule = LabelOverlappingRule.NoOverlapping;
             textStyle.SplineType = SplineType.StandardSplining;
             textStyle.DuplicateRule = LabelDuplicateRule.UnlimitedDuplicateLabels;
@@ -262,7 +249,7 @@ namespace ThinkGeoCloudElevation
             ((LayerOverlay)WpfMap1.Overlays["lineOverlay"]).Layers.Add(elevationlayer);
             var stroke = ((LineSeries)lineChart.Series.Last()).Stroke;
             var color = ((SolidColorBrush)stroke).Color;
-            elevationlayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyles.CreateSimpleLineStyle(GeoColor.FromArgb((int)color.A, (int)color.R, (int)color.G, (int)color.B), 3, true);
+            elevationlayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColor.FromArgb(color.A, color.R, color.G, color.B), 3, true);
             elevationlayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
             var pointlayer = (InMemoryFeatureLayer)((LayerOverlay)WpfMap1.Overlays["markLineOverlay"]).Layers["markLineLayer"];
             if (elevationFeatures.Any())
@@ -315,17 +302,13 @@ namespace ThinkGeoCloudElevation
                 }
                 ShowElevationOnChart(features);
             }
-            catch (ThinkGeoCloudApplicationException ex)
-            {
-                ShowErrorAlert(ex);
-            }
             finally
             {
                 BusyIndicator.Visibility = Visibility.Hidden;
             }
         }
 
-        private async Task<ElevationResult> GetElevationByLineAsync(LineShape line, int pointNumber, int distance)
+        private async Task<CloudElevationResult> GetElevationByLineAsync(LineShape line, int pointNumber, int distance)
         {
             if (comboType.SelectedIndex == 0)
             {
@@ -358,7 +341,7 @@ namespace ThinkGeoCloudElevation
                 {
                     PointShape lastPoint = (PointShape)features.ElementAt(index - 1).GetShape();
                     LineShape line = new LineShape(new Collection<Vertex> { new Vertex(lastPoint), new Vertex(point) });
-                    distance += line.GetAccurateLength(3857, DistanceUnit.Meter, DistanceCalculationMode.Haversine);
+                    distance += line.GetLength(3857, DistanceUnit.Meter, DistanceCalculationMode.Haversine);
                 }
                 double tmpDistance = Math.Round(distance / 1000.0, 2);
                 double value = Math.Round(double.Parse(feature.ColumnValues["elevation"]), 2);
@@ -368,68 +351,6 @@ namespace ThinkGeoCloudElevation
             var series = new LineSeries { Values = new ChartValues<ChartInformation>(chartData) };
             series.Loaded += (sender, e) => DrawElevationLineOnMap(features);
             lineChart.Series.Add(series);
-        }
-
-        private void ShowErrorAlert(ThinkGeoCloudApplicationException ex)
-        {
-            ClearMap();
-            if (ex.StatusCode == System.Net.HttpStatusCode.Unauthorized)
-            {
-                MessageBox.Show("Couldn't authenticate with GIS Server. Please make sure you have entered a valid Client Id and Secret.",
-                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                ShowClientIdSecretInputer();
-                UpdateIdSecretToClient();
-            }
-            else
-            {
-                MessageBox.Show(
-                    ex.Message,
-                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
-        private void btnChangeApiKey_Click(object sender, RoutedEventArgs e)
-        {
-            ShowClientIdSecretInputer();
-            UpdateIdSecretToClient();
-        }
-
-        private void UpdateIdSecretToClient()
-        {
-            elevationClient?.Dispose();
-            elevationClient = new ElevationClient(clientId, clientSecret);
-            elevationClient.BaseUris.Add(new Uri(GisServerUri));
-        }
-
-        private bool TryReadClientIdSecretFromConfig()
-        {
-            var id = ConfigurationManager.AppSettings["ClientId"];
-            var secret = ConfigurationManager.AppSettings["ClientSecret"];
-            if (string.IsNullOrWhiteSpace(id) || string.IsNullOrWhiteSpace(secret))
-            {
-                return false;
-            }
-            clientId = id.Trim();
-            clientSecret = secret.Trim();
-            return true;
-        }
-
-        private void ShowClientIdSecretInputer()
-        {
-            var clientIdSecretInputer = new ClientIdSecretInputer
-            {
-                ClientId = clientId,
-                ClientSecret = clientSecret,
-                Owner = this,
-                WindowStartupLocation = WindowStartupLocation.CenterOwner
-            };
-            clientIdSecretInputer.BaseUris.Add(new Uri(GisServerUri));
-            if (clientIdSecretInputer.ShowDialog() != true)
-            {
-                Environment.Exit(0);
-            }
-            clientId = clientIdSecretInputer.ClientId;
-            clientSecret = clientIdSecretInputer.ClientSecret;
         }
     }
 }

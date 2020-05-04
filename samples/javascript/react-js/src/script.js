@@ -1,4 +1,4 @@
-function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;} /*===========================================================================*/
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; } /*===========================================================================*/
 // React JS
 // Sample map by ThinkGeo
 //
@@ -18,122 +18,76 @@ function _defineProperty(obj, key, value) {if (key in obj) {Object.definePropert
 // restricted for use only from a given web domain or IP address.  To create your
 // own API key, you'll need to sign up for a ThinkGeo Cloud account at
 // https://cloud.thinkgeo.com.
-const apiKey = 'WPLmkj3P39OPectosnM1jRgDixwlti71l8KYxyfP2P0~';
+const apiKey = 'yqLXRwQc83GX5fm20Rql6CPdjnYmmC66GXsJUBYoFD4~';
 
 let map;
 
 class StreetMap extends React.Component {
   constructor(props) {
-    super(props);_defineProperty(this, "renderStreetMap",
+    super(props);
+    _defineProperty(this, "renderStreetMap",
+      json => {
+        // Here we'll create the base layer for our map.  The base layer uses the ThinkGeo
+        // Cloud Maps Vector Tile service to display a detailed street map.  For more
+        // info, see our wiki:
+        // https://wiki.thinkgeo.com/wiki/thinkgeo_cloud_maps_vector_tiles
+        let layer = new ol.mapsuite.VectorTileLayer(json, {
+          apiKey: apiKey
+        });
 
+        // This function will create and initialize our map.
+        // We'll call it later when our POI icon font has been fully downloaded,
+        // which ensures that the POI icons display as intended.
+        let initializeMap = function () {
+          map = new ol.Map({
+            renderer: 'webgl',
+            loadTilesWhileAnimating: true,
+            loadTilesWhileInteracting: true,
+            layers: [layer],
+            target: 'map',
+            view: new ol.View({
+              center: ol.proj.fromLonLat([-77.043745, 38.88902]),
+              maxZoom: 19,
+              maxResolution: 40075016.68557849 / 512,
+              zoom: 14,
+              minZoom: 2
+            })
+          });
+          map.addControl(new ol.control.FullScreen());
+        };
 
+        // Now, we'll load the Map Icon Fonts using ThinkGeo's WebFont loader.
+        // The loaded Icon Fonts will be used to render POI icons on top of the map's
+        // background layer.  We'll initalize the map only once the font has been
+        // downloaded.  For more info, see our wiki:
+        // https://wiki.thinkgeo.com/wiki/thinkgeo_iconfonts
+        WebFont.load({
+          custom: {
+            families: ['vectormap-icons'],
+            urls: ['https://cdn.thinkgeo.com/vectormap-icons/2.0.0/vectormap-icons.css'],
+            testStrings: {
+              'vectormap-icons': '\ue001'
+            }
+          },
 
+          // The "active" property defines a function to call when the font has
+          // finished downloading.  Here, we'll call our initializeMap method.
+          active: initializeMap
+        });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    json => {
-      // Here we'll create the base layer for our map.  The base layer uses the ThinkGeo
-      // Cloud Maps Vector Tile service to display a detailed street map.  For more
-      // info, see our wiki:
-      // https://wiki.thinkgeo.com/wiki/thinkgeo_cloud_maps_vector_tiles
-      let layer = new ol.mapsuite.VectorTileLayer(json, {
-        apiKey: apiKey });
-
-
-      // This function will create and initialize our map.
-      // We'll call it later when our POI icon font has been fully downloaded,
-      // which ensures that the POI icons display as intended.
-      let initializeMap = function () {
-        map = new ol.Map({
-          renderer: 'webgl',
-          loadTilesWhileAnimating: true,
-          loadTilesWhileInteracting: true,
-          layers: [layer],
-          target: 'map',
-          view: new ol.View({
-            center: ol.proj.fromLonLat([-77.043745, 38.88902]),
-            maxZoom: 19,
-            maxResolution: 40075016.68557849 / 512,
-            zoom: 14,
-            minZoom: 2 }) });
-
-
-
-        map.addControl(new ol.control.FullScreen());
-      };
-
-      // Now, we'll load the Map Icon Fonts using ThinkGeo's WebFont loader.
-      // The loaded Icon Fonts will be used to render POI icons on top of the map's
-      // background layer.  We'll initalize the map only once the font has been
-      // downloaded.  For more info, see our wiki:
-      // https://wiki.thinkgeo.com/wiki/thinkgeo_iconfonts
-      WebFont.load({
-        custom: {
-          families: ['vectormap-icons'],
-          urls: ['https://cdn.thinkgeo.com/vectormap-icons/2.0.0/vectormap-icons.css'],
-          testStrings: {
-            'vectormap-icons': '\ue001' } },
-
-
-        // The "active" property defines a function to call when the font has
-        // finished downloading.  Here, we'll call our initializeMap method.
-        active: initializeMap });
-
-
-      this.setLayerSourceEventHandlers(layer);
-    });this.state = { parkColor: '#a7da7a59', placement: 'Line', maskType: 'Circle', poiSize: '40', json: { styles: [] }, newLayer: '', errorMessage: 'hide' };this.clickRefresh = this.clickRefresh.bind(this);this.parkFillColorHandleChange = this.parkFillColorHandleChange.bind(this);this.placementHandleChange = this.placementHandleChange.bind(this);this.maskTypeHandleChange = this.maskTypeHandleChange.bind(this);this.poiSizeHandleChange = this.poiSizeHandleChange.bind(this);this.getJson = this.getJson.bind(this);this.closeErrorTip = this.closeErrorTip.bind(this);this.errorLoadingTile = this.errorLoadingTile.bind(this);this.setLayerSourceEventHandlers = this.setLayerSourceEventHandlers.bind(this);} /*---------------------------------------------*/ // 2. Map Control Setup
+        this.setLayerSourceEventHandlers(layer);
+      });
+    this.state = { parkColor: '#a7da7a59', placement: 'Line', maskType: 'Circle', poiSize: '40', json: { styles: [] }, newLayer: '', errorMessage: 'hide' }; this.clickRefresh = this.clickRefresh.bind(this); this.parkFillColorHandleChange = this.parkFillColorHandleChange.bind(this); this.placementHandleChange = this.placementHandleChange.bind(this); this.maskTypeHandleChange = this.maskTypeHandleChange.bind(this); this.poiSizeHandleChange = this.poiSizeHandleChange.bind(this); this.getJson = this.getJson.bind(this); this.closeErrorTip = this.closeErrorTip.bind(this); this.errorLoadingTile = this.errorLoadingTile.bind(this); this.setLayerSourceEventHandlers = this.setLayerSourceEventHandlers.bind(this);
+  }
+  /*---------------------------------------------*/ // 2. Map Control Setup
   /*---------------------------------------------*/ // If component has been mounted (inserted to the DOM tree), send request
   // to get our WorldStreetsStyle JSON file. Once the JSON file has been fully
   // downloaded, then create and initialize our interactive map.
-  getJson(filePath) {let readTextFile = new Promise(function (resolve, reject) {var xhr = new XMLHttpRequest();xhr.overrideMimeType('application/json');xhr.open('GET', filePath, true);xhr.onreadystatechange = function (ERR) {if (xhr.readyState === 4) {if (xhr.status == '200') {resolve(xhr.responseText);} else {reject(new Error(ERR));}}};xhr.send(null);});return readTextFile;} // This function recieves the style JSON data to create our colorful map.
+  getJson(filePath) { let readTextFile = new Promise(function (resolve, reject) { var xhr = new XMLHttpRequest(); xhr.overrideMimeType('application/json'); xhr.open('GET', filePath, true); xhr.onreadystatechange = function (ERR) { if (xhr.readyState === 4) { if (xhr.status == '200') { resolve(xhr.responseText); } else { reject(new Error(ERR)); } } }; xhr.send(null); }); return readTextFile; } // This function recieves the style JSON data to create our colorful map.
   // These events allow you to perform custom actions when
   // a map tile encounters an error while loading.
-  errorLoadingTile() {this.setState({ errorMessage: 'show' });
+  errorLoadingTile() {
+    this.setState({ errorMessage: 'show' });
   }
 
   setLayerSourceEventHandlers(layer) {
@@ -150,8 +104,8 @@ class StreetMap extends React.Component {
     this.getJson('https://cdn.thinkgeo.com/worldstreets-styles/1.0.0/light.json').then(data => {
       // Chedule updates to the component local json state.
       this.setState({
-        json: JSON.parse(data) });
-
+        json: JSON.parse(data)
+      });
 
       // Call the function to create our map.
       this.renderStreetMap(this.state.json);
@@ -165,26 +119,26 @@ class StreetMap extends React.Component {
   // Once the value in the control panel has changed, update it to our component state.
   parkFillColorHandleChange(event) {
     this.setState({
-      parkColor: event.target.value });
-
+      parkColor: event.target.value
+    });
   }
 
   placementHandleChange(event) {
     this.setState({
-      placement: event.target.value });
-
+      placement: event.target.value
+    });
   }
 
   maskTypeHandleChange(event) {
     this.setState({
-      maskType: event.target.value });
-
+      maskType: event.target.value
+    });
   }
 
   poiSizeHandleChange(event) {
     this.setState({
-      poiSize: event.target.value });
-
+      poiSize: event.target.value
+    });
   }
 
   /*---------------------------------------------*/
@@ -209,7 +163,8 @@ class StreetMap extends React.Component {
             styles[i]['text-min-padding'] = 5;
             break;
           default:
-            return;}
+            return;
+        }
 
       }
     }
@@ -262,16 +217,16 @@ class StreetMap extends React.Component {
     map.removeLayer(layers[0]);
     // Create new layer for our map using the new style data.
     let newLayer = new ol.mapsuite.VectorTileLayer(this.state.json, {
-      apiKey: apiKey });
-
+      apiKey: apiKey
+    });
     this.setLayerSourceEventHandlers(newLayer);
     map.addLayer(newLayer);
   }
 
   closeErrorTip() {
     this.setState({
-      errorMessage: 'hide' });
-
+      errorMessage: 'hide'
+    });
   }
 
   /*---------------------------------------------*/
@@ -282,59 +237,41 @@ class StreetMap extends React.Component {
   render() {
     return (
       React.createElement("div", { id: "mapWrap" },
-
-      React.createElement("div", { id: "map" },
-
-      React.createElement("div", { className: "controlPanel" },
-      React.createElement("div", null,
-      React.createElement("label", null, " Road Name Placement: "),
-      React.createElement("select", { onChange: this.placementHandleChange },
-      React.createElement("option", { value: "Line" }, " Line "), " ", React.createElement("option", { value: "Point" }, " Point "))),
-
-
-      React.createElement("div", null,
-      React.createElement("label", null, " Road Number Mask Type: "),
-      React.createElement("select", { onChange: this.maskTypeHandleChange },
-      React.createElement("option", { value: "Circle" }, " Circle "), " ", React.createElement("option", { value: "Rectangle" }, " Rectangle "),
-      React.createElement("option", { value: "Default" }, " Default "),
-      React.createElement("option", { value: "RoundedCorners" }, " RoundedCorners "),
-      React.createElement("option", { value: "RoundedEnds" }, " RoundedEnds "))),
-
-
-      React.createElement("div", null,
-      React.createElement("label", null, " Park Color: "),
-      React.createElement("select", { onChange: this.parkFillColorHandleChange },
-      React.createElement("option", { value: "#a7da7a59" }, " #a7da7a59 "), " ", React.createElement("option", { value: "#25ff00" }, " #25ff00"),
-      React.createElement("option", { value: "#4ea440" }, " #4ea440"),
-      React.createElement("option", { value: "#a29708" }, " #a29708 "), " ", React.createElement("option", { value: "#fe6c00" }, " #fe6c00 "))),
-
-
-      React.createElement("div", null,
-      React.createElement("label", null, " POI Size: "),
-      React.createElement("input", { type: "number", value: this.state.poiSize, onChange: this.poiSizeHandleChange })),
-
-      React.createElement("div", { className: "refresh-btn" },
-      React.createElement("button", { onClick: this.clickRefresh }, " Refresh "))),
-
-
-
-
-      React.createElement("div", { id: "error-modal", className: this.state.errorMessage === 'hide' ? 'hide' : '' },
-      React.createElement("div", { className: "modal-content" },
-      React.createElement("p", null, "We're having trouble communicating with the ThinkGeo Cloud. Please check the API key being used in this sample's JavaScript source code, and ensure it has access to the ThinkGeo Cloud services you are requesting. You can create and manage your API keys at",
-
-
-
-      React.createElement("a", { href: "https://cloud.thinkgeo.com", target: "_blank", rel: "noopener" }, "https://cloud.thinkgeo.com"), "."),
-
-
-
-      React.createElement("button", { onClick: this.closeErrorTip }, "OK"))))));
-
-
-
-
-
-  }}
+        React.createElement("div", { id: "map" },
+          React.createElement("div", { className: "controlPanel" },
+            React.createElement("div", null,
+              React.createElement("label", null, " Road Name Placement: "),
+              React.createElement("select", { onChange: this.placementHandleChange },
+                React.createElement("option", { value: "Line" }, " Line "), " ", React.createElement("option", { value: "Point" }, " Point "))),
+            React.createElement("div", null,
+              React.createElement("label", null, " Road Number Mask Type: "),
+              React.createElement("select", { onChange: this.maskTypeHandleChange },
+                React.createElement("option", { value: "Circle" }, " Circle "), " ", React.createElement("option", { value: "Rectangle" }, " Rectangle "),
+                React.createElement("option", { value: "Default" }, " Default "),
+                React.createElement("option", { value: "RoundedCorners" }, " RoundedCorners "),
+                React.createElement("option", { value: "RoundedEnds" }, " RoundedEnds "))),
+            React.createElement("div", null,
+              React.createElement("label", null, " Park Color: "),
+              React.createElement("select", { onChange: this.parkFillColorHandleChange },
+                React.createElement("option", { value: "#a7da7a59" }, " #a7da7a59 "), " ", React.createElement("option", { value: "#25ff00" }, " #25ff00"),
+                React.createElement("option", { value: "#4ea440" }, " #4ea440"),
+                React.createElement("option", { value: "#a29708" }, " #a29708 "), " ", React.createElement("option", { value: "#fe6c00" }, " #fe6c00 "))),
+            React.createElement("div", null,
+              React.createElement("label", null, " POI Size: "),
+              React.createElement("input", { type: "number", value: this.state.poiSize, onChange: this.poiSizeHandleChange })),
+            React.createElement("div", { className: "refresh-btn" },
+              React.createElement("button", { onClick: this.clickRefresh }, " Refresh "))),
+          React.createElement("div", { id: "error-modal", className: this.state.errorMessage === 'hide' ? 'hide' : '' },
+            React.createElement("div", { className: "modal-content" },
+              React.createElement("p", null, "We're having trouble communicating with the ThinkGeo Cloud. Please check the API key being used in this sample's JavaScript source code, and ensure it has access to the ThinkGeo Cloud services you are requesting. You can create and manage your API keys at",
+                React.createElement("a", { href: "https://cloud.thinkgeo.com", target: "_blank", rel: "noopener" }, "https://cloud.thinkgeo.com"), "."),
+              React.createElement("button", { onClick: this.closeErrorTip }, "OK")
+            )
+          )
+        )
+      )
+    );
+  }
+}
 
 ReactDOM.render(React.createElement(StreetMap, null), document.getElementById('root'));

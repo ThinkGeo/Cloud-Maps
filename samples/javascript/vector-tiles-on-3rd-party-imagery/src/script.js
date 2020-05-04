@@ -1,7 +1,7 @@
 /*===========================================================================*/
 // Vector Tiles on 3rd Party Imagery
 // Sample map by ThinkGeo
-// 
+//
 //   1. ThinkGeo Cloud API Key
 //   2. Map Control Setup
 //   3. Tile Loading Event Handlers
@@ -17,23 +17,23 @@
 // restricted for use only from a given web domain or IP address.  To create your
 // own API key, you'll need to sign up for a ThinkGeo Cloud account at
 // https://cloud.thinkgeo.com.
-const apiKey = 'WPLmkj3P39OPectosnM1jRgDixwlti71l8KYxyfP2P0~'
+const apiKey = 'yqLXRwQc83GX5fm20Rql6CPdjnYmmC66GXsJUBYoFD4~';
 
 
 /*---------------------------------------------*/
 // 2. Map Control Setup
 /*---------------------------------------------*/
 
-// This sample demonstrates a hybrid map: one that displays custom imagery data 
-// from NASA as the background layer, and vector-based street data on top of 
-// that layer.  This demonstrates how you can overlay ThinkGeo Cloud Maps 
+// This sample demonstrates a hybrid map: one that displays custom imagery data
+// from NASA as the background layer, and vector-based street data on top of
+// that layer.  This demonstrates how you can overlay ThinkGeo Cloud Maps
 // Vector Tiles on top of any custom background imagery you want!
-// 
+//
 // For more info about these services, see our wiki:
 // https://wiki.thinkgeo.com/wiki/thinkgeo_cloud_maps_vector_tiles
 // https://wiki.thinkgeo.com/wiki/thinkgeo_offline_data_maps_imagery
 
-// Create the custom imagery background layer using NASA's public EarthData 
+// Create the custom imagery background layer using NASA's public EarthData
 // Web Map Tile Service (WMTS).
 let imageryLayer = new ol.layer.Tile({
     source: new ol.source.XYZ({
@@ -43,7 +43,7 @@ let imageryLayer = new ol.layer.Tile({
 
 // Create the vector street map layer using ThinkGeo Cloud.
 let vectorStreetsLayer = new ol.mapsuite.VectorTileLayer("https://cdn.thinkgeo.com/worldstreets-styles/3.0.0/transparent-background.json", {
-    apiKey: apiKey, 
+    apiKey: apiKey,
     visible: true
 });
 
@@ -52,7 +52,7 @@ let map = new ol.Map({
 	renderer: 'webgl',
     loadTilesWhileAnimating: true,
     loadTilesWhileInteracting: true,
-    
+
     // Add our previously-defined NASA imagery and ThinkGeo Cloud layers to the map.
     layers: [imageryLayer, vectorStreetsLayer],
     // States that the HTML tag with id="map" should serve as the container for our map.
@@ -77,7 +77,7 @@ map.addControl(new ol.control.FullScreen());
 // 3. Tile Loading Event Handlers
 /*---------------------------------------------*/
 
-// These events allow you to perform custom actions when 
+// These events allow you to perform custom actions when
 // a map tile encounters an error while loading.
 const errorLoadingTile = () => {
     const errorModal = document.querySelector('#error-modal');

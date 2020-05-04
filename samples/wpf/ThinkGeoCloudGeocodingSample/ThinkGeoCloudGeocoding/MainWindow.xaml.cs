@@ -1,20 +1,11 @@
-﻿/*===========================================
-    Backgrounds for this sample are powered by ThinkGeo Cloud Maps and require
-    a Client ID and Secret. These were sent to you via email when you signed up
-    with ThinkGeo, or you can register now at https://cloud.thinkgeo.com.
-===========================================*/
-
-using System;
+﻿using System;
 using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using ThinkGeo.Cloud;
-using ThinkGeo.MapSuite;
-using ThinkGeo.MapSuite.Layers;
-using ThinkGeo.MapSuite.Shapes;
-using ThinkGeo.MapSuite.Wpf;
+using ThinkGeo.UI.Wpf;
+using ThinkGeo.Core;
 
 namespace ThinkGeoCloudGeocoding
 {
@@ -24,11 +15,10 @@ namespace ThinkGeoCloudGeocoding
     public partial class MainWindow : Window
     {
 
-        private const string GisServerUri = "https://gisserver1.thinkgeo.com";
-
-        private string clientId;
-        private string clientSecret;
-        private GeocodingClient geocodingClient;
+        private const string CloudServerUri = "https://cloud.thinkgeo.com";
+        private const string clientId = "FSDgWMuqGhZCmZnbnxh-Yl1HOaDQcQ6mMaZZ1VkQNYw~";
+        private const string clientSecret = "IoOZkBJie0K9pz10jTRmrUclX6UYssZBeed401oAfbxb9ufF1WVUvg~~";
+        private GeocodingCloudClient geocodingClient;
         private SimpleMarkerOverlay markerOverlay;
 
         public MainWindow()
@@ -38,21 +28,18 @@ namespace ThinkGeoCloudGeocoding
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            cmbLocationType.ItemsSource = Enum.GetNames(typeof(GeocodingLocationType)).Where(s => s != "All");
+            cmbLocationType.ItemsSource = Enum.GetNames(typeof(CloudGeocodingLocationType)).Where(s => s != "All");
             cmbLocationType.SelectedIndex = 0;
 
-            if (!TryReadClientIdSecretFromConfig())
-            {
-                ShowClientIdSecretInputer();
-            }
-            UpdateIdSecretToClient();
+            geocodingClient = new GeocodingCloudClient(clientId, clientSecret);
+            geocodingClient.BaseUris.Add(new Uri(CloudServerUri));
 
             WpfMap.MapUnit = GeographyUnit.Meter;
             WpfMap.ZoomLevelSet = new ThinkGeoCloudMapsZoomLevelSet();
             WpfMap.CurrentExtent = new RectangleShape(-10798419.605087, 3934270.12359632, -10759021.6785336, 3896039.57306867);
 
             // Please input your ThinkGeo Cloud Client ID / Client Secret to enable the background map. 
-            ThinkGeoCloudRasterMapsOverlay baseOverlay = new ThinkGeoCloudRasterMapsOverlay("ThinkGeo Cloud Client ID", "ThinkGeo Cloud Client Secret");
+            ThinkGeoCloudRasterMapsOverlay baseOverlay = new ThinkGeoCloudRasterMapsOverlay(clientId, clientSecret);
             baseOverlay.WrappingMode = WrappingMode.WrapDateline;
             WpfMap.Overlays.Add(baseOverlay);
 
@@ -72,9 +59,9 @@ namespace ThinkGeoCloudGeocoding
             await SearchLocation(searchText, options);
         }
 
-        private async Task SearchLocation(string searchText, GeocodingOptions options)
+        private async Task SearchLocation(string searchText, CloudGeocodingOptions options)
         {
-            GeocodingResult result = null;
+            CloudGeocodingResult result = null;
             result = await geocodingClient.SearchAsync(searchText, options);
             if (result.Exception != null)
             {
@@ -96,7 +83,7 @@ namespace ThinkGeoCloudGeocoding
 
         private void LsbLocations_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var chosenLocation = lsbLocations.SelectedItem as GeocodingLocation;
+            var chosenLocation = lsbLocations.SelectedItem as CloudGeocodingLocation;
             if (chosenLocation != null)
             {
                 markerOverlay.Markers.Clear();
@@ -106,45 +93,7 @@ namespace ThinkGeoCloudGeocoding
             }
         }
 
-        private void UpdateIdSecretToClient()
-        {
-            geocodingClient?.Dispose();
-            geocodingClient = new GeocodingClient(clientId, clientSecret);
-            geocodingClient.BaseUris.Add(new Uri(GisServerUri));
-        }
-
-        private bool TryReadClientIdSecretFromConfig()
-        {
-            var id = ConfigurationManager.AppSettings["ClientId"];
-            var secret = ConfigurationManager.AppSettings["ClientSecret"];
-            if (string.IsNullOrWhiteSpace(id) || string.IsNullOrWhiteSpace(secret))
-            {
-                return false;
-            }
-            clientId = id.Trim();
-            clientSecret = secret.Trim();
-            return true;
-        }
-
-        private void ShowClientIdSecretInputer()
-        {
-            var clientIdSecretInputer = new ClientIdSecretInputer
-            {
-                ClientId = clientId,
-                ClientSecret = clientSecret,
-                Owner = this,
-                WindowStartupLocation = WindowStartupLocation.CenterOwner
-            };
-            clientIdSecretInputer.BaseUris.Add(new Uri(GisServerUri));
-            if (clientIdSecretInputer.ShowDialog() != true)
-            {
-                Environment.Exit(0);
-            }
-            clientId = clientIdSecretInputer.ClientId;
-            clientSecret = clientIdSecretInputer.ClientSecret;
-        }
-
-        private bool TryGetSearchInfo(out string searchText, out GeocodingOptions options, out string errorMsg)
+        private bool TryGetSearchInfo(out string searchText, out CloudGeocodingOptions options, out string errorMsg)
         {
             searchText = null;
             options = null;
@@ -158,7 +107,7 @@ namespace ThinkGeoCloudGeocoding
             }
             searchText = txtSearchText.Text.Trim();
 
-            options = new GeocodingOptions();
+            options = new CloudGeocodingOptions();
             if (!int.TryParse(txtMaxResults.Text, out var maxResults))
             {
                 txtMaxResults.Focus();
@@ -172,8 +121,8 @@ namespace ThinkGeoCloudGeocoding
                 return false;
             }
             options.MaxResults = maxResults;
-            options.SearchMode = ((ComboBoxItem)cmbSearchMode.SelectedItem).Content.ToString() == "Fuzzy" ? GeocodingSearchMode.FuzzyMatch : GeocodingSearchMode.ExactMatch;
-            options.LocationType = (GeocodingLocationType)Enum.Parse(typeof(GeocodingLocationType), cmbLocationType.SelectedItem.ToString());
+            options.SearchMode = ((ComboBoxItem)cmbSearchMode.SelectedItem).Content.ToString() == "Fuzzy" ? CloudGeocodingSearchMode.FuzzyMatch : CloudGeocodingSearchMode.ExactMatch;
+            options.LocationType = (CloudGeocodingLocationType)Enum.Parse(typeof(CloudGeocodingLocationType), cmbLocationType.SelectedItem.ToString());
             options.ResultProjectionInSrid = 3857;
             return true;
         }

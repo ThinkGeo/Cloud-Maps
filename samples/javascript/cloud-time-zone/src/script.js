@@ -1,7 +1,7 @@
 /*===========================================================================*/
 // Get Time Zone for a Point
 // Sample map by ThinkGeo
-// 
+//
 //   1. ThinkGeo Cloud API Key
 //   2. Map Control Setup
 //   3. Tile Loading Event Handlers
@@ -21,7 +21,7 @@
 // restricted for use only from a given web domain or IP address.  To create your
 // own API key, you'll need to sign up for a ThinkGeo Cloud account at
 // https://cloud.thinkgeo.com.
-const apiKey = 'WPLmkj3P39OPectosnM1jRgDixwlti71l8KYxyfP2P0~';
+const apiKey = 'yqLXRwQc83GX5fm20Rql6CPdjnYmmC66GXsJUBYoFD4~';
 
 
 /*---------------------------------------------*/
@@ -82,7 +82,7 @@ const initializeMap = () => {
 // 3. Tile Loading Event Handlers
 /*---------------------------------------------*/
 
-// These events allow you to perform custom actions when 
+// These events allow you to perform custom actions when
 // a map tile encounters an error while loading.
 const errorLoadingTile = () => {
     const errorModal = document.querySelector('#error-modal');
@@ -105,8 +105,8 @@ setLayerSourceEventHandlers(defaultLayer);
 // 4. Popup Setup
 /*---------------------------------------------*/
 
-// Now, we need to create the popup container for our time zone data information. We'll create an 
-// overlay which servers the popup container, and add it to our map. This popup panel will 
+// Now, we need to create the popup container for our time zone data information. We'll create an
+// overlay which servers the popup container, and add it to our map. This popup panel will
 // show the infomation that we get from Time Zone service.
 const container = document.getElementById('popup');
 const closer = document.getElementsByClassName('popup-closer')[0];
@@ -124,17 +124,17 @@ closer.onclick = () => {
 // 5. Time Zoom Performing Setup
 /*---------------------------------------------*/
 
-// At this point we'll build up the methods and functionality that will  
-// actually perform the Time Zone using the ThinkGeo Cloud and then 
+// At this point we'll build up the methods and functionality that will
+// actually perform the Time Zone using the ThinkGeo Cloud and then
 // display the results on the popup.
 
-// We use thinkgeocloudclient.js, which is an open-source Javascript SDK for making 
+// We use thinkgeocloudclient.js, which is an open-source Javascript SDK for making
 // request to ThinkGeo Cloud Service. It simplifies the process of the code of request.
 
 // We need to create the instance of Time Zone client and authenticate the API key.
 const tzClient = new tg.TimeZoneClient(apiKey);
 
-// This method will recieve a coordinates array in decimal degreee. When 
+// This method will recieve a coordinates array in decimal degreee. When
 // you click somewhere on the map, we'll call this method to perform Time Zone service.
 let timer;
 const getTimeZone = (lonLatCoord) => {
@@ -157,8 +157,8 @@ const getTimeZone = (lonLatCoord) => {
                     <p><label>Country: </label> ${data.countryName}</p>
                     <p><label>Country Code: </label> ${data.countryCode}</p>
                     <p><label>Comment: </label> ${data.comment}</p>
-                    <p><label>Current Local Time: </label> ${localMoment.format('MMM D, YYYY h:mm:ss A')}</p>                
-                    <p><label>Current UTC Time: </label> ${utcMoment.format('MMM D, YYYY h:mm:ss A')}</p>                
+                    <p><label>Current Local Time: </label> ${localMoment.format('MMM D, YYYY h:mm:ss A')}</p>
+                    <p><label>Current UTC Time: </label> ${utcMoment.format('MMM D, YYYY h:mm:ss A')}</p>
                     <p><label>UTC Offset: </label> ${offsetString}</p>`;
 
             overlay.setPosition(clickCoord);
@@ -186,11 +186,11 @@ const getTimeZone = (lonLatCoord) => {
 // 6. ThinkGeo Map Icon Fonts
 /*---------------------------------------------*/
 
-// Finally, we'll load the Map Icon Fonts using ThinkGeo's WebFont loader. 
-// The loaded Icon Fonts will be used to render POI icons on top of the map's 
-// background layer.  We'll initalize the map only once the font has been 
-// downloaded.  For more info, see our wiki: 
-// https://wiki.thinkgeo.com/wiki/thinkgeo_iconfonts 
+// Finally, we'll load the Map Icon Fonts using ThinkGeo's WebFont loader.
+// The loaded Icon Fonts will be used to render POI icons on top of the map's
+// background layer.  We'll initalize the map only once the font has been
+// downloaded.  For more info, see our wiki:
+// https://wiki.thinkgeo.com/wiki/thinkgeo_iconfonts
 WebFont.load({
     custom: {
         families: ["vectormap-icons"],
@@ -210,7 +210,7 @@ WebFont.load({
 // 7. Event Listeners
 /*---------------------------------------------*/
 
-// These event listeners tell the UI when it's time to execute all of the 
+// These event listeners tell the UI when it's time to execute all of the
 // code we've written.
 
 // This method actually applies the requested that closing the error message box.

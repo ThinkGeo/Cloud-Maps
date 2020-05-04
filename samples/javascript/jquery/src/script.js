@@ -1,7 +1,7 @@
 /*===========================================================================*/
 // JQuery
 // Sample map by ThinkGeo
-// 
+//
 //   1. ThinkGeo Cloud API Key
 //   2. Map Control Setup
 //   3. Popup Overlay Setup
@@ -19,7 +19,7 @@
 // restricted for use only from a given web domain or IP address.  To create your
 // own API key, you'll need to sign up for a ThinkGeo Cloud account at
 // https://cloud.thinkgeo.com.
-const apiKey = 'WPLmkj3P39OPectosnM1jRgDixwlti71l8KYxyfP2P0~'
+const apiKey = 'yqLXRwQc83GX5fm20Rql6CPdjnYmmC66GXsJUBYoFD4~';
 
 
 /*---------------------------------------------*/
@@ -65,7 +65,7 @@ map.addControl(new ol.control.FullScreen());
 // 3. Popup Overlay Setup
 /*---------------------------------------------*/
 
-// This next part sets up the popup container for the information that we 
+// This next part sets up the popup container for the information that we
 // get from the location you click.
 
 // We need to get the DOM container.
@@ -73,13 +73,13 @@ const container = $('#popup');
 const content = $('#popup-content');
 const closer = $('#popup-closer');
 
-// Create the Overlay for our map and add the DOM Nodes to its container. 
+// Create the Overlay for our map and add the DOM Nodes to its container.
 // So that we can control the info panel on our map.
 let overlay = new ol.Overlay({
     element: container.get(0)
 });
 
-// This method recieve the Best Matched Location and coordnate to style the 
+// This method recieve the Best Matched Location and coordnate to style the
 const showPopUp = (bestMatchLocation, centerCoordinate) => {
     if (bestMatchLocation) {
         let address = bestMatchLocation.data.address;
@@ -104,13 +104,13 @@ const showPopUp = (bestMatchLocation, centerCoordinate) => {
 // 4. Reverse Geocoding Setup
 /*---------------------------------------------*/
 
-// This method performs the actual reverse geocode using the ThinkGeo Cloud. 
-// By passing in the coordinates of the map location that was clicked, we can 
-// get back closest matching address of that click, as well as 
+// This method performs the actual reverse geocode using the ThinkGeo Cloud.
+// By passing in the coordinates of the map location that was clicked, we can
+// get back closest matching address of that click, as well as
 // a collection of places in the vicinity.  For more details, see our wiki:
 // https://wiki.thinkgeo.com/wiki/thinkgeo_cloud_reverse_geocoding
 
-// We use thinkgeocloudclient.js, which is an open-source Javascript SDK for making 
+// We use thinkgeocloudclient.js, which is an open-source Javascript SDK for making
 // request to ThinkGeo Cloud Service. It simplifies the process of the code of request.
 
 // We need to create the instance of ReverseGeocoding client and authenticate the API key.
@@ -140,17 +140,17 @@ const getReverseGeocoding = (coordinate) => {
 // 5. Event Listeners
 /*---------------------------------------------*/
 
-// These event listeners tell the UI when it's time to execute all of the 
+// These event listeners tell the UI when it's time to execute all of the
 // code we've written.
 
-// This listener will let the Popup Overlay disapear once you clicked the "close" 
+// This listener will let the Popup Overlay disapear once you clicked the "close"
 // icon on the top right corner of the popup panel.
 closer.on('click', () => {
     overlay.setPosition(undefined);
 })
 
-// This listener gets the coordinates when you click on the map, and then uses them 
-// to perform a reverse geocode with the ThinkGeo Cloud. Once the reverse geocode 
+// This listener gets the coordinates when you click on the map, and then uses them
+// to perform a reverse geocode with the ThinkGeo Cloud. Once the reverse geocode
 // result has been recieved, show up the popup panel.
 map.addEventListener('click', (evt) => {
     let coordinate = evt.coordinate;
@@ -162,7 +162,7 @@ map.addEventListener('click', (evt) => {
 // 6. Tile Loading Event Handlers
 /*---------------------------------------------*/
 
-// These events allow you to perform custom actions when 
+// These events allow you to perform custom actions when
 // a map tile encounters an error while loading.
 const errorLoadingTile = () => {
     const errorModal = $('#error-modal');

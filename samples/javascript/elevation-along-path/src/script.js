@@ -1,7 +1,7 @@
 /*===========================================================================*/
 // Get Elevation Along Path
 // Sample map by ThinkGeo
-// 
+//
 //   1. ThinkGeo Cloud API Key
 //   2. Define Global Variable
 //   3. Map Control Setup
@@ -21,7 +21,7 @@
 // restricted for use only from a given web domain or IP address.  To create your
 // own API key, you'll need to sign up for a ThinkGeo Cloud account at
 // https://cloud.thinkgeo.com.
-const apiKey = 'WPLmkj3P39OPectosnM1jRgDixwlti71l8KYxyfP2P0~';
+const apiKey = 'yqLXRwQc83GX5fm20Rql6CPdjnYmmC66GXsJUBYoFD4~';
 
 /*---------------------------------------------*/
 // 2. Define Global Variable
@@ -33,7 +33,7 @@ let chartCtx;
 let drawLineButton;
 let wayPointNumRange;
 
-// Thes wkts object defines our four pre-defined palce's coordinates in a Well-Known Text 
+// Thes wkts object defines our four pre-defined palce's coordinates in a Well-Known Text
 // format. You can choose them in the select form input to show defferent Elevation instance.
 const wkts = {
 	place1: 'LINESTRING(-13626205.692956349 4551708.736638038,-13626195.839745672 4551699.182009503,-13626193.74967068 4551687.537305975,-13626201.811388507 4551674.996856023,-13626214.35183846 4551662.754988211,-13626226.892288413 4551648.721627549,-13626231.968184823 4551636.479759738,-13626232.266766964 4551623.342145502,-13626226.59370627 4551608.114456273,-13626214.949002743 4551588.70661706,-13626200.019895656 4551563.327135012,-13626186.882281419 4551540.336310098,-13626178.521981452 4551522.719963735,-13626173.1475029 4551510.776678066,-13626164.48862079 4551497.340481687,-13626158.815560097 4551494.653242412,-13626148.663767276 4551508.985185215,-13626155.232574396 4551513.463917341,-13626160.009888664 4551522.421381594,-13626159.41272438 4551527.497278003,-13626165.981531497 4551533.767502979,-13626169.86309934 4551545.412206507,-13626169.86309934 4551555.563999327,-13626157.62123153 4551561.535642161)',
@@ -49,13 +49,13 @@ const wkts = {
 // 3. Map Control Setup
 /*---------------------------------------------*/
 
-// Now we'll create different layers with different data sources. These layers 
-// all use ThinkGeo Cloud Maps Raster Tile service to display a detailed map. 
+// Now we'll create different layers with different data sources. These layers
+// all use ThinkGeo Cloud Maps Raster Tile service to display a detailed map.
 // For more info, see our wiki:
 // https://wiki.thinkgeo.com/wiki/thinkgeo_cloud_maps_raster_tiles
 
-// This urls object defines the layer data sources that our map will use. Map tiles 
-// requested with a valid API key will be clear with no watermarks. Without an API 
+// This urls object defines the layer data sources that our map will use. Map tiles
+// requested with a valid API key will be clear with no watermarks. Without an API
 // key, map tiles will still be returned, but will be watermarked with ThinkGeo's logo.
 const urls = {
 	light: `https://cloud.thinkgeo.com/api/v1/maps/raster/light/x1/3857/512/{z}/{x}/{y}.png?apiKey=${apiKey}`,
@@ -64,15 +64,15 @@ const urls = {
 	transparentBackground: `https://cloud.thinkgeo.com/api/v1/maps/raster/transparent-background/x1/3857/512/{z}/{x}/{y}.png?apiKey=${apiKey}`
 };
 
-// Now let's create each actual map layer, using the data source URLs we 
+// Now let's create each actual map layer, using the data source URLs we
 // defined earlier.  We'll create the following layers:
 //   1. light:  Street map with a light background and features.
 //   2. dark:   Street map with a dark background and features.
 //   3. aerial: Aerial imagery map with no street features or POIs.
-//   4. transparentBackground: Just the streets and POIs with a transparent 
+//   4. transparentBackground: Just the streets and POIs with a transparent
 //      background.  Useful for displaying on top of the aerial layer, or
 //      your own custom imagery layer.
-// The "aerial" and transparentBackground layer will be our default, so for the others, we'll 
+// The "aerial" and transparentBackground layer will be our default, so for the others, we'll
 // set the "visible" property to false.
 let lightLayer = new ol.layer.Tile({
 	source: new ol.source.XYZ({
@@ -164,7 +164,7 @@ let lineLayer = new ol.layer.Vector({
 	}
 });
 
-// Inherit the Drawing Control method into ourselves. 
+// Inherit the Drawing Control method into ourselves.
 const drawLineControl = function (opt_options) {
 	const options = opt_options || {};
 	const button = document.createElement('button');
@@ -218,14 +218,14 @@ draw = new ol.interaction.Draw({
 	type: 'LineString'
 });
 
-// Add an event listener to the map, that is when drawing start, empty the lines drawn earlier and 
+// Add an event listener to the map, that is when drawing start, empty the lines drawn earlier and
 // destroy the chart we created before. So there is always one line on the map once we started to draw a line.
 draw.on('drawstart', () => {
 	removeLine();
 	removeChart();
 });
 
-// Add another event listener to the map, that is when drawing end, passing the line feature we drawn and 
+// Add another event listener to the map, that is when drawing end, passing the line feature we drawn and
 // send the request to ThinkGeo Cloud to get the elevation results.
 draw.on('drawend', (feature) => {
 	lineFeature = feature.feature;
@@ -265,18 +265,18 @@ const removeLine = () => {
 // 4. Elevation Setup
 /*---------------------------------------------*/
 
-// Now we need to actually perfom the Elevation using the ThinkGeo Cloud Services. By passing the 
-// WKT format geometries that was drawn, we can get back the grade (slope) of a line, optionally 
-// split into segments. Then, we can send another request by passig the WKT fomrat geometries and 
+// Now we need to actually perfom the Elevation using the ThinkGeo Cloud Services. By passing the
+// WKT format geometries that was drawn, we can get back the grade (slope) of a line, optionally
+// split into segments. Then, we can send another request by passig the WKT fomrat geometries and
 // some other options to ThinkGeo Cloud, and get the elevation of points along the line.
 
-// We use thinkgeocloudclient.js, which is an open-source Javascript SDK for making 
+// We use thinkgeocloudclient.js, which is an open-source Javascript SDK for making
 // request to ThinkGeo Cloud Service. It simplifies the process of the code of request.
 
 // We need to create the instance of Elevation client and authenticate the API key.
 let elevationClient = new tg.ElevationClient(apiKey);
 
-// Declare the feature of the line that we add to map. 
+// Declare the feature of the line that we add to map.
 let lineFeature;
 
 // Define the options when we send request to ThinkGeo Cloud.
@@ -310,7 +310,7 @@ const getWaypoints = (data) => {
 	};
 };
 
-// This method is the callback method, which will recieve the results of grade (slope) of the line, 
+// This method is the callback method, which will recieve the results of grade (slope) of the line,
 // which split into segments. Then by passing the grades, we can draw it in the chart.
 const getGrades = (res, wkt) => {
 	let grades = [];
@@ -331,7 +331,7 @@ const getGrades = (res, wkt) => {
 	});
 };
 
-// This method recieves the result that get back from ThinkGeo Cloud and render the result to our map. 
+// This method recieves the result that get back from ThinkGeo Cloud and render the result to our map.
 // Each points will be styled by different styles and added into lineLayer(defined earlier).
 const getElevation = (res, wkt, grades) => {
 	let format = new ol.format.WKT();
@@ -359,8 +359,8 @@ const getElevation = (res, wkt, grades) => {
 	drawChart(waypoints, grades);
 };
 
-// This method will recive the feature we drawn. It judges if the line is too long, if it does, we 
-// need to tell user to redraw a shorter line. If the line lenght is receivable, send the request 
+// This method will recive the feature we drawn. It judges if the line is too long, if it does, we
+// need to tell user to redraw a shorter line. If the line lenght is receivable, send the request
 // to perform elevation.
 const drawElevationByLine = (feature) => {
 	let line = feature.getGeometry();
@@ -384,7 +384,7 @@ const drawElevationByLine = (feature) => {
 	}
 };
 
-// When select the preset paths in the bottom right corner panel, 
+// When select the preset paths in the bottom right corner panel,
 const drawPreDefinedLine = (wkt, coord, zoom) => {
 	map.getView().animate({
 		center: ol.proj.fromLonLat(coord),
@@ -504,7 +504,7 @@ const removeChart = () => {
 // 6. Event Listeners
 /*---------------------------------------------*/
 
-// These event listeners tell the UI when it's time to execute all of the 
+// These event listeners tell the UI when it's time to execute all of the
 // code we've written.
 
 // This method actually applies the requested layer style changes to the map.
@@ -637,7 +637,7 @@ window.addEventListener("load", () => {
 // 7. Tile Loading Event Handlers
 /*---------------------------------------------*/
 
-// These events allow you to perform custom actions when 
+// These events allow you to perform custom actions when
 // a map tile encounters an error while loading.
 const errorLoadingTile = () => {
 	const errorModal = document.querySelector('#error-modal');

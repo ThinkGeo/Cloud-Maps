@@ -1,7 +1,7 @@
 /*===========================================================================*/
 // Geocoding
 // Sample map by ThinkGeo
-// 
+//
 //   1. ThinkGeo Cloud API Key
 //   2. Map Control Setup
 //   3. Popup Setup
@@ -20,7 +20,7 @@
 // restricted for use only from a given web domain or IP address.  To create your
 // own API key, you'll need to sign up for a ThinkGeo Cloud account at
 // https://cloud.thinkgeo.com.
-const apiKey = 'WPLmkj3P39OPectosnM1jRgDixwlti71l8KYxyfP2P0~';
+const apiKey = 'yqLXRwQc83GX5fm20Rql6CPdjnYmmC66GXsJUBYoFD4~';
 
 /*---------------------------------------------*/
 // 2. Map Control Setup
@@ -117,8 +117,8 @@ WebFont.load({
 // 3. Popup Setup
 /*---------------------------------------------*/
 
-// Now, we need to create the popup container for our location information. We'll create an 
-// overlay which servers the popup container, and add it to our map. This popup panel will 
+// Now, we need to create the popup container for our location information. We'll create an
+// overlay which servers the popup container, and add it to our map. This popup panel will
 // show the place name and the map will pan to the address.
 const container = document.getElementById('popup');
 container.classList.remove('hidden');
@@ -131,7 +131,7 @@ let overlay = new ol.Overlay({
     autoPan: false,
 });
 
-// Add an event listener to the close icon located in the top right corner of the popup. 
+// Add an event listener to the close icon located in the top right corner of the popup.
 // When click the 'x' icon, the popup box and geocoder layer will disappear.
 closer.onclick = () => {
     overlay.setPosition(undefined);
@@ -158,11 +158,11 @@ const addPopup = (tile, coordinates, address, label) => {
 // 4. Geocoder Setup
 /*---------------------------------------------*/
 
-// Let's add a list of addresses that will let users visualize the location of what you searched. Every time you 
-// input the address name in the top inptut form, it'll send request to get the relavant places and show you 
+// Let's add a list of addresses that will let users visualize the location of what you searched. Every time you
+// input the address name in the top inptut form, it'll send request to get the relavant places and show you
 // in a list. You can enter the up button and down button to choose the place you want to perfom Geocode.
 
-// We use thinkgeocloudclient.js, which is an open-source Javascript SDK for making 
+// We use thinkgeocloudclient.js, which is an open-source Javascript SDK for making
 // request to ThinkGeo Cloud Service. It simplifies the process of the code of request.
 
 // We need to create the instance of Geocoder client and authenticate the API key.
@@ -171,8 +171,8 @@ let results;
 let resultsLength;
 let geocoderResultNode = document.getElementById('geocoderResult');
 
-// This method will receive the result addresses from ThinkGeo Cloud, and render these addresses to the list. At 
-// the same time, it will get some usefull info and write them as the property of DOM element <a>. These information 
+// This method will receive the result addresses from ThinkGeo Cloud, and render these addresses to the list. At
+// the same time, it will get some usefull info and write them as the property of DOM element <a>. These information
 // will be used when we add the geocoder layer to our map later.
 const renderResult = (locations) => {
     document.querySelector('.loading').classList.add('hidden');
@@ -191,8 +191,8 @@ const renderResult = (locations) => {
     results = locations;
 }
 
-// This method actually performs the Geocoder request. It uses our ThinkGeo Cloud Services to get back the addresses 
-// related to your input address. It will return a collection of addresses that the number will less than 5, while 
+// This method actually performs the Geocoder request. It uses our ThinkGeo Cloud Services to get back the addresses
+// related to your input address. It will return a collection of addresses that the number will less than 5, while
 // the MaxResults parameter is 5.
 const geocoder = (val) => {
     document.querySelector('.loading').classList.remove('hidden');
@@ -245,7 +245,7 @@ const getGeocodingOptions = () => {
 }
 
 // This method will create the address feature where you select, and add it to geocodingLayer which we create earlier.
-// If the address is a street, slide the map over to the center point what we get back, otherwise, create a bounding box 
+// If the address is a street, slide the map over to the center point what we get back, otherwise, create a bounding box
 // polygon feature and add it to geocodinglayer. Fit the given geometry or extent based on the given boundingBox.
 const renderMatchedPlacePolygon = (coordinatesX, coordinatesY, boundingBox, type, geometry) => {
     let source = geocodingLayer.getSource();
@@ -275,11 +275,11 @@ const renderMatchedPlacePolygon = (coordinatesX, coordinatesY, boundingBox, type
 // 5. Event Listeners
 /*---------------------------------------------*/
 
-// These event listeners tell the UI when it's time to execute all of the 
+// These event listeners tell the UI when it's time to execute all of the
 // code we've written.
 
-// This method will receive the index number of which address you select, and get the 
-// value we need from the element property. By passing them to renderMatchedPlacePolygon 
+// This method will receive the index number of which address you select, and get the
+// value we need from the element property. By passing them to renderMatchedPlacePolygon
 // and addPopup method to perform Geocoder and show the popup info panel.
 let focusIndex = -1;
 
@@ -339,7 +339,7 @@ const searchPlace = (focusIndex) => {
 
             // boundingBox
             boundingBox = targetResult.boundingBox;
-            // type 
+            // type
             type = targetResult.type;
         }
     }
@@ -364,7 +364,7 @@ const computedHighlitIndex = (dir) => {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Every time you input word into the input box, the value in it will be passed to 
+    // Every time you input word into the input box, the value in it will be passed to
     // geocoder method and perform the Geocoder services.
     let timer = null;
     let address = document.getElementById('address');
@@ -425,9 +425,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Everytime inputing the address, the ThinkGeo Cloud will return the relative 
-    // address list and we'll show them below the input box. You can enter the up button 
-    // and down button to choose the place. 
+    // Everytime inputing the address, the ThinkGeo Cloud will return the relative
+    // address list and we'll show them below the input box. You can enter the up button
+    // and down button to choose the place.
     document.body.addEventListener('keydown', (e) => {
         e = window.event || e;
         switch (e.keyCode) {
@@ -538,7 +538,7 @@ maxResult.addEventListener("change", searchProcess);
 // 6. Tile Loading Event Handlers
 /*---------------------------------------------*/
 
-// These events allow you to perform custom actions when 
+// These events allow you to perform custom actions when
 // a map tile encounters an error while loading.
 const errorLoadingTile = () => {
     const errorModal = document.querySelector('#error-modal');

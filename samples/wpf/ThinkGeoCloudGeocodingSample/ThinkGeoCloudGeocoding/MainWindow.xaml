@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:uc1="clr-namespace:ThinkGeo.MapSuite.Wpf;assembly=ThinkGeo.MapSuite.Wpf"
+        xmlns:uc1="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
         xmlns:UC="clr-namespace:ThinkGeoCloudGeocoding.UserControls"
         xmlns:local="clr-namespace:ThinkGeoCloudGeocoding"
         mc:Ignorable="d"
@@ -38,8 +38,8 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <TextBox x:Name="txtSearchText" Margin="3,0,0,0" Padding="0,3,0,3" Grid.Column="0"  FontSize="15" >8501 Wade, Frisco TX 75034</TextBox>
-                    <Button x:Name="btnSearch" Background="Transparent" BorderThickness="0" Grid.Column="0" HorizontalAlignment="Right" Width="25" Height="25" Click="BtnSearch_Click">
+                <TextBox x:Name="txtSearchText" Margin="3,0,0,0" Padding="0,3,0,3" Grid.Column="0"  FontSize="15" Text="8501 Wade Blvd, Frisco, TX, 75034" />
+                <Button x:Name="btnSearch" Background="Transparent" BorderThickness="0" Grid.Column="0" HorizontalAlignment="Right" Width="25" Height="25" Click="BtnSearch_Click">
                         <Image x:Name="searchImage" Grid.Column="0" HorizontalAlignment="Right" Source="Resources\search.png" ></Image>
                     </Button>
                 </Grid>
@@ -68,7 +68,7 @@
                 </ListBox>
         </Grid>
 
-        <uc1:WpfMap x:Name="WpfMap" Grid.Column="2"></uc1:WpfMap>
+        <uc1:MapView x:Name="WpfMap" Grid.Column="2"></uc1:MapView>
 
     </Grid>
 </Window>

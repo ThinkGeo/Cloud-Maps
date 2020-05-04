@@ -1,7 +1,7 @@
 /*===========================================================================*/
 // Get Service Area
 // Sample map by ThinkGeo
-// 
+//
 //   1. ThinkGeo Cloud API Key
 //   2. Map Control Setup
 //   3. ThinkGeo Map Icon Fonts
@@ -21,14 +21,14 @@
 // restricted for use only from a given web domain or IP address.  To create your
 // own API key, you'll need to sign up for a ThinkGeo Cloud account at
 // https://cloud.thinkgeo.com.
-const apiKey = 'WPLmkj3P39OPectosnM1jRgDixwlti71l8KYxyfP2P0~';
+const apiKey = 'yqLXRwQc83GX5fm20Rql6CPdjnYmmC66GXsJUBYoFD4~';
 
 
 /*---------------------------------------------*/
 // 2. Map Control Setup
 /*---------------------------------------------*/
 
-// Here's where we set up our map.  We're going to create layers, styles, 
+// Here's where we set up our map.  We're going to create layers, styles,
 // and define our initial view when the page first loads.
 
 // Now we'll create the base layer for our map.  The base layer uses the ThinkGeo
@@ -237,11 +237,11 @@ const addRoutingPoint = () => {
 // 3. ThinkGeo Map Icon Fonts
 /*---------------------------------------------*/
 
-// Finally, we'll load the Map Icon Fonts using ThinkGeo's WebFont loader. 
-// The loaded Icon Fonts will be used to render POI icons on top of the map's 
-// background layer.  We'll initalize the map only once the font has been 
-// downloaded.  For more info, see our wiki: 
-// https://wiki.thinkgeo.com/wiki/thinkgeo_iconfonts 
+// Finally, we'll load the Map Icon Fonts using ThinkGeo's WebFont loader.
+// The loaded Icon Fonts will be used to render POI icons on top of the map's
+// background layer.  We'll initalize the map only once the font has been
+// downloaded.  For more info, see our wiki:
+// https://wiki.thinkgeo.com/wiki/thinkgeo_iconfonts
 WebFont.load({
     custom: {
         families: ["vectormap-icons"],
@@ -261,19 +261,19 @@ WebFont.load({
 // 4. Routing Setup
 /*---------------------------------------------*/
 
-// At this point we'll built up the methods and functionality that will  
-// actually perform the routing using the ThinkGeo Cloud and then 
+// At this point we'll built up the methods and functionality that will
+// actually perform the routing using the ThinkGeo Cloud and then
 // display the results on the map.
 
-// We use thinkgeocloudclient.js, which is an open-source Javascript SDK for making 
+// We use thinkgeocloudclient.js, which is an open-source Javascript SDK for making
 // request to ThinkGeo Cloud Service. It simplifies the process of the code of request.
 
 // We need to create the instance of Routing client and authenticate the API key.
 const routingClient = new tg.RoutingClient(apiKey);
 
 
-// This method performs the actual routing using the ThinkGeo Cloud. 
-// By passing the coordinates of the map location and some other options, we can 
+// This method performs the actual routing using the ThinkGeo Cloud.
+// By passing the coordinates of the map location and some other options, we can
 // get back the service area as we send the request.  For more details, see our wiki:
 // https://wiki.thinkgeo.com/wiki/thinkgeo_cloud_routing
 let count = 0;
@@ -395,9 +395,9 @@ const clear = () => {
 
 // At this step, we create some methods to control the sample UI.
 
-// This method controls the context menu to show or hide. When we 
-// right click on the map, the context menu shows up, while we click 
-// anywhere, the context menu will hide. 
+// This method controls the context menu to show or hide. When we
+// right click on the map, the context menu shows up, while we click
+// anywhere, the context menu will hide.
 const hideOrShowContextMenu = (visible) => {
     let contextmenu = document.querySelector('#ol-contextmenu');
     switch (visible) {
@@ -409,8 +409,8 @@ const hideOrShowContextMenu = (visible) => {
     }
 };
 
-// When we drag the start point, the coordinates of the start point 
-// has been changed, so we have to update this coordinates to the left 
+// When we drag the start point, the coordinates of the start point
+// has been changed, so we have to update this coordinates to the left
 // sidebar input box.
 let startInputEle;
 const updateInputValue = (noFixed) => {
@@ -428,7 +428,7 @@ const updateInputValue = (noFixed) => {
 // 6. Derive the Custom Class Drag
 /*---------------------------------------------*/
 
-// Since we need to drag the point to change the destination or start location, 
+// Since we need to drag the point to change the destination or start location,
 // we have to make the point draggable. At this step, we derived the custom class Drag.
 app.Drag = function () {
     ol.interaction.Pointer.call(this, {
@@ -460,7 +460,7 @@ app.Drag.prototype.handleDownEvent = function (evt) {
     return !!feature;
 };
 
-// Function handling "drag" events. 
+// Function handling "drag" events.
 // This function is called on "move" events during a drag sequence.
 app.Drag.prototype.handleDragEvent = function (evt) {
     let deltaX = evt.coordinate[0] - this.coordinate_[0];
@@ -497,10 +497,10 @@ app.Drag.prototype.handleUpEvent = function (e) {
 // 7. Event Listeners
 /*---------------------------------------------*/
 
-// These event listeners tell the UI when it's time to execute all of the 
+// These event listeners tell the UI when it's time to execute all of the
 // code we've written.
 document.addEventListener('DOMContentLoaded', function () {
-    // Update the input box value by the default coordinates. 
+    // Update the input box value by the default coordinates.
     startInputEle = document.querySelector('#startPoint');
     updateInputValue();
     // When click on the map, hide the context menut.

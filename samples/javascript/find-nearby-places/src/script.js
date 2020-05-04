@@ -1,7 +1,7 @@
 /*===========================================================================*/
 // Find Nearby Places
 // Sample map by ThinkGeo
-// 
+//
 //   1. ThinkGeo Cloud API Key
 //   2. Map Control Setup
 //   3. Reverse Geocoding Setup
@@ -21,14 +21,14 @@
 // restricted for use only from a given web domain or IP address.  To create your
 // own API key, you'll need to sign up for a ThinkGeo Cloud account at
 // https://cloud.thinkgeo.com.
-const apiKey = "WPLmkj3P39OPectosnM1jRgDixwlti71l8KYxyfP2P0~";
+const apiKey = 'yqLXRwQc83GX5fm20Rql6CPdjnYmmC66GXsJUBYoFD4~';
 
 
 /*---------------------------------------------*/
 // 2. Map Control Setup
 /*---------------------------------------------*/
 
-// Here's where we set up our map.  We're going to create layers, styles, 
+// Here's where we set up our map.  We're going to create layers, styles,
 // and define our initial view when the page first loads.
 
 // In this custom object, we're going to define two styles:
@@ -53,7 +53,7 @@ let styles = {
     })
 };
 
-// Create a Reverse Geocoding Layer for the map.  This layer will display icons 
+// Create a Reverse Geocoding Layer for the map.  This layer will display icons
 // for each place found near the clicked location on the map.
 const createReverseGeocodingLayer = function () {
     let vectorLayer = new ol.layer.Vector({
@@ -145,17 +145,17 @@ let initializeMap = function () {
 // 3. Reverse Geocoding Setup
 /*---------------------------------------------*/
 
-// At this point we'll build up the methods and functionality that will  
-// actually perform the reverse geocoding using the ThinkGeo Cloud and then 
+// At this point we'll build up the methods and functionality that will
+// actually perform the reverse geocoding using the ThinkGeo Cloud and then
 // display the results on the map.
 
-// We use thinkgeocloudclient.js, which is an open-source Javascript SDK for making 
+// We use thinkgeocloudclient.js, which is an open-source Javascript SDK for making
 // request to ThinkGeo Cloud Service. It simplifies the process of the code of request.
 
 // We need to create the instance of ReverseGeocoding client and authenticate the API key.
 let reverseGeocodingClient = new tg.ReverseGeocodingClient(apiKey);
 
-// Define a list of the different types of places for which we have unique 
+// Define a list of the different types of places for which we have unique
 // marker icons that can be shown on the map.
 const supportedMarkers = [
     "aeroway",
@@ -182,8 +182,8 @@ const supportedMarkers = [
     "waterway"
 ];
 
-// This method draws the best matching location on the map whenever a reverse 
-// geocode is performed.  The best match is defined as the place closest to 
+// This method draws the best matching location on the map whenever a reverse
+// geocode is performed.  The best match is defined as the place closest to
 // the reverse geocoded coordinates, regardless of any other conditions.
 const renderBestMatchLocation = function (place, coordinate, address) {
     if (place.data) {
@@ -207,7 +207,7 @@ const renderBestMatchLocation = function (place, coordinate, address) {
             "EPSG:4326"
         );
 
-        // Display the name, address and coordinates of the best match result 
+        // Display the name, address and coordinates of the best match result
         // in the box at the top center of the map.
         document.getElementById("floating-panel").innerHTML =
             '<p style="font-size:1.2rem;font-weight: bold;" >' +
@@ -226,8 +226,8 @@ const renderBestMatchLocation = function (place, coordinate, address) {
     }
 };
 
-// This method renders all of the places found in the vicinity of the reverse 
-// geocoded coordinates.  These are points of interest belonging to different 
+// This method renders all of the places found in the vicinity of the reverse
+// geocoded coordinates.  These are points of interest belonging to different
 // categories, like amenities, sustenance, buildings, etc.
 const renderNearbyResult = function (response) {
     for (let i = 0; i < response.length; i++) {
@@ -263,8 +263,8 @@ const createFeature = function (wkt) {
     return feature;
 };
 
-// When a reverse geocode is performed, we want to draw a circle on the map 
-// that represents the area we queried for nearby locations.  This method 
+// When a reverse geocode is performed, we want to draw a circle on the map
+// that represents the area we queried for nearby locations.  This method
 // handles the drawing and positioning of that circle.
 const renderSearchCircle = function (radius, coordinate) {
     let projection = view.getProjection();
@@ -285,9 +285,9 @@ const renderSearchCircle = function (radius, coordinate) {
     reverseGeocodingLayer.getSource().addFeature(feature);
 };
 
-// This method performs the actual reverse geocode using the ThinkGeo Cloud. 
-// By passing in the coordinates of the map location that was clicked, we can 
-// get back a collection of places in the vicinity of that click, as well as 
+// This method performs the actual reverse geocode using the ThinkGeo Cloud.
+// By passing in the coordinates of the map location that was clicked, we can
+// get back a collection of places in the vicinity of that click, as well as
 // the closest matching address.  For more details, see our wiki:
 // https://wiki.thinkgeo.com/wiki/thinkgeo_cloud_reverse_geocoding
 
@@ -328,8 +328,8 @@ const reverseGeocode = (coordinate, flag) => {
 // 4. Point Details Popup Bubble
 /*---------------------------------------------*/
 
-// When you hover your mouse over a place on the map, we want to show 
-// a popup bubble with the name and address of that place.  Here, we'll 
+// When you hover your mouse over a place on the map, we want to show
+// a popup bubble with the name and address of that place.  Here, we'll
 // set up the container element, markup and methods for that bubble.
 const container = document.getElementById("popup");
 container.classList.remove("hidden");
@@ -378,12 +378,12 @@ const popUp = function (address, centerCoordinate) {
 // 5. Event Listeners
 /*---------------------------------------------*/
 
-// These event listeners tell the UI when it's time to execute all of the 
+// These event listeners tell the UI when it's time to execute all of the
 // code we've written.
 
 // We'll call it later when our map has been rendered.
 
-// This listener gets the coordinates when you click on the map, and then 
+// This listener gets the coordinates when you click on the map, and then
 // uses them to perform a reverse geocode with the ThinkGeo Cloud.
 let addEventListeners = function (map) {
     map.addEventListener("click", function (evt) {
@@ -394,7 +394,7 @@ let addEventListeners = function (map) {
         reverseGeocode(coordinate, true);
     });
 
-    // This event listener will show the popup bubble we created, any time 
+    // This event listener will show the popup bubble we created, any time
     // you hover your mouse over a location point on the map.
     let timer = null;
     map.addEventListener("pointermove", function (evt) {
@@ -427,11 +427,11 @@ let addEventListeners = function (map) {
 // 6. ThinkGeo Map Icon Fonts
 /*---------------------------------------------*/
 
-// Finally, we'll load the Map Icon Fonts using ThinkGeo's WebFont loader. 
-// The loaded Icon Fonts will be used to render POI icons on top of the map's 
-// background layer.  We'll initalize the map only once the font has been 
-// downloaded.  For more info, see our wiki: 
-// https://wiki.thinkgeo.com/wiki/thinkgeo_iconfonts 
+// Finally, we'll load the Map Icon Fonts using ThinkGeo's WebFont loader.
+// The loaded Icon Fonts will be used to render POI icons on top of the map's
+// background layer.  We'll initalize the map only once the font has been
+// downloaded.  For more info, see our wiki:
+// https://wiki.thinkgeo.com/wiki/thinkgeo_iconfonts
 WebFont.load({
     custom: {
         families: ["vectormap-icons"],
@@ -450,7 +450,7 @@ WebFont.load({
 // 7. Tile Loading Event Handlers
 /*---------------------------------------------*/
 
-// These events allow you to perform custom actions when 
+// These events allow you to perform custom actions when
 // a map tile encounters an error while loading.
 const errorLoadingTile = () => {
     const errorModal = document.querySelector('#error-modal');

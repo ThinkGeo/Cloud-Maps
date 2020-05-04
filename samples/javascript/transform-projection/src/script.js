@@ -1,7 +1,7 @@
 /*===========================================================================*/
 // Transform Projection
 // Sample map by ThinkGeo
-// 
+//
 //   1. ThinkGeo Cloud API Key
 //   2. Default Polygon Setup
 //   3. Map Control Setup
@@ -21,14 +21,14 @@
 // restricted for use only from a given web domain or IP address.  To create your
 // own API key, you'll need to sign up for a ThinkGeo Cloud account at
 // https://cloud.thinkgeo.com.
-const apiKey = 'WPLmkj3P39OPectosnM1jRgDixwlti71l8KYxyfP2P0~';
+const apiKey = 'yqLXRwQc83GX5fm20Rql6CPdjnYmmC66GXsJUBYoFD4~';
 
 
 /*---------------------------------------------*/
 // 2. Default Polygon Setup
 /*---------------------------------------------*/
 
-// Now, define a default area which is a rectangle around the ThinkGeo U.S. office park.  
+// Now, define a default area which is a rectangle around the ThinkGeo U.S. office park.
 const defaultWkt = "POLYGON((-96.81058934136763 33.129382039876546,-96.80844357415572 33.129382039876546,-96.80844357415572 33.12814213686314,-96.81058934136763 33.12814213686314,-96.81058934136763 33.129382039876546))";
 
 
@@ -87,7 +87,7 @@ const initializeMap = () => {
         target: 'map',
         view: view
     });
-    
+
     // Add a button to the map that lets us toggle full-screen display mode.
     map.addControl(new ol.control.FullScreen());
 
@@ -100,14 +100,14 @@ const initializeMap = () => {
 // 4. Projection Transformation Setup
 /*---------------------------------------------*/
 
-// At this point we'll build up the methods and functionality that will actually perform 
-// the Projection Transfromation. It uses the ThinkGeo Cloud and display the result in the 
+// At this point we'll build up the methods and functionality that will actually perform
+// the Projection Transfromation. It uses the ThinkGeo Cloud and display the result in the
 // right text box, and at the same time, draw the corresponding feature on the map.
 
 // Draw the corresponding feature on the map.
 
 
-// This method will create the projection transformation feature, and add it to projectionLayer 
+// This method will create the projection transformation feature, and add it to projectionLayer
 // which we create earlier. Fit the given geometry or extent based on the given boundingBox.
 const addFeatureToMap = (wkt) => {
     const format = new ol.format.WKT();
@@ -121,14 +121,14 @@ const addFeatureToMap = (wkt) => {
     })
 }
 
-// We use thinkgeocloudclient.js, which is an open-source Javascript SDK for making 
+// We use thinkgeocloudclient.js, which is an open-source Javascript SDK for making
 // request to ThinkGeo Cloud Service. It simplifies the process of the code of request.
 
 // We need to create the instance of Projection client and authenticate the API key.
 const projectionClient = new tg.ProjectionClient(apiKey);
 
-// This method performs the actual Transfrom Projection using the ThinkGeo Cloud. 
-// By passing in the wkt value in the left text box, we can 
+// This method performs the actual Transfrom Projection using the ThinkGeo Cloud.
+// By passing in the wkt value in the left text box, we can
 // get back a Spherical Mercator format wkt value.
 const performTransform = (wkt) => {
     const fromProj = 4326;
@@ -154,12 +154,12 @@ const performTransform = (wkt) => {
 // 5. Event Listeners
 /*---------------------------------------------*/
 
-// These event listeners tell the UI when it's time to execute all of the 
+// These event listeners tell the UI when it's time to execute all of the
 // code we've written.
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // This method will receive the WKT value from the left textarea. By passing them to 
+    // This method will receive the WKT value from the left textarea. By passing them to
     // performTransform to perform Projection Transform and show in the right text box.
     document.getElementById('transform').addEventListener('click', () => {
         projectionLayer.getSource().clear();
@@ -176,11 +176,11 @@ document.addEventListener('DOMContentLoaded', () => {
 // 6. ThinkGeo Map Icon Fonts
 /*---------------------------------------------*/
 
-// Finally, we'll load the Map Icon Fonts using ThinkGeo's WebFont loader. 
-// The loaded Icon Fonts will be used to render POI icons on top of the map's 
-// background layer.  We'll initalize the map only once the font has been 
-// downloaded.  For more info, see our wiki: 
-// https://wiki.thinkgeo.com/wiki/thinkgeo_iconfonts 
+// Finally, we'll load the Map Icon Fonts using ThinkGeo's WebFont loader.
+// The loaded Icon Fonts will be used to render POI icons on top of the map's
+// background layer.  We'll initalize the map only once the font has been
+// downloaded.  For more info, see our wiki:
+// https://wiki.thinkgeo.com/wiki/thinkgeo_iconfonts
 WebFont.load({
     custom: {
         families: ["vectormap-icons"],
@@ -199,7 +199,7 @@ WebFont.load({
 // 7. Tile Loading Event Handlers
 /*---------------------------------------------*/
 
-// These events allow you to perform custom actions when 
+// These events allow you to perform custom actions when
 // a map tile encounters an error while loading.
 const errorLoadingTile = () => {
     const errorModal = document.querySelector('#error-modal');
