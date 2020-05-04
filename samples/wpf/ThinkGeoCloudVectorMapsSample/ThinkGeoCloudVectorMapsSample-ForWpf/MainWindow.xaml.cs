@@ -2,10 +2,8 @@
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Documents;
-using ThinkGeo.MapSuite;
-using ThinkGeo.MapSuite.Layers;
-using ThinkGeo.MapSuite.Shapes;
-using ThinkGeo.MapSuite.Wpf;
+using ThinkGeo.Core;
+using ThinkGeo.UI.Wpf;
 
 namespace ThinkGeoCloudVectorMapsOverlayOnlineSample_wpf
 {

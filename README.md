@@ -2,17 +2,43 @@
 
 ## Repository Layout
 
-`/api-docs`: An offline version the products documentation.
-
-`/hero-app`: A real world application that shows off many of this products features along with best practices.
+`/docs`: An offline version the products documentation.
 
 `/samples`: A collection of feature by feature samples.
 
-`/.assets`: Any assets needed for the readme.md.
+`/assets`: Any assets needed for the readme.md.
 
 `README.md`: A quick start guide to show you how to quickly get up and running.
 
-## Quick Start: Find First POI Within 1 Mile
+## Available REST API Services
+
+- [Vector Maps](https://docs.thinkgeo.com/products/cloud-maps/v12.0/services/vector-map-tiles/) - vector map tiles through XYZ
+- [Raster Maps](https://docs.thinkgeo.com/products/cloud-maps/v12.0/services/raster-map-tiles/) - get raster map tiles through XYZ
+- [WMS](https://docs.thinkgeo.com/products/cloud-maps/v12.0/services/wms-maps/) - get map images through a standards-compliant WMS (Web Map Service)
+- [Routing](https://docs.thinkgeo.com/products/cloud-maps/v12.0/services/routing/) - get turn-by-turn driving directions, define service areas that can be reached by car in a given time or distance, and more
+- [Geocoding](https://docs.thinkgeo.com/products/cloud-maps/v12.0/services/geocoding/) - get location data from an address
+- [Reverse Geocoding](https://docs.thinkgeo.com/products/cloud-maps/v12.0/services/reverse-geocoding/) - find an address from a location/location coordinates
+- [Elevation](https://docs.thinkgeo.com/products/cloud-maps/v12.0/services/elevation/) - get elevation data by points, lines and polygons using SRTM and NED13 data
+- [Map Queries](https://docs.thinkgeo.com/products/cloud-maps/v12.0/services/map-query/) - perform spatial query against several types of data.
+- [Projection](https://docs.thinkgeo.com/products/cloud-maps/v12.0/services/projection/) - re-project a point, line, or polygon shape between two coordinate systems
+- [Time Zones](https://docs.thinkgeo.com/products/cloud-maps/v12.0/services/time-zones/) - get time zone and UTC offset information for a given spatial coordinate
+- [Colors](https://docs.thinkgeo.com/products/cloud-maps/v12.0/services/colors/) - generate harmonious themes of colors, which you can use to design attractive and meaningful maps
+
+## Samples
+
+We have a number of samples for both WPF and Javascript that show off ThinkGeo Cloud Maps' full capabilities. You can use these samples as a starting point for your own application, or simply reference them for how to use our controls using best practices.
+
+- [WPF samples](samples/wpf)
+- [Javascript samples](samples/javascript)
+
+---
+
+## Quickstart Guides
+
+- [WPF Quickstart](#quick-start-reverse-geocode-pois-on-wpf)
+- [Javascript Quickstart](#quick-start-reverse-geocode-pois-on-javascript)
+
+## Quick Start: Reverse Geocode POIs on WPF
 
 In this sample we will use the Reverse Geocoder Cloud API to find the first point of interest within one mile of a location and display its information.  This will demonstrate a number of features common to the various Cloud APIs such as optional parameters and generally setting up a call.
 
@@ -20,7 +46,7 @@ We will begin by creating a .NET Core Console project in your favorite editor.  
 
 ### Step 1: Setup a New Project
 
-  In your editor of choice you need to create a **.NET Core Console** project.  Please see your editor's instructions on how to create the project.  Here is an [example](https://docs.microsoft.com/en-us/dotnet/core/tutorials/with-visual-studio?tabs=csharp) using Visual Studio for reference.  
+In your editor of choice you need to create a **.NET Core Console** project.  Please see your editor's instructions on how to create the project.  Here is an [example](https://docs.microsoft.com/en-us/dotnet/core/tutorials/with-visual-studio?tabs=csharp) using Visual Studio for reference.
 
 ### Step 2: Add NuGet Packages
 
@@ -55,7 +81,7 @@ reverseGeocoder.ClientSecret = "IoOZkBJie0K9pz10jTRmrUclX6UYssZBeed401oAfbxb9ufF
 Many of our APIs have optional parameters that change the results of the request. In this case we only want to find the first item in the area and we want to have as much data returned as possible for that one location.
 
 ```csharp
-// Set optional options to return verbose results as well as limit the results to the first one found           
+// Set optional options to return verbose results as well as limit the results to the first one found
 CloudReverseGeocodingOptions options = new CloudReverseGeocodingOptions()
 {
     ResultDetail = CloudReverseGeocodingResultDetail.Verbose,
@@ -63,7 +89,7 @@ CloudReverseGeocodingOptions options = new CloudReverseGeocodingOptions()
 };
 ```
 
-### Step 6: Execute the Call Synchronously 
+### Step 6: Execute the Call Synchronously
 
 We are now calling the method passing in the search location along with the search distance, search distance unit and the optional parameters we defined above.  This call is being made synchronously however there there are asynchronous methods available as well.
 

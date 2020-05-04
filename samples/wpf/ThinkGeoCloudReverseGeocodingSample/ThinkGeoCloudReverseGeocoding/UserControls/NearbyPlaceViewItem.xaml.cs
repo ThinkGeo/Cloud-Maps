@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using ThinkGeo.Cloud;
+using ThinkGeo.Core;
 
 namespace ThinkGeoCloudReverseGeocoding.UserControls
 {
@@ -16,7 +16,7 @@ namespace ThinkGeoCloudReverseGeocoding.UserControls
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            var record = DataContext as ReverseGeocodingLocation;
+            var record = DataContext as CloudReverseGeocodingLocation;
 
             string iconUri = string.Format("/Resources/{0}.png", record.LocationCategory);
             if (!string.IsNullOrEmpty(iconUri))
