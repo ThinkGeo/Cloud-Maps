@@ -1,16 +1,11 @@
 ﻿using System.Linq;
 using System.Windows;
 using System;
-using ThinkGeo.Cloud;
-using ThinkGeo.MapSuite.Drawing;
 using System.Configuration;
-using ThinkGeo.MapSuite.Shapes;
-using ThinkGeo.MapSuite;
-using ThinkGeo.MapSuite.Wpf;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using ThinkGeo.MapSuite.Layers;
-using ThinkGeo.MapSuite.Styles;
+using ThinkGeo.Core;
+using ThinkGeo.UI.Wpf;
 
 namespace ThinkGeoCloudColor
 {
@@ -19,10 +14,10 @@ namespace ThinkGeoCloudColor
     /// </summary>
     public partial class MainWindow : Window
     {
-        private const string GisServerUri = "https://gisserver1.thinkgeo.com";
+        private const string GisServerUri = "https://cloud.thinkgeo.com";
         private const string clientId = "FSDgWMuqGhZCmZnbnxh-Yl1HOaDQcQ6mMaZZ1VkQNYw~";
         private const string clientSecret = "IoOZkBJie0K9pz10jTRmrUclX6UYssZBeed401oAfbxb9ufF1WVUvg~~";
-        private ColorClient colorClient;
+        private ColorCloudClient colorClient;
         private LayerOverlay layerOverlay;
 
         public MainWindow()
@@ -32,7 +27,7 @@ namespace ThinkGeoCloudColor
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            colorClient = new ColorClient(clientId, clientSecret);
+            colorClient = new ColorCloudClient(clientId, clientSecret);
             colorClient.BaseUris.Add(new Uri(GisServerUri));
 
             map.MapUnit = GeographyUnit.Meter;
@@ -62,9 +57,7 @@ namespace ThinkGeoCloudColor
 
             try
             {
-                color = new GeoColor(int.Parse(colorExpression.Substring(0, 2), System.Globalization.NumberStyles.HexNumber),
-                                    int.Parse(colorExpression.Substring(2, 2), System.Globalization.NumberStyles.HexNumber),
-                                    int.Parse(colorExpression.Substring(4, 2), System.Globalization.NumberStyles.HexNumber));
+                color = GeoColor.FromHtml(colorExpression);
             }
             catch { }
             if (color != null)

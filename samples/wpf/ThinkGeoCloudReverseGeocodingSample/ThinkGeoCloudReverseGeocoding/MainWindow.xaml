@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:uc1="clr-namespace:ThinkGeo.MapSuite.Wpf;assembly=ThinkGeo.MapSuite.Wpf"
+        xmlns:uc1="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
         xmlns:UC="clr-namespace:ThinkGeoCloudReverseGeocoding.UserControls"
         xmlns:local="clr-namespace:ThinkGeoCloudReverseGeocoding"
         mc:Ignorable="d"
@@ -184,6 +184,6 @@
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
-        <uc1:WpfMap x:Name="WpfMap" Grid.Column="2" MapClick="WpfMap_MapClick"></uc1:WpfMap>
+        <uc1:MapView x:Name="WpfMap" Grid.Column="2" MapClick="WpfMap_MapClick"></uc1:MapView>
     </Grid>
 </Window>

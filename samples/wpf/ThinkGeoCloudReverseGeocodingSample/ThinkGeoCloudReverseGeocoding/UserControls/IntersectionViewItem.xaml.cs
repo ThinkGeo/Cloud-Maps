@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media.Imaging;
-using ThinkGeo.Cloud;
+using ThinkGeo.Core;
 
 namespace ThinkGeoCloudReverseGeocoding.UserControls
 {
@@ -19,7 +19,7 @@ namespace ThinkGeoCloudReverseGeocoding.UserControls
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            var record = DataContext as ReverseGeocodingLocation;
+            var record = DataContext as CloudReverseGeocodingLocation;
             if (record.LocationType == "Intersection")
             {
                 string iconUri = string.Format("/Resources/{0}.png", record.LocationType);

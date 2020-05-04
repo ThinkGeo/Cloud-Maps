@@ -11,22 +11,17 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using ThinkGeo.Cloud;
-using ThinkGeo.MapSuite;
-using ThinkGeo.MapSuite.Drawing;
-using ThinkGeo.MapSuite.Layers;
-using ThinkGeo.MapSuite.Shapes;
-using ThinkGeo.MapSuite.Styles;
-using ThinkGeo.MapSuite.Wpf;
+using ThinkGeo.UI.Wpf;
+using ThinkGeo.Core;
 
 namespace ThinkGeoCloudElevation
 {
     public partial class MainWindow : Window
     {
-        private const string GisServerUri = "https://gisserver1.thinkgeo.com";
+        private const string CloudServerUri = "https://cloud.thinkgeo.com";
         private const string clientId = "FSDgWMuqGhZCmZnbnxh-Yl1HOaDQcQ6mMaZZ1VkQNYw~";
         private const string clientSecret = "IoOZkBJie0K9pz10jTRmrUclX6UYssZBeed401oAfbxb9ufF1WVUvg~~";
-        private ElevationClient elevationClient;
+        private ElevationCloudClient elevationClient;
         private ObservableCollection<double> ChartAxisLabels { get; } = new ObservableCollection<double>();
 
         public MainWindow()
@@ -37,8 +32,8 @@ namespace ThinkGeoCloudElevation
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            elevationClient = new ElevationClient(clientId, clientSecret);
-            elevationClient.BaseUris.Add(new Uri(GisServerUri));
+            elevationClient = new ElevationCloudClient(clientId, clientSecret);
+            elevationClient.BaseUris.Add(new Uri(CloudServerUri));
 
             WpfMap1.MapUnit = GeographyUnit.Meter;
             WpfMap1.ZoomLevelSet = new ThinkGeoCloudMapsZoomLevelSet();
@@ -55,7 +50,7 @@ namespace ThinkGeoCloudElevation
 
             // Add start and end point layer.
             InMemoryFeatureLayer pointFeatureLayer = new InMemoryFeatureLayer();
-            pointFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyles.CreateSimpleCircleStyle(GeoColors.Black, 7, GeoColors.White);
+            pointFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Black, 7, GeoColors.White);
             pointFeatureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             LayerOverlay isoLineOverlay = new LayerOverlay();
@@ -75,7 +70,7 @@ namespace ThinkGeoCloudElevation
             elevationLayerOverlay.Layers.Add("pointFeatureLayer", pointFeatureLayer);
 
             InMemoryFeatureLayer markLineLayer = new InMemoryFeatureLayer();
-            markLineLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyles.CreateSimpleCircleStyle(GeoColors.Black, 7, GeoColors.White);
+            markLineLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Black, 7, GeoColors.White);
             markLineLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             LayerOverlay lineOverlay = new LayerOverlay();
@@ -133,13 +128,13 @@ namespace ThinkGeoCloudElevation
             inMemoryFeatureLayer.BuildIndex();
 
             //Create the well point style
-            PointStyle pointStyle1 = PointStyles.CreateSimpleCircleStyle(GeoColor.StandardColors.White, 4, GeoColor.SimpleColors.Black, 2);
+            PointStyle pointStyle1 = PointStyle.CreateSimpleCircleStyle(GeoColors.White, 4, GeoColors.Black, 2);
             inMemoryFeatureLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(pointStyle1);
 
             //Create the text style with a halo
-            TextStyle textStyle = TextStyles.CreateSimpleTextStyle("Depth", "Arial", 10, DrawingFontStyles.Regular, GeoColor.SimpleColors.Black);
-            textStyle.HaloPen = new GeoPen(GeoColor.StandardColors.White, 3);
-            textStyle.PointPlacement = PointPlacement.UpperCenter;
+            TextStyle textStyle = TextStyle.CreateSimpleTextStyle("Depth", "Arial", 10, DrawingFontStyles.Regular, GeoColors.Black);
+            textStyle.HaloPen = new GeoPen(GeoColors.White, 3);
+            textStyle.TextPlacement = TextPlacement.Upper;
             textStyle.YOffsetInPixel = 5;
 
             //Apply these styles at all levels and add then to the custom styles for the layer
@@ -163,27 +158,27 @@ namespace ThinkGeoCloudElevation
             dynamicIsoLineLayer.CellWidthInPixel = (int)(WpfMap1.ActualWidth / 80);
 
             //Create a series of colors from blue to red that we will use for the breaks
-            Collection<GeoColor> colors = GeoColor.GetColorsInQualityFamily(GeoColor.StandardColors.Blue, GeoColor.StandardColors.Red, isoLineLevels.Count, ColorWheelDirection.Clockwise);
+            Collection<GeoColor> colors = GeoColor.GetColorsInQualityFamily(GeoColors.Blue, GeoColors.Red, isoLineLevels.Count, ColorWheelDirection.Clockwise);
 
             //Setup a class break style based on the isoline levels and the colors
             ClassBreakStyle classBreakStyle = new ClassBreakStyle(dynamicIsoLineLayer.DataValueColumnName);
 
-            Collection<ThinkGeo.MapSuite.Styles.Style> firstStyles = new Collection<ThinkGeo.MapSuite.Styles.Style>();
+            Collection<ThinkGeo.Core.Style> firstStyles = new Collection<ThinkGeo.Core.Style>();
             firstStyles.Add(new LineStyle(new GeoPen(colors[0], 3)));
-            firstStyles.Add(new AreaStyle(new GeoPen(GeoColor.SimpleColors.LightBlue, 3), new GeoSolidBrush(new GeoColor(150, colors[0]))));
+            firstStyles.Add(new AreaStyle(new GeoPen(GeoColors.LightBlue, 3), new GeoSolidBrush(new GeoColor(150, colors[0]))));
             classBreakStyle.ClassBreaks.Add(new ClassBreak(double.MinValue, firstStyles));
             for (int i = 0; i < colors.Count - 1; i++)
             {
-                Collection<ThinkGeo.MapSuite.Styles.Style> styles = new Collection<ThinkGeo.MapSuite.Styles.Style>();
+                Collection<ThinkGeo.Core.Style> styles = new Collection<ThinkGeo.Core.Style>();
                 styles.Add(new LineStyle(new GeoPen(colors[i + 1], 3)));
-                styles.Add(new AreaStyle(new GeoPen(GeoColor.SimpleColors.LightBlue, 3), new GeoSolidBrush(new GeoColor(150, colors[i + 1]))));
+                styles.Add(new AreaStyle(new GeoPen(GeoColors.LightBlue, 3), new GeoSolidBrush(new GeoColor(150, colors[i + 1]))));
                 classBreakStyle.ClassBreaks.Add(new ClassBreak(isoLineLevels[i], styles));
             }
             dynamicIsoLineLayer.CustomStyles.Add(classBreakStyle);
 
             //Create the text styles to label the lines
-            TextStyle textStyle = TextStyles.CreateSimpleTextStyle(dynamicIsoLineLayer.DataValueColumnName, "Arial", 8, DrawingFontStyles.Bold, GeoColor.StandardColors.Black, 0, 0);
-            textStyle.HaloPen = new GeoPen(GeoColor.StandardColors.White, 2);
+            TextStyle textStyle = TextStyle.CreateSimpleTextStyle(dynamicIsoLineLayer.DataValueColumnName, "Arial", 8, DrawingFontStyles.Bold, GeoColors.Black, 0, 0);
+            textStyle.HaloPen = new GeoPen(GeoColors.White, 2);
             textStyle.OverlappingRule = LabelOverlappingRule.NoOverlapping;
             textStyle.SplineType = SplineType.StandardSplining;
             textStyle.DuplicateRule = LabelDuplicateRule.UnlimitedDuplicateLabels;
@@ -254,7 +249,7 @@ namespace ThinkGeoCloudElevation
             ((LayerOverlay)WpfMap1.Overlays["lineOverlay"]).Layers.Add(elevationlayer);
             var stroke = ((LineSeries)lineChart.Series.Last()).Stroke;
             var color = ((SolidColorBrush)stroke).Color;
-            elevationlayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyles.CreateSimpleLineStyle(GeoColor.FromArgb((int)color.A, (int)color.R, (int)color.G, (int)color.B), 3, true);
+            elevationlayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColor.FromArgb(color.A, color.R, color.G, color.B), 3, true);
             elevationlayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
             var pointlayer = (InMemoryFeatureLayer)((LayerOverlay)WpfMap1.Overlays["markLineOverlay"]).Layers["markLineLayer"];
             if (elevationFeatures.Any())
@@ -313,7 +308,7 @@ namespace ThinkGeoCloudElevation
             }
         }
 
-        private async Task<ElevationResult> GetElevationByLineAsync(LineShape line, int pointNumber, int distance)
+        private async Task<CloudElevationResult> GetElevationByLineAsync(LineShape line, int pointNumber, int distance)
         {
             if (comboType.SelectedIndex == 0)
             {
@@ -346,7 +341,7 @@ namespace ThinkGeoCloudElevation
                 {
                     PointShape lastPoint = (PointShape)features.ElementAt(index - 1).GetShape();
                     LineShape line = new LineShape(new Collection<Vertex> { new Vertex(lastPoint), new Vertex(point) });
-                    distance += line.GetAccurateLength(3857, DistanceUnit.Meter, DistanceCalculationMode.Haversine);
+                    distance += line.GetLength(3857, DistanceUnit.Meter, DistanceCalculationMode.Haversine);
                 }
                 double tmpDistance = Math.Round(distance / 1000.0, 2);
                 double value = Math.Round(double.Parse(feature.ColumnValues["elevation"]), 2);

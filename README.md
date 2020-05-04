@@ -2,9 +2,7 @@
 
 ## Repository Layout
 
-`/api-docs`: An offline version the products documentation.
-
-`/hero-app`: A real world application that shows off many of this products features along with best practices.
+`/docs`: An offline version the products documentation.
 
 `/samples`: A collection of feature by feature samples.
 
