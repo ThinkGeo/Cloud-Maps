@@ -44,7 +44,7 @@ namespace ThinkGeoCloudMapsSample
                 if (thinkGeoCloudMapsOverlay != null)
                 {
                     thinkGeoCloudMapsOverlay.MapType = (ThinkGeoCloudRasterMapsMapType)Enum.Parse(typeof(ThinkGeoCloudRasterMapsMapType), radioButton.Content.ToString());
-                    thinkGeoCloudMapsOverlay.Refresh();
+                    map.Refresh();
                 }
             }
         }
