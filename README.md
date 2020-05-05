@@ -35,10 +35,10 @@ We have a number of samples for both WPF and Javascript that show off ThinkGeo C
 
 ## Quickstart Guides
 
-- [WPF Quickstart](#quick-start-reverse-geocode-pois-on-wpf)
-- [Javascript Quickstart](#quick-start-reverse-geocode-pois-on-javascript)
+- [WPF Quickstart](#quick-start-reverse-geocode-pois-in-wpf)
+- [Javascript Quickstart](#quick-start-reverse-geocode-pois-in-javascript)
 
-## Quick Start: Reverse Geocode POIs on WPF
+## Quick Start: Reverse Geocode POIs in WPF
 
 In this sample we will use the Reverse Geocoder Cloud API to find the first point of interest within one mile of a location and display its information.  This will demonstrate a number of features common to the various Cloud APIs such as optional parameters and generally setting up a call.
 
@@ -136,6 +136,123 @@ LocationFeature: POLYGON((-96.8122806 33.1295209,-96.8122226 33.1279999,-96.8087
 LocationType: commercial
 Postcode:
 Properties Count: 0
+```
+
+## Quick Start: Reverse Geocode POIs in Javascript
+
+This guide will walk you through setting up a simple project using `thinkgeocloudclient-js`. You will learn how to create a `ReverseGeocodingClient`, authenticate with the backend service, request address information from the server, and handle the response.
+
+If you wish to skip straight to the good stuff, we have more [detailed samples](samples/javascript) available to check out that go over all the other different types of services ThinkGeo Cloud offers.
+
+### Setup Project
+
+For this guide, you will need to create a project folder with two files: `index.html` and `main.js`.
+
+```
+cloud-client-quickstart/
+|-- index.html
+`-- main.js
+```
+
+For now, we are going to ignore `main.js` and focus on setting up our webpage layout. In `index.html`, create a simple html structure.
+
+```html
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Reverse Geocoding Quickstart</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.min.css">
+    </head>
+    <body>
+        <h1>Reverse Geocoding Quickstart</h1>
+    </body>
+</html>
+```
+
+> NOTE: We included `WaterCSS` to replace the browser's default styling. It is otherwise completely optional.
+
+### Install ThinkGeoCloudClient.js
+
+Now, we need to include `thinkgeocloudclient-js` into the project. You can either install it via NPM or just use our CDN:
+
+**Using NPM:**
+
+```sh
+npm i thinkgeocloudclient-js
+```
+
+```html
+<!-- index.html -->
+<script src="node_modules/thinkgeocloudclient-js/thinkgeocloudclient.js"></script>
+```
+
+**Using our CDN:**
+
+```html
+<!-- index.html -->
+<script src='https://cdn.thinkgeo.com/cloudclient-js/1.0.4/thinkgeocloudclient.js'></script>
+```
+
+### Creating the Page Layout
+
+Set up a simple form that takes a latitude and longitude text input along with a submit button in the `<body>` element below our `<h1>` element:
+
+```html
+<!-- index.html -->
+<form id="form">
+    <label for="latitude">Latitude:</label>
+    <input type="text" id="latitude" value="33.128367">
+
+    <label for="longitude">Longitude:</label>
+    <input type="text" id="longitude" value="-96.809847">
+
+    <input type="submit" value="Submit">
+</form>
+```
+
+> NOTE: we've included default values in our text inputs to help get things started. Of course, you can play around with the values as you choose.
+
+Now that the form is complete, let's setup some elements that will handle displaying the response from the Cloud Maps service below the form.
+
+```html
+<!-- index.html -->
+<h2>Address:</h2>
+<pre><code id="address"></code></pre>
+
+<h2>Raw Response:</h2>
+<pre><code id="response"></code></pre>
+```
+
+Finally, include `main.js` as the last element in the `<body>`.
+
+```html
+<!-- index.html -->
+<script src="main.js"></script>
+```
+
+### Create the `ReverseGeocodingClient`
+
+Now that our layout is all wired up, we can finally move on to setting up the javascript side of things. First thing we will want to do is to connect to the Cloud Maps services by setting up a client. Since this guide is for reverse geocoding, we will be using the `ReverseGeocodingClient`:
+
+```javascript
+// main.js
+let reverseGeocodingClient = new tg.ReverseGeocodingClient('yqLXRwQc83GX5fm20Rql6CPdjnYmmC66GXsJUBYoFD4~');
+```
+
+> NOTE: For this guide, you can use this sample API key. It's limited in functionality, so you will want to create an account on the [ThinkGeo Cloud Maps console](https://cloud.thinkgeo.com) and use your own personal key found there going forward.
+
+### Request Location Data and Display in Webpage
+
+Now, we need to setup a callback for when the user clicks the `Submit` button on the form so that we can then gather the latitude and longitude and send them off to the Cloud Maps service.
+
+```javascript
+// main.js
+let form = document.getElementById('form');
+
+form.addEventListener('submit', (event) => {
+    event.preventDefault(); // prevent the browser from submitting and refreshing the page automatically
+});
 ```
 
 ## Summary
