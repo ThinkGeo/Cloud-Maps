@@ -221,7 +221,7 @@ Now that the form is complete, let's setup some elements that will handle displa
 <pre><code id="address"></code></pre>
 
 <h2>Raw Response:</h2>
-<pre><code id="response"></code></pre>
+<pre><code id="raw-response"></code></pre>
 ```
 
 Finally, include `main.js` as the last element in the `<body>`.
@@ -244,7 +244,7 @@ let reverseGeocodingClient = new tg.ReverseGeocodingClient('yqLXRwQc83GX5fm20Rql
 
 ### Request Location Data and Display in Webpage
 
-Now, we need to setup a callback for when the user clicks the `Submit` button on the form so that we can then gather the latitude and longitude and send them off to the Cloud Maps service.
+Now, setup a callback for when the user clicks the `Submit` button on the form.
 
 ```javascript
 // main.js
@@ -254,6 +254,37 @@ form.addEventListener('submit', (event) => {
     event.preventDefault(); // prevent the browser from submitting and refreshing the page automatically
 });
 ```
+
+Inside the submit callback, we will be making a request to ThinkGeo Cloud Maps to get the address information of the lat/lon using `searchPlaceByPoint` on the `reverseGeocodingClient`. We'll need another callback for when we get a response back.
+
+```javascript
+// main.js (submit callback)
+    const latitude = document.getElementById('latitude').value;
+    const longitude = document.getElementById('longitude').value;
+
+    reverseGeocodingClient.searchPlaceByPoint(latitude, longitude, (status, response) => {
+
+     })
+```
+
+Finally, inside the `searchPlaceByPoint` callback, we will handle the response by updating the `innerHTML` of the `address` and `raw-response` elements in our HTML layout.
+
+```javascript
+// main.js (searchPlaceByPoint callback)
+        let address = document.getElementById('address');
+        let rawResponse = document.getElementById('raw-response');
+        rawResponse.innerHTML = JSON.stringify(response, undefined, 2);
+
+        if (response.data.bestMatchLocation) {
+            address.innerHTML = response.data.bestMatchLocation.data.address;
+        }
+```
+
+Submitting the form should now result in something like this:
+
+![Final results](assets/cloud-maps-js-quickstart-results.png)
+
+As you can see, the raw response reveals much more information about the reverse geocode than just the address. Feel free to modify the lat/lon values to explore different results, or check out a [more detailed sample of reverse geocoding](samples/javascript/find-nearby-places) that utilizes an embedded map to interactively query address information.
 
 ## Summary
 
