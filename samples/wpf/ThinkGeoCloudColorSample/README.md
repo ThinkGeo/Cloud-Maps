@@ -13,7 +13,7 @@ This sample demonstrates how you can use ThinkGeo Cloud Client to get colors fro
 
 The ThinkGeo Cloud Client works with all of the ThinkGeo UI controls, including Wpf, WebApi, Blazor, Android and iOS.
 
-![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-cloud-maps/-/tree/master/samples/wpf/ThinkGeoCloudColorSample/Screenshot.gif)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-cloud-maps/-/raw/master/samples/wpf/ThinkGeoCloudColorSample/Screenshot.gif)
 
 ### Requirements
 This sample makes use of the following NuGet packages:

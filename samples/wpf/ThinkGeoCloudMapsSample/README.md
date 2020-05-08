@@ -13,7 +13,7 @@ The ThinkGeo Cloud Client works with all of the ThinkGeo UI controls, including 
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-cloud-maps/-/tree/master/samples/wpf/ThinkGeoCloudMapsSample/Screenshot.gif)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-cloud-maps/-/raw/master/samples/wpf/ThinkGeoCloudMapsSample/Screenshot.gif)
 
 ### Requirements
 This sample makes use of the following NuGet packages:

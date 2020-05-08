@@ -11,7 +11,7 @@ This sample demonstrates how you can draw maps using Vector Tiles from the Think
 
 The ThinkGeo Cloud Client works with all of the ThinkGeo UI controls, including Wpf, WebApi, Blazor, Android and iOS.
 
-![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-cloud-maps/-/tree/master/samples/wpf/ThinkGeoCloudVectorMapsSample/Screenshot.gif)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-cloud-maps/-/raw/master/samples/wpf/ThinkGeoCloudVectorMapsSample/Screenshot.gif)
 
 ### Requirements
 This sample makes use of the following NuGet packages:
