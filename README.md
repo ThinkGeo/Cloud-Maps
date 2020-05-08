@@ -28,21 +28,20 @@
 
 We have a number of samples for both WPF and Javascript that show off ThinkGeo Cloud Maps' full capabilities. You can use these samples as a starting point for your own application, or simply reference them for how to use our controls using best practices.
 
-- [WPF samples](samples/wpf)
-- [Javascript samples](samples/javascript)
+- [WPF samples](https://gitlab.com/thinkgeo/public/thinkgeo-cloud-maps/-/tree/master/samples/wpf)
+- [Javascript samples](https://gitlab.com/thinkgeo/public/thinkgeo-cloud-maps/-/tree/master/samples/javascript)
 
 ---
 
 ## Quickstart Guides
 
 - [WPF Quickstart](#quick-start-reverse-geocode-pois-on-wpf)
-- [Javascript Quickstart](#quick-start-reverse-geocode-pois-on-javascript)
 
 ## Quick Start: Reverse Geocode POIs on WPF
 
 In this sample we will use the Reverse Geocoder Cloud API to find the first point of interest within one mile of a location and display its information.  This will demonstrate a number of features common to the various Cloud APIs such as optional parameters and generally setting up a call.
 
-We will begin by creating a .NET Core Console project in your favorite editor.  Next we will walk you through adding the required packages.  Then we will add some code to show you how to make a call to the Cloud Maps API using our built in C# client classes.  After reading this you will be in a good position to look over our [other samples](/samples) and explore our other features.
+We will begin by creating a .NET Core Console project in your favorite editor.  Next we will walk you through adding the required packages.  Then we will add some code to show you how to make a call to the Cloud Maps API using our built in C# client classes.  After reading this you will be in a good position to look over our [other samples](https://gitlab.com/thinkgeo/public/thinkgeo-cloud-maps/-/tree/master/samples) and explore our other features.
 
 ### Step 1: Setup a New Project
 
@@ -147,4 +146,4 @@ You now know the basics of using the ThinkGeo Cloud APIs and are able to get sta
 1. On many API calls there might be optional parameters so look out for them.
 1. Every cloud API has a synchronous and asynchronous version to fit many different scenarios.
 
-You are now in a great position to look over the [samples](/samples) and explore other features.
+You are now in a great position to look over the [samples](https://gitlab.com/thinkgeo/public/thinkgeo-cloud-maps/-/tree/master/samples) and explore other features.
