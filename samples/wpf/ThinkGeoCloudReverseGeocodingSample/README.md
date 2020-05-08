@@ -2,99 +2,34 @@
 
 ### Description
 
-This **Sample**  demonstrates how you can use ThinkGeo Cloud Client to get meaningful addresses from ThinkGeo GIS Server by a geographic location. It ships with an optimized set of worldwide coverage of cities and towns, but any customized data can be supported as well.
+This sample demonstrates how you can use the ThinkGeo Cloud Client to get meaningful addresses from the ThinkGeo Cloud Server using a geographic location. It ships with an optimized set of worldwide coverage of cities and towns, but  custom data can be supported as well.
 
-ThinkGeo Cloud Client support would work in all of the Map Suite controls such as Wpf, Web, MVC, WebApi, Android and iOS.
+The ThinkGeo Cloud Client works with all of the ThinkGeo UI controls, including Wpf, WebApi, Blazor, Android and iOS.
 
-Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
-
-![Screenshot](https://github.com/ThinkGeo/ThinkGeoCloudReverseGeocodingSample-ForWpf/blob/master/Screenshot.gif)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-cloud-maps/-/tree/master/samples/wpf/ThinkGeoCloudReverseGeocodingSample/Screenshot.gif)
 
 ### Requirements
-This sample makes use of the following NuGet Packages
+This sample makes use of the following NuGet packages:
 
-[MapSuite 10.0.0](https://www.nuget.org/packages?q=ThinkGeo)
+[ThinkGeo Core](https://www.nuget.org/packages/ThinkGeo.Core)
 
-### About the Code
->**Search the specific point and return best-matching places with nearbys**
-```csharp
-ReverseGeocodingClient reverseGeocodingClient = new ReverseGeocodingClient(clientId, clientSecret);
-reverseGeocodingClient.BaseUris.Add(new Uri(GisServerUri));
-ReverseGeocodingResult searchResult = await reverseGeocodingClient.SearchPointAsync(searchPoint.X, searchPoint.Y, 3857, searchRadius, DistanceUnit.Meter, reverseGeocodingOption);
-```
+[ThinkGeo UI for Wpf](https://www.nuget.org/packages/ThinkGeo.UI.Wpf)
 
->**Display the searched results on map**
-```csharp
-private void DisplaySearchResult(ReverseGeocodingResult searchResult)
-{
-    Collection<ReverseGeocodingLocation> serachedAddresses = new Collection<ReverseGeocodingLocation>();
-    Collection<ReverseGeocodingLocation> serachedIntersection = new Collection<ReverseGeocodingLocation>();
-    if (searchResult?.BestMatchLocation != null)
-    {
-        // Display address of the BestMatchingPlace in the left panel and add a marker.
-        txtBestMatchingPlace.Text = searchResult.BestMatchLocation.Address;
-        Marker marker = CreateMarkerByCategory("BestMatchingPlace", searchPoint, searchResult.BestMatchLocation.Address);
-        var bestmatchingMarkerOverlay = (SimpleMarkerOverlay)WpfMap.Overlays["BestMatchingMarkerOverlay"];
-        bestmatchingMarkerOverlay.Markers.Add(marker);
+### ThinkGeo Cloud Resources
 
-        var nearbyLocations = new List<ReverseGeocodingLocation>(searchResult.NearbyLocations);
-        int intersectionIndex = 0;
-        var intersections = nearbyLocations.FindAll(p => p.LocationCategory.ToLower().Contains("intersection"));
-        foreach (var intersection in intersections)
-        {
-            serachedIntersection.Add(intersection);
-            AddPropertiesForPlace(intersection, intersectionIndex);
-            intersectionIndex++;
-            nearbyLocations.Remove(intersection);
-        }
-        int addressIndex = 0;
-        var addressPoints = nearbyLocations.FindAll(p => p.LocationCategory.ToLower().Contains("addresspoint"));
-        foreach (var address in addressPoints)
-        {
-            serachedAddresses.Add(address);
-            AddPropertiesForPlace(address, addressIndex);
-            addressIndex++;
-            nearbyLocations.Remove(address);
-        }
+[ThinkGeo Cloud - Getting Started Docs](https://docs.thinkgeo.com/products/cloud-maps/v12.0/quickstart/)
 
-        int placeIndex = 0;
-        foreach (var place in nearbyLocations)
-        {
-            if (!nameof(LocationCategories.Aeroway).Equals(place.LocationCategory, StringComparison.InvariantCultureIgnoreCase)
-                && !nameof(LocationCategories.Road).Equals(place.LocationCategory, StringComparison.InvariantCultureIgnoreCase)
-                && !nameof(LocationCategories.Rail).Equals(place.LocationCategory, StringComparison.InvariantCultureIgnoreCase)
-                && !nameof(LocationCategories.Waterway).Equals(place.LocationCategory, StringComparison.InvariantCultureIgnoreCase))
-            {
-                serachedPlaces.Add(place);
-                AddPropertiesForPlace(place, placeIndex);
-                placeIndex++;
-            }
-        }
-        // Bind addresses,intersections,places to listbox.
-        lsbAddress.ItemsSource = serachedAddresses;
-        lsbPlaces.ItemsSource = serachedPlaces;
-        lsbIntersection.ItemsSource = serachedIntersection;
-    }
-}
-```
-### Getting Help
+[ThinkGeo Cloud - API Explorer](https://cloud.thinkgeo.com/help/index.html)
 
-[Map Suite Desktop for Wpf Wiki Resources](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_Wpf)
+[ThinkGeo Cloud - Additional Wiki Resources](https://wiki.thinkgeo.com/wiki/thinkgeo_cloud)
 
-[Map Suite Desktop for Wpf Product Description](https://thinkgeo.com/ui-controls#wpf-platforms)
+[ThinkGeo Cloud - Product Page](https://www.thinkgeo.com/cloud-maps)
 
-[ThinkGeo Community Site](http://community.thinkgeo.com/)
+### Additional Resources
 
-[ThinkGeo Web Site](http://www.thinkgeo.com)
+[ThinkGeo Community Forums](http://community.thinkgeo.com/)
 
-### Key APIs
-This example makes use of the following APIs:
-
-Working...
-
-
-### About Map Suite
-Map Suite is a set of powerful development components and services for the .Net Framework.
+[ThinkGeo Website](https://www.thinkgeo.com/)
 
 ### About ThinkGeo
 ThinkGeo is a GIS (Geographic Information Systems) company founded in 2004 and located in Frisco, TX. Our clients are in more than 40 industries including agriculture, energy, transportation, government, engineering, software development, and defense.

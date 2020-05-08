@@ -1,4 +1,23 @@
 # Vector Tiles on 3rd Party Imagery
- _A Pen created at CodePen.io. Original URL: [https://codepen.io/thinkgeocodepen/pen/vbvmQb](https://codepen.io/thinkgeocodepen/pen/vbvmQb).
+A Pen created at CodePen.io. Original URL: [https://codepen.io/thinkgeocodepen/pen/vbvmQb](https://codepen.io/thinkgeocodepen/pen/vbvmQb).
 
- Overlap the vector tiles on a global luminosity raster map (provided by NASA in 2012), it can highlight geography, population and more. 
+Overlay vector tiles onto a global luminosity raster map (provided by NASA in 2012). 
+
+### ThinkGeo Cloud Resources
+
+[ThinkGeo Cloud - Getting Started Docs](https://docs.thinkgeo.com/products/cloud-maps/v12.0/quickstart/)
+
+[ThinkGeo Cloud - API Explorer](https://cloud.thinkgeo.com/help/index.html)
+
+[ThinkGeo Cloud - Additional Wiki Resources](https://wiki.thinkgeo.com/wiki/thinkgeo_cloud)
+
+[ThinkGeo Cloud - Product Page](https://www.thinkgeo.com/cloud-maps)
+
+### Additional Resources
+
+[ThinkGeo Community Forums](http://community.thinkgeo.com/)
+
+[ThinkGeo Website](https://www.thinkgeo.com/)
+
+### About ThinkGeo
+ThinkGeo is a GIS (Geographic Information Systems) company founded in 2004 and located in Frisco, TX. Our clients are in more than 40 industries including agriculture, energy, transportation, government, engineering, software development, and defense.
