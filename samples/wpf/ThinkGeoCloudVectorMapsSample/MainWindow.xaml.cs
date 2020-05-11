@@ -63,16 +63,9 @@ namespace ThinkGeoCloudVectorMapsOverlayOnlineSample_wpf
 
         private void radioButtionCustom_Checked(object sender, RoutedEventArgs e)
         {
-
-            // Relative Path.
-            var uri0 = new Uri("mutedblue.json", UriKind.Relative);
-            //// Web Address.
-            //var uri1 = new Uri("http://cdn.thinkgeo.com/worldstreets-styles/1.0.0/mutedblue.json");
-            //// Absolute Path
-            //var uri2 = new Uri("C:/temp/mutedblue.json");
-
-            thinkGeoCloudVectorMapsOverlay.StyleJsonUri = uri0;
-            wpfMap.Refresh();
+            thinkGeoCloudVectorMapsOverlay.StyleJsonUri = new Uri("thinkgeo-world-streets-cobalt.json", UriKind.Relative);
+            thinkGeoCloudVectorMapsOverlay.Refresh();
+           
             radioButtionDark.IsChecked = false;
             radioButtonLight.IsChecked = false;
         }

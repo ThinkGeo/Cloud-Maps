@@ -28,21 +28,21 @@
 
 We have a number of samples for both WPF and Javascript that show off ThinkGeo Cloud Maps' full capabilities. You can use these samples as a starting point for your own application, or simply reference them for how to use our controls using best practices.
 
-- [WPF samples](samples/wpf)
-- [Javascript samples](samples/javascript)
+- [WPF samples](https://gitlab.com/thinkgeo/public/thinkgeo-cloud-maps/-/tree/master/samples/wpf)
+- [Javascript samples](https://gitlab.com/thinkgeo/public/thinkgeo-cloud-maps/-/tree/master/samples/javascript)
 
 ---
 
 ## Quickstart Guides
 
-- [WPF Quickstart](#quick-start-reverse-geocode-pois-on-wpf)
-- [Javascript Quickstart](#quick-start-reverse-geocode-pois-on-javascript)
+- [WPF Quickstart](#quick-start-reverse-geocode-pois-in-wpf)
+- [Javascript Quickstart](#quick-start-reverse-geocode-pois-in-javascript)
 
-## Quick Start: Reverse Geocode POIs on WPF
+## Quick Start: Reverse Geocode POIs in WPF
 
 In this sample we will use the Reverse Geocoder Cloud API to find the first point of interest within one mile of a location and display its information.  This will demonstrate a number of features common to the various Cloud APIs such as optional parameters and generally setting up a call.
 
-We will begin by creating a .NET Core Console project in your favorite editor.  Next we will walk you through adding the required packages.  Then we will add some code to show you how to make a call to the Cloud Maps API using our built in C# client classes.  After reading this you will be in a good position to look over our [other samples](/samples) and explore our other features.
+We will begin by creating a .NET Core Console project in your favorite editor.  Next we will walk you through adding the required packages.  Then we will add some code to show you how to make a call to the Cloud Maps API using our built in C# client classes.  After reading this you will be in a good position to look over our [other samples](https://gitlab.com/thinkgeo/public/thinkgeo-cloud-maps/-/tree/master/samples) and explore our other features.
 
 ### Step 1: Setup a New Project
 
@@ -138,6 +138,154 @@ Postcode:
 Properties Count: 0
 ```
 
+## Quick Start: Reverse Geocode POIs in Javascript
+
+This guide will walk you through setting up a simple project using `thinkgeocloudclient-js`. You will learn how to create a `ReverseGeocodingClient`, authenticate with the backend service, request address information from the server, and handle the response.
+
+If you wish to skip straight to the good stuff, we have more [detailed samples](samples/javascript) available to check out that go over all the other different types of services ThinkGeo Cloud offers.
+
+### Setup Project
+
+For this guide, you will need to create a project folder with two files: `index.html` and `main.js`.
+
+```
+cloud-client-quickstart/
+|-- index.html
+`-- main.js
+```
+
+For now, we are going to ignore `main.js` and focus on setting up our webpage layout. In `index.html`, create a simple html structure.
+
+```html
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Reverse Geocoding Quickstart</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.min.css">
+    </head>
+    <body>
+        <h1>Reverse Geocoding Quickstart</h1>
+    </body>
+</html>
+```
+
+> NOTE: We included `WaterCSS` to replace the browser's default styling. It is otherwise completely optional.
+
+### Install ThinkGeoCloudClient.js
+
+Now, we need to include `thinkgeocloudclient-js` into the project. You can either install it via NPM or just use our CDN:
+
+**Using NPM:**
+
+```sh
+npm i thinkgeocloudclient-js
+```
+
+```html
+<!-- index.html -->
+<script src="node_modules/thinkgeocloudclient-js/thinkgeocloudclient.js"></script>
+```
+
+**Using our CDN:**
+
+```html
+<!-- index.html -->
+<script src='https://cdn.thinkgeo.com/cloudclient-js/1.0.4/thinkgeocloudclient.js'></script>
+```
+
+### Creating the Page Layout
+
+Set up a simple form that takes a latitude and longitude text input along with a submit button in the `<body>` element below our `<h1>` element:
+
+```html
+<!-- index.html -->
+<form id="form">
+    <label for="latitude">Latitude:</label>
+    <input type="text" id="latitude" value="33.128367">
+
+    <label for="longitude">Longitude:</label>
+    <input type="text" id="longitude" value="-96.809847">
+
+    <input type="submit" value="Submit">
+</form>
+```
+
+> NOTE: we've included default values in our text inputs to help get things started. Of course, you can play around with the values as you choose.
+
+Now that the form is complete, let's setup some elements that will handle displaying the response from the Cloud Maps service below the form.
+
+```html
+<!-- index.html -->
+<h2>Address:</h2>
+<pre><code id="address"></code></pre>
+
+<h2>Raw Response:</h2>
+<pre><code id="raw-response"></code></pre>
+```
+
+Finally, include `main.js` as the last element in the `<body>`.
+
+```html
+<!-- index.html -->
+<script src="main.js"></script>
+```
+
+### Create the `ReverseGeocodingClient`
+
+Now that our layout is all wired up, we can finally move on to setting up the javascript side of things. First thing we will want to do is to connect to the Cloud Maps services by setting up a client. Since this guide is for reverse geocoding, we will be using the `ReverseGeocodingClient`:
+
+```javascript
+// main.js
+let reverseGeocodingClient = new tg.ReverseGeocodingClient('yqLXRwQc83GX5fm20Rql6CPdjnYmmC66GXsJUBYoFD4~');
+```
+
+> NOTE: For this guide, you can use this sample API key. It's limited in functionality, so you will want to create an account on the [ThinkGeo Cloud Maps console](https://cloud.thinkgeo.com) and use your own personal key found there going forward.
+
+### Request Location Data and Display in Webpage
+
+Now, setup a callback for when the user clicks the `Submit` button on the form.
+
+```javascript
+// main.js
+let form = document.getElementById('form');
+
+form.addEventListener('submit', (event) => {
+    event.preventDefault(); // prevent the browser from submitting and refreshing the page automatically
+});
+```
+
+Inside the submit callback, we will be making a request to ThinkGeo Cloud Maps to get the address information of the lat/lon using `searchPlaceByPoint` on the `reverseGeocodingClient`. We'll need another callback for when we get a response back.
+
+```javascript
+// main.js (submit callback)
+    const latitude = document.getElementById('latitude').value;
+    const longitude = document.getElementById('longitude').value;
+
+    reverseGeocodingClient.searchPlaceByPoint(latitude, longitude, (status, response) => {
+
+     })
+```
+
+Finally, inside the `searchPlaceByPoint` callback, we will handle the response by updating the `innerHTML` of the `address` and `raw-response` elements in our HTML layout.
+
+```javascript
+// main.js (searchPlaceByPoint callback)
+        let address = document.getElementById('address');
+        let rawResponse = document.getElementById('raw-response');
+        rawResponse.innerHTML = JSON.stringify(response, undefined, 2);
+
+        if (response.data.bestMatchLocation) {
+            address.innerHTML = response.data.bestMatchLocation.data.address;
+        }
+```
+
+Submitting the form should now result in something like this:
+
+![Final results](assets/cloud-maps-js-quickstart-results.png)
+
+As you can see, the raw response reveals much more information about the reverse geocode than just the address. Feel free to modify the lat/lon values to explore different results, or check out a [more detailed sample of reverse geocoding](samples/javascript/find-nearby-places) that utilizes an embedded map to interactively query address information.
+
 ## Summary
 
 You now know the basics of using the ThinkGeo Cloud APIs and are able to get started adding functionality into your own applications. Let's recap what we have learned about the object relationships and how the pieces of ThinkGeo UI work together:
@@ -147,4 +295,4 @@ You now know the basics of using the ThinkGeo Cloud APIs and are able to get sta
 1. On many API calls there might be optional parameters so look out for them.
 1. Every cloud API has a synchronous and asynchronous version to fit many different scenarios.
 
-You are now in a great position to look over the [samples](/samples) and explore other features.
+You are now in a great position to look over the [samples](https://gitlab.com/thinkgeo/public/thinkgeo-cloud-maps/-/tree/master/samples) and explore other features.
