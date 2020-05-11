@@ -2,64 +2,34 @@
 
 ### Description
 
-This **Sample**  demonstrates how you can use ThinkGeo Cloud Client to get elevation data from ThinkGeo GIS Server, and shows the elevation data of a road in the form of a line chart.
+This sample demonstrates how you can use the ThinkGeo Cloud Client to get elevation data along a line from the ThinkGeo Cloud Server and display that data in the form of a line chart.
 
-There are two ways to get the elevation data of the line. First, get the points on the line by setting the interval distance. The other, is to take the points by setting the number of points to be fetched. Then query the elevation data of the point.
+The ThinkGeo Cloud Client works with all of the ThinkGeo UI controls, including Wpf, WebApi, Blazor, Android and iOS.
 
-ThinkGeo Cloud Client support would work in all of the Map Suite controls such as Wpf, Web, MVC, WebApi, Android and iOS.
-
-Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
-
-![Screenshot](https://github.com/ThinkGeo/ThinkGeoCloudElevationSample-ForWpf/blob/master/Screenshot.gif)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-cloud-maps/-/raw/master/samples/wpf/ThinkGeoCloudElevationSample/Screenshot.gif)
 
 ### Requirements
-This sample makes use of the following NuGet Packages
+This sample makes use of the following NuGet packages:
 
-[MapSuite 10.0.0](https://www.nuget.org/packages?q=ThinkGeo)
+[ThinkGeo Core](https://www.nuget.org/packages/ThinkGeo.Core)
 
-### About the Code
-```csharp
-private void UpdateIdSecretToClient()
-{
-    elevationClient?.Dispose();
-    elevationClient = new ElevationClient(clientId, clientSecret);
-    elevationClient.BaseUris.Add(new Uri(GisServerUri));
-}
+[ThinkGeo UI for Wpf](https://www.nuget.org/packages/ThinkGeo.UI.Wpf)
 
-private async Task<ElevationResult> GetElevationByLineAsync(LineShape line, int pointNumber, int distance)
-{
-    if (comboType.SelectedIndex == 0)
-    {
-        var response = await elevationClient.GetElevationOfLineAsync(line, 3857, numberOfSegments: pointNumber, elevationUnit: DistanceUnit.Meter);
-        return response;
-    }
-    else if (comboType.SelectedIndex == 1)
-    {
-        var response = await elevationClient.GetElevationOfLineAsync(line, 3857, intervalDistance: distance, elevationUnit: DistanceUnit.Meter, intervalDistanceUnit: DistanceUnit.Meter);
-        return response;
-    }
-    throw new NotSupportedException("Unknown Line model");
-}
+### ThinkGeo Cloud Resources
 
-```
-### Getting Help
+[ThinkGeo Cloud - Getting Started Docs](https://docs.thinkgeo.com/products/cloud-maps/v12.0/quickstart/)
 
-[Map Suite Desktop for Wpf Wiki Resources](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_Wpf)
+[ThinkGeo Cloud - API Explorer](https://cloud.thinkgeo.com/help/index.html)
 
-[Map Suite Desktop for Wpf Product Description](https://thinkgeo.com/ui-controls#wpf-platforms)
+[ThinkGeo Cloud - Additional Wiki Resources](https://wiki.thinkgeo.com/wiki/thinkgeo_cloud)
 
-[ThinkGeo Community Site](http://community.thinkgeo.com/)
+[ThinkGeo Cloud - Product Page](https://www.thinkgeo.com/cloud-maps)
 
-[ThinkGeo Web Site](http://www.thinkgeo.com)
+### Additional Resources
 
-### Key APIs
-This example makes use of the following APIs:
+[ThinkGeo Community Forums](http://community.thinkgeo.com/)
 
-Working...
-
-
-### About Map Suite
-Map Suite is a set of powerful development components and services for the .Net Framework.
+[ThinkGeo Website](https://www.thinkgeo.com/)
 
 ### About ThinkGeo
 ThinkGeo is a GIS (Geographic Information Systems) company founded in 2004 and located in Frisco, TX. Our clients are in more than 40 industries including agriculture, energy, transportation, government, engineering, software development, and defense.

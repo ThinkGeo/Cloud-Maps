@@ -2,61 +2,41 @@
 
 ### Description
 
-This sample demonstrates how you can display ThinkGeo Cloud Maps in your Map Suite GIS applications. It will show you how to use the XYZFileBitmapTileCache to improve the performance of map rendering. ThinkGeoCloudMapsOverlay uses the ThinkGeo Cloud XYZ Tile Server as raster map tile server. It supports 5 different map styles: 
+This sample demonstrates how you can display ThinkGeo Cloud Maps in your GIS applications. It will also show you how to use the XYZFileBitmapTileCache to improve the performance of map rendering. ThinkGeoCloudMapsOverlay uses the ThinkGeo Cloud XYZ Tile Server as a raster maps tile server. It supports 5 different map styles: 
 - Light
 - Dark
 - Aerial
 - Hybrid
 - TransparentBackground
 
-ThinkGeo Cloud Maps support would work in all of the Map Suite controls such as Wpf, Web, MVC, WebApi, Android and iOS.
+The ThinkGeo Cloud Client works with all of the ThinkGeo UI controls, including Wpf, WebApi, Blazor, Android and iOS.
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/ThinkGeoCloudMapsSample-ForWpf/blob/master/Screenshot.gif)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-cloud-maps/-/raw/master/samples/wpf/ThinkGeoCloudMapsSample/Screenshot.gif)
 
 ### Requirements
-This sample makes use of the following NuGet Packages
+This sample makes use of the following NuGet packages:
 
-[MapSuite 10.0.0](https://www.nuget.org/packages?q=ThinkGeo)
+[ThinkGeo Core](https://www.nuget.org/packages/ThinkGeo.Core)
 
-### About the Code
-```csharp
-map.MapUnit = GeographyUnit.Meter;
-map.ZoomLevelSet = new ThinkGeoCloudMapsZoomLevelSet();
+[ThinkGeo UI for Wpf](https://www.nuget.org/packages/ThinkGeo.UI.Wpf)
 
-/*===========================================
-  Backgrounds for this sample are powered by ThinkGeo Cloud Maps and require
-  a Client ID and Secret. These were sent to you via email when you signed up
-  with ThinkGeo, or you can register now at https://cloud.thinkgeo.com.
-===========================================*/
-thinkGeoCloudMapsOverlay = new ThinkGeoCloudRasterMapsOverlay();
-thinkGeoCloudMapsOverlay.WrappingMode = WrappingMode.WrapDateline;
-// Tiles will be cached in the TEMP folder (%USERPROFILE%\AppData\Local\Temp\MapSuite\PersistentCaches) by default if the TileCache property is not set.
-thinkGeoCloudMapsOverlay.TileCache = new XyzFileBitmapTileCache("ThinkGeoCloudMapsTileCache");
-map.Overlays.Add(thinkGeoCloudMapsOverlay);
+### ThinkGeo Cloud Resources
 
-map.CurrentExtent = new ThinkGeo.MapSuite.Shapes.RectangleShape(-20037508.2314698, 20037508.2314698, 20037508.2314698, -20037508.2314698);
-map.Refresh();
-```
-### Getting Help
+[ThinkGeo Cloud - Getting Started Docs](https://docs.thinkgeo.com/products/cloud-maps/v12.0/quickstart/)
 
-[Map Suite Desktop for Wpf Wiki Resources](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_Wpf)
+[ThinkGeo Cloud - API Explorer](https://cloud.thinkgeo.com/help/index.html)
 
-[Map Suite Desktop for Wpf Product Description](https://thinkgeo.com/ui-controls#wpf-platforms)
+[ThinkGeo Cloud - Additional Wiki Resources](https://wiki.thinkgeo.com/wiki/thinkgeo_cloud)
 
-[ThinkGeo Community Site](http://community.thinkgeo.com/)
+[ThinkGeo Cloud - Product Page](https://www.thinkgeo.com/cloud-maps)
 
-[ThinkGeo Web Site](http://www.thinkgeo.com)
+### Additional Resources
 
-### Key APIs
-This example makes use of the following APIs:
+[ThinkGeo Community Forums](http://community.thinkgeo.com/)
 
-Working...
-
-
-### About Map Suite
-Map Suite is a set of powerful development components and services for the .Net Framework.
+[ThinkGeo Website](https://www.thinkgeo.com/)
 
 ### About ThinkGeo
 ThinkGeo is a GIS (Geographic Information Systems) company founded in 2004 and located in Frisco, TX. Our clients are in more than 40 industries including agriculture, energy, transportation, government, engineering, software development, and defense.
