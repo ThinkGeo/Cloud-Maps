@@ -152,6 +152,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="ThinkGeoCloudColor\**" />
+    <Content Remove="ThinkGeoCloudColor\**" />
+    <EmbeddedResource Remove="ThinkGeoCloudColor\**" />
+    <None Remove="ThinkGeoCloudColor\**" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project=".\packages\ThinkGeo.MapSuite.10.3.3\build\net45\ThinkGeo.MapSuite.targets" Condition="Exists('.\packages\ThinkGeo.MapSuite.10.3.3\build\net45\ThinkGeo.MapSuite.targets')" />
   <Import Project="..\.\packages\ThinkGeo.MapSuite.11.0.0-beta089\build\net45\ThinkGeo.MapSuite.targets" Condition="Exists('..\.\packages\ThinkGeo.MapSuite.11.0.0-beta089\build\net45\ThinkGeo.MapSuite.targets')" />

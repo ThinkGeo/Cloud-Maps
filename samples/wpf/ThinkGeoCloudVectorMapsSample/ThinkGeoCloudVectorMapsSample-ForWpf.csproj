@@ -139,6 +139,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="ThinkGeoCloudVectorMapsSample-ForWpf\**" />
+    <Content Remove="ThinkGeoCloudVectorMapsSample-ForWpf\**" />
+    <EmbeddedResource Remove="ThinkGeoCloudVectorMapsSample-ForWpf\**" />
+    <None Remove="ThinkGeoCloudVectorMapsSample-ForWpf\**" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
