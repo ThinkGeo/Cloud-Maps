@@ -1,4 +1,3 @@
-
 # Raster Tiles
 
 ThinkGeo Cloud Raster Tile serves raster map tiles through XYZ. Check out [ThinkGeo Cloud Raster Map Online Sample](https://samples.thinkgeo.com/thinkgeo-cloud/maps/xyz/) for a quick look.
@@ -45,7 +44,7 @@ Visit [GetMapsRasterTileByXyz](https://cloud.thinkgeo.com/help/#/MapsRasterTiles
 
 Map Suite Raster Tile Data is composed of street tiles and aerial images tiles.
 
-* **Street Tiles** The data of streets tiles (light / dark / transparent-background) mainly come from [Open Street Map](https://www.openstreetmap.org), and partially from [Natural Earth](https:/www.naturalearthdata.com/). The tiles cover the entire world. The tiles are scheduled to be updated on a monthly basis.
+* **Street Tiles** The data of streets tiles (light / dark / transparent-background) mainly come from [Open Street Map](https://www.openstreetmap.org), and partially from [Natural Earth](https:/www.naturalearthdata.com/). The tiles cover the entire world. 
 * **Aerial Image Tiles**
   * The data for zoom level 0 ~ 11 comes from [LandSat](https://www.usgs.gov/land-resources/nlilandsat), it covers the entire world.
   * The data for zoom level 12 ~ 19 comes from [NAIP](https://www.fsa.usda.govprograms-and-services/aerial-photography/imagery-programs/naip-imagery/index) 2018. It covers the contiguous US (48 states). The tiles are scheduled to be updated every 2 years.
