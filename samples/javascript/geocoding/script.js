@@ -47,6 +47,9 @@ let view = new ol.View({
 
 let map;
 let geocodingLayer;
+const overtureCheckbox = document.getElementById("include-overture-checkbox");
+let includeOverturePlaces = false;
+
 let initializeMap = () => {
 
     // Create and initialize our interactive map.
@@ -98,6 +101,18 @@ let initializeMap = () => {
             focusIndex = -1;
         }
     })
+
+    map.on('moveend', function () {
+        var currentZoom = map.getView().getZoom();
+        if (map.getView().getZoom() < 7.5) {
+            overtureCheckbox.disabled = true;
+            overtureCheckbox.checked = false;
+        }
+        else {
+            overtureCheckbox.disabled = false;
+        }
+    
+    });
 }
 
 WebFont.load({
@@ -153,6 +168,13 @@ const addPopup = (tile, coordinates, address, label) => {
     }
 }
 
+overtureCheckbox.addEventListener('change', (event) => {
+    if (event.target.checked) {
+        includeOverturePlaces = true;
+    } else {
+        includeOverturePlaces = false;
+    }
+});
 
 /*---------------------------------------------*/
 // 4. Geocoder Setup
@@ -182,7 +204,12 @@ const renderResult = (locations) => {
         let i = -1
         for (let item of locations) {
             i = i + 1;
-            str += `<li><a   data-index=${i} > ${item.address} </a></li>`
+            if (item.address == null) {
+                //overture places do not have an address, so just show the name.
+                str += `<li><a   data-index=${i} > ${item.name} </a></li>`
+            } else {
+                str += `<li><a   data-index=${i} > ${item.address} </a></li>`
+            }
         }
         geocoderResultNode.innerHTML = str;
     } else {
@@ -237,9 +264,16 @@ const getGeocodingOptions = () => {
         Countries: countryCode,
         MaxResults: countLimit,
         Autocomplete: autocomplete,
+        IncludeOverturePlaces: includeOverturePlaces,
         // Defaults as true for VerboseResults to display geometry of Results
         VerboseResults: true
     };
+
+    if (includeOverturePlaces) {
+        //Due to the dataset size, 'IncludeOverturePlaces' requires a BBox in the request parameters.
+        const extentInMeter = map.getView().calculateExtent(map.getSize());
+        opts.Bbox = new ol.proj.transformExtent(extentInMeter, 'EPSG:3857', 'EPSG:4326');
+    }
 
     return opts;
 }
@@ -302,39 +336,54 @@ const searchPlace = (focusIndex) => {
             var locationPoint = targetResult.locationPoint;
             coordinates = [parseFloat(locationPoint.pointX.toFixed(6)), parseFloat(locationPoint.pointY.toFixed(6))];
 
+            // if no geometry in result (overture places and edge cases), use the boundingbox
+            if (geometry == null) {
+                geometry =   targetResult.boundingBox;              
+            }
 
             // displayName and displayAddress
             var locationAddress = targetResult.address;
             var name = targetResult.name;
-            var houseNumber = targetResult.addressComponents["housenumber"];
-            var roadName = targetResult.addressComponents["street"];
-            var titleArray = [];
-            if (name) {
-                titleArray.push(name);
-            }
 
-            var tmpRoad = "";
-            if (houseNumber) {
-                tmpRoad = tmpRoad + houseNumber + " ";
-            }
-            if (roadName) {
-                tmpRoad = tmpRoad + roadName;
-            }
-            if (tmpRoad != "") {
-                titleArray.push(tmpRoad);
-            }
-            displayTitle = titleArray.join(", ");
-
-            if (displayTitle != "" && locationAddress.startsWith(displayTitle)) {
-                displayAddress = locationAddress.substring(displayTitle.length + 2);
-            }
-            else {
-                displayAddress = locationAddress;
+            //Overture places results will not have an address component.
+            if (targetResult.addressComponents != null) {
+                var houseNumber = targetResult.addressComponents["housenumber"];
+                var roadName = targetResult.addressComponents["street"];
+                var titleArray = [];
+                if (name) {
+                    titleArray.push(name);
+                }
+    
+                var tmpRoad = "";
+                if (houseNumber) {
+                    tmpRoad = tmpRoad + houseNumber + " ";
+                }
+                if (roadName) {
+                    tmpRoad = tmpRoad + roadName;
+                }
+                if (tmpRoad != "") {
+                    titleArray.push(tmpRoad);
+                }
+                displayTitle = titleArray.join(", ");
+    
+                if (displayTitle != "" && locationAddress.startsWith(displayTitle)) {
+                    displayAddress = locationAddress.substring(displayTitle.length + 2);
+                }
+                else {
+                    displayAddress = locationAddress;
+                }
             }
 
             // displayLabel
             if (targetResult.properties) {
                 displayLabel = targetResult.properties.label;
+            }
+            if (displayLabel == null) {
+                displayLabel = name;
+                displayTitle = name;
+            }
+            if (displayAddress == null) {
+                displayAddress = "N/A";
             }
 
             // boundingBox

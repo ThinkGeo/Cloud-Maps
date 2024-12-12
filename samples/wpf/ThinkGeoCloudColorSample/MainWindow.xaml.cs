@@ -15,8 +15,8 @@ namespace ThinkGeoCloudColor
     public partial class MainWindow : Window
     {
         private const string GisServerUri = "https://cloud.thinkgeo.com";
-        private const string clientId = "FSDgWMuqGhZCmZnbnxh-Yl1HOaDQcQ6mMaZZ1VkQNYw~";
-        private const string clientSecret = "IoOZkBJie0K9pz10jTRmrUclX6UYssZBeed401oAfbxb9ufF1WVUvg~~";
+        private const string clientId = "AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~";
+        private const string clientSecret = "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~";
         private ColorCloudClient colorClient;
         private LayerOverlay layerOverlay;
 

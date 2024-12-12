@@ -25,6 +25,9 @@
             <p>Click on the map and get the POIs nearby</p>
         </div>
 
+        <div id="floating-panel-right" class="floating-panel-right">
+            <input type="checkbox" id="include-overture-checkbox"/>  Include Overture Places?
+        </div>
         <!-- Set up error message tip. -->
         <div id="error-modal" class="hide">
             <div class="modal-content">
@@ -48,7 +51,8 @@
 <!-- partial -->
   <script src='https://cdn.thinkgeo.com/vectormap-js/3.0.1/vectormap.js'></script>
 <script src='https://cdn.thinkgeo.com/vectormap-icons/3.0.0/webfontloader.js'></script>
-<script src='https://cdn.thinkgeo.com/cloudclient-js/1.0.4/thinkgeocloudclient.js'></script>
+<!-- <script src='https://cdn.thinkgeo.com/cloudclient-js/1.0.4/thinkgeocloudclient.js'></script> -->
+<script  src="http://localhost:8080/thinkgeocloudclient-dev.js"></script>
 <script  src="./script.js"></script>
 
 </body>

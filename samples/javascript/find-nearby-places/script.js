@@ -182,10 +182,12 @@ const supportedMarkers = [
     "waterway"
 ];
 
+let includeOverturePlaces = false;
+
 // This method draws the best matching location on the map whenever a reverse
 // geocode is performed.  The best match is defined as the place closest to
 // the reverse geocoded coordinates, regardless of any other conditions.
-const renderBestMatchLocation = function (place, coordinate, address) {
+const renderBestMatchLocation = function (place, coordinate, address, locationName, locationType) {
     if (place.data) {
         let wktReader = new ol.format.WKT();
         let feature = wktReader.readFeature(
@@ -199,30 +201,41 @@ const renderBestMatchLocation = function (place, coordinate, address) {
         feature.set("type", "bestMatchLocation");
         feature.set("text", "");
         reverseGeocodingLayer.getSource().addFeature(feature);
-        let addressArr = address.split(",");
-        let length = addressArr.length;
+
         let coordinateTrans = ol.proj.transform(
             coordinate,
             "EPSG:3857",
             "EPSG:4326"
         );
 
-        // Display the name, address and coordinates of the best match result
-        // in the box at the top center of the map.
-        document.getElementById("floating-panel").innerHTML =
-            '<p style="font-size:1.2rem;font-weight: bold;" >' +
-            (addressArr[0] || "") +
-            "</p>" +
-            "<p>" +
-            (addressArr[1] || "") +
-            "," +
-            (addressArr[length - 2] || "") +
-            "</p>" +
-            "<p>" +
-            coordinateTrans[0].toFixed(4) +
-            " , " +
-            coordinateTrans[1].toFixed(4) +
-            "</p>";
+        if (address == null) {
+            //overture places do not have an address, so just show the name.
+            document.getElementById("floating-panel").innerHTML =
+                '<p style="font-size:1.3rem" >' + locationName + '</p>' +
+                '<p style="margin-left:2px">Overture Category: <br/>&nbsp;&nbsp;&nbsp;' + locationType + '</p>';
+            }
+        else {
+            let addressArr = address.split(",");
+            let length = addressArr.length;
+    
+            // Display the name, address and coordinates of the best match result
+            // in the box at the top center of the map.
+            document.getElementById("floating-panel").innerHTML =
+                '<p style="font-size:1.2rem;font-weight: bold;" >' +
+                (addressArr[0] || "") +
+                "</p>" +
+                "<p>" +
+                (addressArr[1] || "") +
+                "," +
+                (addressArr[length - 2] || "") +
+                "</p>" +
+                "<p>" +
+                coordinateTrans[0].toFixed(4) +
+                " , " +
+                coordinateTrans[1].toFixed(4) +
+                "</p>";
+   
+        }
     }
 };
 
@@ -236,6 +249,33 @@ const renderNearbyResult = function (response) {
         if (item.locationCategory === "Intersection") {
             feature = createFeature(item.location);
             feature.set("type", "intersection");
+        } else if (item.locationCategory === "Overture_Places") {
+            var overtureType = item.locationType;
+            console.log(overtureType);
+            feature = createFeature(item.locationFeatureWellKnownText);
+            //temporary mapping of overture categories to older OSM icons.   This can be much improved in the future with more iconography, but for now we're leaving it because overture places categories are apt to change soon.
+            if (overtureType.includes("restaurant") || overtureType.includes("food") || overtureType.includes("sandwich") || overtureType.includes("bagel_shop")) {
+                marker = "sustenance";
+            } else if (overtureType.includes("bank") || overtureType.includes("atm") || overtureType.includes("mortgage")) {
+                marker = "financial";
+            } else if (overtureType.includes("sport") || overtureType.includes("martial_arts")) {
+                marker = "sports";
+            } else if (overtureType.includes("gas") || overtureType.includes("auto")) {
+                marker = "transportation";
+            } else if (overtureType.includes("health") || overtureType.includes("doctor") || overtureType.includes("dentist") || overtureType.includes("orthodontist") || overtureType.includes("obstetrician") || overtureType.includes("chiropractor") || overtureType.includes("holistic") || overtureType.includes("pharmacy") || overtureType.includes("emergency") || overtureType.includes("prompt") || overtureType.includes("pain")) {
+                marker = "healthcare";
+            } else if (overtureType.includes("property") || overtureType.includes("real_estate")) {
+                marker = "building";
+            } else if (overtureType.includes("school") || overtureType.includes("university") || overtureType.includes("tutor")) {
+                marker = "education";
+            } else if (overtureType.includes("barber") || overtureType.includes("hair") || overtureType.includes("tanning") || overtureType.includes("salon")|| overtureType.includes("stylist") || overtureType.includes("spa") || overtureType.includes("gym") || overtureType.includes("bowling")) {
+                marker = "shop";
+            } else if (overtureType.includes("store") || overtureType.includes("shop")  || overtureType.includes("pet") || overtureType.includes("vitamin") || overtureType.includes("business") || overtureType.includes("grocery")) {
+                marker = "shop";
+            } else {
+                marker = "others";
+            }
+            feature.set("type", marker);
         } else {
             var marker = item.locationCategory.toLowerCase();
             if (!supportedMarkers.includes(item.locationCategory.toLowerCase())) {
@@ -291,12 +331,13 @@ const renderSearchCircle = function (radius, coordinate) {
 // the closest matching address.  For more details, see our wiki:
 // https://wiki.thinkgeo.com/wiki/thinkgeo_cloud_reverse_geocoding
 
-const reverseGeocode = (coordinate, flag) => {
+const reverseGeocode = (coordinate, flag, includeOverturePlaces) => {
     let opts = {
         srid: 3857,
         searchRadius: 500,
-        maxResults: 20,
+        maxResults: 500,
         verboseResults: true,
+        includeOverturePlaces: includeOverturePlaces,
     };
     const callback = (status, res) => {
         if (status !== 200) {
@@ -305,8 +346,10 @@ const reverseGeocode = (coordinate, flag) => {
         }
         if (res.data.bestMatchLocation) {
             let address = res.data.bestMatchLocation.data.address;
+            let locationName = res.data.bestMatchLocation.data.locationName;
+            let locationType = res.data.bestMatchLocation.data.locationType;
             if (flag) {
-                renderBestMatchLocation(res.data.bestMatchLocation, coordinate, address);
+                renderBestMatchLocation(res.data.bestMatchLocation, coordinate, address, locationName, locationType);
                 renderNearbyResult(res.data.nearbyLocations);
                 renderSearchCircle(500, coordinate)
                 view.animate({
@@ -314,7 +357,7 @@ const reverseGeocode = (coordinate, flag) => {
                     duration: 2000
                 });
             } else {
-                popUp(address, coordinate)
+                popUp(address, locationName, locationType, coordinate)
             }
         } else {
             window.alert('No results be found');
@@ -335,6 +378,7 @@ const container = document.getElementById("popup");
 container.classList.remove("hidden");
 const content = document.getElementById("popup-content");
 const closer = document.getElementById("popup-closer");
+const overtureCheckbox = document.getElementById("include-overture-checkbox");
 
 // Create an overlay for the map that will hold the popup bubble.
 let overlay = new ol.Overlay({
@@ -342,6 +386,15 @@ let overlay = new ol.Overlay({
     autoPan: true,
     autoPanAnimation: {
         duration: 2000
+    }
+});
+
+
+overtureCheckbox.addEventListener('change', (event) => {
+    if (event.target.checked) {
+        includeOverturePlaces = true;
+    } else {
+        includeOverturePlaces = false;
     }
 });
 
@@ -353,24 +406,35 @@ closer.onclick = function () {
 };
 
 // Assemble the HTML for the popup bubble.
-const popUp = function (address, centerCoordinate) {
-    let addressArr = address.split(",");
-    overlay.setPosition(centerCoordinate);
-    map.addOverlay(overlay);
-    let length = addressArr.length;
-    content.innerHTML =
-        '<p style="font-size:1.3rem" >' +
-        (addressArr[0] || "") +
-        '</p><p style="margin-left:2px">' +
-        (addressArr[1] || "") +
-        "," +
-        (addressArr[length - 2] || "") +
-        "</p>" +
-        "<p>" +
-        (addressArr[4] || "") +
-        "," +
-        (addressArr[length - 1] || "") +
-        "</p>";
+const popUp = function (address, locationName, locationType, centerCoordinate) {
+    if (address == null) {
+        //overture places do not have an address, so just show the name.
+        overlay.setPosition(centerCoordinate);
+        map.addOverlay(overlay);
+        content.innerHTML =
+            '<p style="font-size:1.3rem" >' + locationName + '</p>' +
+            '<p style="margin-left:2px">Overture Category: <br/>&nbsp;&nbsp;&nbsp;' + locationType + '</p>';
+    }
+    else {
+        //handle regular non-overture popup
+        let addressArr = address.split(",");
+        overlay.setPosition(centerCoordinate);
+        map.addOverlay(overlay);
+        let length = addressArr.length;
+        content.innerHTML =
+            '<p style="font-size:1.3rem" >' +
+            (addressArr[0] || "") +
+            '</p><p style="margin-left:2px">' +
+            (addressArr[1] || "") +
+            "," +
+            (addressArr[length - 2] || "") +
+            "</p>" +
+            "<p>" +
+            (addressArr[4] || "") +
+            "," +
+            (addressArr[length - 1] || "") +
+            "</p>";
+    }
 };
 
 
@@ -391,7 +455,7 @@ let addEventListeners = function (map) {
         let coordinate = evt.coordinate;
         overlay.setPosition(undefined);
         source.clear();
-        reverseGeocode(coordinate, true);
+        reverseGeocode(coordinate, true, includeOverturePlaces);
     });
 
     // This event listener will show the popup bubble we created, any time
@@ -406,7 +470,7 @@ let addEventListeners = function (map) {
                 pixel,
                 feature => {
                     if (feature.get("name") === "nearbyFeature") {
-                        reverseGeocode(coordinate, false);
+                        reverseGeocode(coordinate, false, includeOverturePlaces);
                     }
                 }, {
                     layerFilter: layer => {
