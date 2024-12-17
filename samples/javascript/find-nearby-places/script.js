@@ -183,6 +183,7 @@ const supportedMarkers = [
 ];
 
 let includeOverturePlaces = false;
+var lastCoordinate;
 
 // This method draws the best matching location on the map whenever a reverse
 // geocode is performed.  The best match is defined as the place closest to
@@ -393,8 +394,22 @@ let overlay = new ol.Overlay({
 overtureCheckbox.addEventListener('change', (event) => {
     if (event.target.checked) {
         includeOverturePlaces = true;
+        let coordinate = lastCoordinate;
+        if (coordinate) {
+            let source = reverseGeocodingLayer.getSource();
+            overlay.setPosition(undefined);
+            source.clear();
+            reverseGeocode(coordinate, true, includeOverturePlaces);
+        }
     } else {
         includeOverturePlaces = false;
+        let coordinate = lastCoordinate;
+        if (coordinate) {
+            let source = reverseGeocodingLayer.getSource();
+            overlay.setPosition(undefined);
+            source.clear();
+            reverseGeocode(coordinate, true, includeOverturePlaces);
+        }
     }
 });
 
@@ -453,6 +468,7 @@ let addEventListeners = function (map) {
     map.addEventListener("click", function (evt) {
         let source = reverseGeocodingLayer.getSource();
         let coordinate = evt.coordinate;
+        lastCoordinate = coordinate;
         overlay.setPosition(undefined);
         source.clear();
         reverseGeocode(coordinate, true, includeOverturePlaces);
