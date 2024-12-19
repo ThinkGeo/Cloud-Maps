@@ -1,3 +1,3 @@
 # .NET Samples
 
-These are the samples for ThinkGeo Cloud Maps for WPF.
+These samples  have been moved into their own section in the Desktop and Mobile 'How DoI' Samples.
