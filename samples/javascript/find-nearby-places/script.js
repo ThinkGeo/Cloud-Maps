@@ -182,8 +182,13 @@ const supportedMarkers = [
     "waterway"
 ];
 
-let includeOverturePlaces = false;
-var lastCoordinate;
+// Read the currently-checked entries from the Data Sources panel. These map
+// to Pelias source codes (osm, oa, wof, gn, ot). If none are checked, we omit
+// the parameter and the server defaults to all five.
+const getSelectedDataSources = function () {
+    const checked = document.querySelectorAll('#data-sources input[name="ds"]:checked');
+    return Array.from(checked).map(el => el.value);
+};
 
 // This method draws the best matching location on the map whenever a reverse
 // geocode is performed.  The best match is defined as the place closest to
@@ -332,14 +337,17 @@ const renderSearchCircle = function (radius, coordinate) {
 // the closest matching address.  For more details, see our wiki:
 // https://wiki.thinkgeo.com/wiki/thinkgeo_cloud_reverse_geocoding
 
-const reverseGeocode = (coordinate, flag, includeOverturePlaces) => {
+const reverseGeocode = (coordinate, flag) => {
     let opts = {
         srid: 3857,
         searchRadius: 500,
         maxResults: 500,
         verboseResults: true,
-        includeOverturePlaces: includeOverturePlaces,
     };
+    const dataSources = getSelectedDataSources();
+    if (dataSources.length > 0) {
+        opts.dataSources = dataSources;
+    }
     const callback = (status, res) => {
         if (status !== 200) {
             errorLoadingTile();
@@ -379,7 +387,6 @@ const container = document.getElementById("popup");
 container.classList.remove("hidden");
 const content = document.getElementById("popup-content");
 const closer = document.getElementById("popup-closer");
-const overtureCheckbox = document.getElementById("include-overture-checkbox");
 
 // Create an overlay for the map that will hold the popup bubble.
 let overlay = new ol.Overlay({
@@ -390,27 +397,16 @@ let overlay = new ol.Overlay({
     }
 });
 
-
-overtureCheckbox.addEventListener('change', (event) => {
-    if (event.target.checked) {
-        includeOverturePlaces = true;
-        let coordinate = lastCoordinate;
-        if (coordinate) {
-            let source = reverseGeocodingLayer.getSource();
-            overlay.setPosition(undefined);
-            source.clear();
-            reverseGeocode(coordinate, true, includeOverturePlaces);
-        }
-    } else {
-        includeOverturePlaces = false;
-        let coordinate = lastCoordinate;
-        if (coordinate) {
-            let source = reverseGeocodingLayer.getSource();
-            overlay.setPosition(undefined);
-            source.clear();
-            reverseGeocode(coordinate, true, includeOverturePlaces);
-        }
-    }
+// Re-run the last reverse geocode whenever the user toggles a data source.
+let lastCoordinate;
+document.querySelectorAll('#data-sources input[name="ds"]').forEach(cb => {
+    cb.addEventListener('change', () => {
+        if (!lastCoordinate) return;
+        let source = reverseGeocodingLayer.getSource();
+        overlay.setPosition(undefined);
+        source.clear();
+        reverseGeocode(lastCoordinate, true);
+    });
 });
 
 // Make the popup bubble disappear when its "X" button is clicked.
@@ -471,7 +467,7 @@ let addEventListeners = function (map) {
         lastCoordinate = coordinate;
         overlay.setPosition(undefined);
         source.clear();
-        reverseGeocode(coordinate, true, includeOverturePlaces);
+        reverseGeocode(coordinate, true);
     });
 
     // This event listener will show the popup bubble we created, any time
@@ -486,7 +482,7 @@ let addEventListeners = function (map) {
                 pixel,
                 feature => {
                     if (feature.get("name") === "nearbyFeature") {
-                        reverseGeocode(coordinate, false, includeOverturePlaces);
+                        reverseGeocode(coordinate, false);
                     }
                 }, {
                     layerFilter: layer => {

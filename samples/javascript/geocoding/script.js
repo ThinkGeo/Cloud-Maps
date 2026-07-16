@@ -47,8 +47,6 @@ let view = new ol.View({
 
 let map;
 let geocodingLayer;
-const overtureCheckbox = document.getElementById("include-overture-checkbox");
-let includeOverturePlaces = false;
 
 let initializeMap = () => {
 
@@ -101,18 +99,6 @@ let initializeMap = () => {
             focusIndex = -1;
         }
     })
-
-    map.on('moveend', function () {
-        var currentZoom = map.getView().getZoom();
-        if (map.getView().getZoom() < 7.5) {
-            overtureCheckbox.disabled = true;
-            overtureCheckbox.checked = false;
-        }
-        else {
-            overtureCheckbox.disabled = false;
-        }
-    
-    });
 }
 
 WebFont.load({
@@ -167,14 +153,6 @@ const addPopup = (tile, coordinates, address, label) => {
         content.innerHTML = `<h4>${tile}</h4><p class="address">${address}</p><p class="coodinates">${coordinates[1]},${coordinates[0]}</p>`
     }
 }
-
-overtureCheckbox.addEventListener('change', (event) => {
-    if (event.target.checked) {
-        includeOverturePlaces = true;
-    } else {
-        includeOverturePlaces = false;
-    }
-});
 
 /*---------------------------------------------*/
 // 4. Geocoder Setup
@@ -246,35 +224,15 @@ const geocoder = (val) => {
 }
 
 const getGeocodingOptions = () => {
-    // Get selected location types.
-    var locationTypes = [];
-    var selectedButtons = document.getElementsByClassName("selected");
-    for (var i = 0; i < selectedButtons.length; i++) {
-        locationTypes.push(selectedButtons[i].value);
-    }
-    // Get country code
-    var countryCode = document.querySelector('#country-filter').value;
-    // Get MaxResults
-    var countLimit = document.querySelector('#count-limit').value;
-    // Get Autocomplete
-    var autocomplete = true;
-
+    // v3 Geocoding request params. Keys are PascalCase because the currently
+    // published thinkgeocloudclient.js (1.0.13) passes the options object
+    // through to the URL as-is. When the client with explicit v3 param
+    // mapping ships, switch these to lowercase camelCase.
     let opts = {
-        LocationType: locationTypes.join(","),
-        Countries: countryCode,
-        MaxResults: countLimit,
-        Autocomplete: autocomplete,
-        IncludeOverturePlaces: includeOverturePlaces,
-        // Defaults as true for VerboseResults to display geometry of Results
-        VerboseResults: true
+        CountryCodes: document.querySelector('#country-filter').value,
+        MaxResults: document.querySelector('#count-limit').value,
+        Autocomplete: true,
     };
-
-    if (includeOverturePlaces) {
-        //Due to the dataset size, 'IncludeOverturePlaces' requires a BBox in the request parameters.
-        const extentInMeter = map.getView().calculateExtent(map.getSize());
-        opts.Bbox = new ol.proj.transformExtent(extentInMeter, 'EPSG:3857', 'EPSG:4326');
-    }
-
     return opts;
 }
 
@@ -347,8 +305,8 @@ const searchPlace = (focusIndex) => {
 
             //Overture places results will not have an address component.
             if (targetResult.addressComponents != null) {
-                var houseNumber = targetResult.addressComponents["housenumber"];
-                var roadName = targetResult.addressComponents["street"];
+                var houseNumber = targetResult.addressComponents["house_number"];
+                var roadName = targetResult.addressComponents["road"];
                 var titleArray = [];
                 if (name) {
                     titleArray.push(name);
@@ -389,7 +347,7 @@ const searchPlace = (focusIndex) => {
             // boundingBox
             boundingBox = targetResult.boundingBox;
             // type
-            type = targetResult.type;
+            type = targetResult.locationType;
         }
     }
 
@@ -558,21 +516,6 @@ var searchProcess = function () {
     } else {
         geocoderResultNode.innerHTML = ''
     }
-}
-
-// selected locationtype changed
-var locationTypeButtons = document.getElementsByClassName("location-type-button");
-var locationTypeChanged = function (e) {
-    if (this.classList.contains("selected")) {
-        this.classList.remove("selected");
-    }
-    else {
-        this.classList.add("selected");
-    }
-    searchProcess();
-}
-for (var i = 0; i < locationTypeButtons.length; i++) {
-    locationTypeButtons[i].addEventListener("click", locationTypeChanged)
 }
 
 // Country Changed

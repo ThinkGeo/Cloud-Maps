@@ -191,7 +191,7 @@ npm i thinkgeocloudclient-js
 
 ```html
 <!-- index.html -->
-<script src='https://cdn.thinkgeo.com/cloudclient-js/1.0.4/thinkgeocloudclient.js'></script>
+<script src='https://cdn.thinkgeo.com/cloudclient-js/1.0.13/thinkgeocloudclient.js'></script>
 ```
 
 ### Creating the Page Layout
